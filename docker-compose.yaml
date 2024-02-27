@@ -1,0 +1,24 @@
+version: "3.7"
+services:
+  postgres:
+    image: postgres:16.1
+    volumes:
+      - ./docker:/docker-entrypoint-initdb.d
+    ports:
+      - "5433:5433"
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      PGPORT: ${POSTGRES_PORT}
+
+  zlagoda_frontend:
+    build:
+      context: ./web_src/zlagoda
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./web_src/zlagoda:/app
+      - /app/node_modules
+    env_file:
+      - .env
+      

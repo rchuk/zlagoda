@@ -1,0 +1,2 @@
+CREATE DATABASE zlagoda;
+GRANT ALL PRIVILEGES ON DATABASE zlagoda TO postgres;
