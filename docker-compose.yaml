@@ -12,6 +12,8 @@ services:
       PGPORT: ${POSTGRES_PORT}
 
   zlagoda_frontend:
+    depends_on:
+      - openapi_generator
     build:
       context: ./web_src/zlagoda
     ports:
@@ -21,4 +23,11 @@ services:
       - /app/node_modules
     env_file:
       - .env
-      
+
+  openapi_generator:
+    build:
+      context: ./openapi_generator
+    volumes:
+      - ./src/api:/in/api:ro
+      - ./src/generated:/out/src/generated
+      - ./web_src/zlagoda/generated:/out/web_src/generated
