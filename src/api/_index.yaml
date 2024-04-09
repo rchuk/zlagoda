@@ -16,3 +16,272 @@ paths:
             application/json:
               schema:
                 type: integer
+
+components:
+  schemas:
+    EmployeeView:
+      type: object
+      properties:
+        firstName:
+          type: string
+          required: true
+        lastName:
+          type: string
+          required: true
+        patronymic:
+          type: string
+          required: false
+        role:
+          type: string
+          required: false
+        salary:
+          type: integer
+          required: true
+        workStartDate:
+          type: string
+          format: date
+          required: true
+        birthDate:
+          type: string
+          format: date
+          required: true
+        phoneNumber:
+          type: string
+          required: true
+        city:
+          type: string
+          required: true
+        street:
+          type: string
+          required: true
+        zipCode:
+          type: string
+          required: true
+
+    Employee:
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: integer
+              required: true
+        - $ref: '#/components/schemas/EmployeeView'
+
+    ProductCategoryView:
+      type: object
+      properties:
+        name:
+          type: string
+          required: true
+
+    ProductCategory:
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: integer
+              required: true
+        - $ref: '#/components/schemas/ProductCategoryView'
+
+    ProductArchetypeView:
+      type: object
+      properties:
+        name:
+          type: string
+          required: true
+        category:
+          type: integer
+          required: true
+        manufacturer:
+          type: string
+          required: true
+        description:
+          type: string
+          required: true
+
+    ProductArchetype:
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: integer
+              required: true
+        - $ref: '#/components/schemas/ProductArchetypeView'
+
+    ProductView:
+      type: object
+      properties:
+        archetype:
+          type: integer
+          required: true
+        upc:
+          type: string
+          required: true
+        price:
+          type: integer
+          required: true
+        quantity:
+          type: integer
+          required: true
+
+    Product:
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: integer
+              required: true
+            hasDiscount:
+              type: boolean
+              required: true
+        - $ref: '#/components/schemas/ProductView'
+
+    ReceiptItem:
+      type: object
+      properties:
+        productArchetype:
+          type: integer
+          required: true
+        quantity:
+          type: integer
+          required: true
+        price:
+          type: integer
+          required: true
+
+    ReceiptView:
+      type: object
+      properties:
+        customerCardId:
+          type: integer
+          required: false
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReceiptItem'
+
+    Receipt:
+      type: object
+      properties:
+        id:
+          type: integer
+          required: true
+        cashierId:
+          type: integer
+          required: true
+        customerCardId:
+          type: integer
+          required: false
+        dateTime:
+          type: string
+          format: date-time
+          required: true
+        totalPrice:
+          type: integer
+          required: true
+        vat:
+          type: integer
+          required: true
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReceiptItem'
+
+    CustomerCardView:
+      type: object
+      properties:
+        firstName:
+          type: string
+          required: true
+        lastName:
+          type: string
+          required: true
+        patronymic:
+          type: string
+          required: false
+        phoneNumber:
+          type: string
+          required: true
+        discountPercent:
+          type: integer
+          required: true
+        city:
+          type: string
+          required: false
+        street:
+          type: string
+          required: false
+        zipCode:
+          type: string
+          required: false
+
+    CustomerCard:
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: integer
+              required: true
+        - $ref: '#/components/schemas/CustomerCardView'
+
+    EmployeeCriteria:
+      type: object
+      properties:
+        role:
+          type: string
+          required: false
+        lastName:
+          type: string
+          required: false
+
+    ProductCriteria:
+      type: object
+      properties:
+        categoryIds:
+          type: array
+          items:
+            type: integer
+          required: false
+        upc:
+          type: string
+          required: false
+        name:
+          type: string
+          required: false
+        hasDiscount:
+          type: boolean
+          required: false
+
+    ReceiptCriteria:
+      type: object
+      properties:
+        cashierIds:
+          type: array
+          items:
+            type: integer
+          required: false
+        startDate:
+          type: string
+          format: date-time
+          required: false
+        endDate:
+          type: string
+          format: date-time
+          required: false
+
+    CustomerCardCriteria:
+      type: object
+      properties:
+        lastName:
+          type: string
+          required: false
+
+    SortCriteria:
+      type: object
+      properties:
+        sortField:
+          type: string
+          required: false
+        sortAscending:
+          type: boolean
+          required: false
