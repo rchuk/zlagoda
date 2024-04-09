@@ -24,39 +24,39 @@ components:
       properties:
         firstName:
           type: string
-          required: true
         lastName:
           type: string
-          required: true
         patronymic:
           type: string
-          required: false
         role:
           type: string
-          required: false
         salary:
           type: integer
-          required: true
         workStartDate:
           type: string
           format: date
-          required: true
         birthDate:
           type: string
           format: date
-          required: true
         phoneNumber:
           type: string
-          required: true
         city:
           type: string
-          required: true
         street:
           type: string
-          required: true
         zipCode:
           type: string
-          required: true
+      required:
+        - firstName
+        - lastName
+        - role
+        - salary
+        - workStartDate
+        - birthDate
+        - phoneNumber
+        - city
+        - street
+        - zipCode
 
     Employee:
       allOf:
@@ -64,7 +64,8 @@ components:
           properties:
             id:
               type: integer
-              required: true
+          required:
+            - id
         - $ref: '#/components/schemas/EmployeeView'
 
     ProductCategoryView:
@@ -72,7 +73,8 @@ components:
       properties:
         name:
           type: string
-          required: true
+      required:
+        - name
 
     ProductCategory:
       allOf:
@@ -80,7 +82,8 @@ components:
           properties:
             id:
               type: integer
-              required: true
+          required:
+            - id
         - $ref: '#/components/schemas/ProductCategoryView'
 
     ProductArchetypeView:
@@ -88,16 +91,17 @@ components:
       properties:
         name:
           type: string
-          required: true
         category:
           type: integer
-          required: true
         manufacturer:
           type: string
-          required: true
         description:
           type: string
-          required: true
+      required:
+        - name
+        - category
+        - manufacturer
+        - description
 
     ProductArchetype:
       allOf:
@@ -105,7 +109,8 @@ components:
           properties:
             id:
               type: integer
-              required: true
+          required:
+            - id
         - $ref: '#/components/schemas/ProductArchetypeView'
 
     ProductView:
@@ -113,16 +118,17 @@ components:
       properties:
         archetype:
           type: integer
-          required: true
         upc:
           type: string
-          required: true
         price:
           type: integer
-          required: true
         quantity:
           type: integer
-          required: true
+      required:
+        - archetype
+        - upc
+        - price
+        - quantity
 
     Product:
       allOf:
@@ -130,10 +136,11 @@ components:
           properties:
             id:
               type: integer
-              required: true
             hasDiscount:
               type: boolean
-              required: true
+          required:
+            - id
+            - hasDiscount
         - $ref: '#/components/schemas/ProductView'
 
     ReceiptItem:
@@ -141,79 +148,79 @@ components:
       properties:
         productArchetype:
           type: integer
-          required: true
         quantity:
           type: integer
-          required: true
         price:
           type: integer
-          required: true
+      required:
+        - productArchetype
+        - quantity
+        - price
 
     ReceiptView:
       type: object
       properties:
         customerCardId:
           type: integer
-          required: false
         items:
           type: array
           items:
             $ref: '#/components/schemas/ReceiptItem'
+      required:
+        - items
 
     Receipt:
       type: object
       properties:
         id:
           type: integer
-          required: true
         cashierId:
           type: integer
-          required: true
         customerCardId:
           type: integer
-          required: false
         dateTime:
           type: string
           format: date-time
-          required: true
         totalPrice:
           type: integer
-          required: true
         vat:
           type: integer
-          required: true
         items:
           type: array
           items:
             $ref: '#/components/schemas/ReceiptItem'
+      required:
+        - id
+        - cashierId
+        - dateTime
+        - totalPrice
+        - vat
+        - items
 
     CustomerCardView:
       type: object
       properties:
         firstName:
           type: string
-          required: true
         lastName:
           type: string
-          required: true
         patronymic:
           type: string
-          required: false
         phoneNumber:
           type: string
-          required: true
         discountPercent:
           type: integer
-          required: true
         city:
           type: string
-          required: false
         street:
           type: string
-          required: false
         zipCode:
           type: string
-          required: false
+      required:
+        - firstName
+        - lastName
+        - phoneNumber
+        - discountPercent
 
     CustomerCard:
       allOf:
@@ -221,7 +228,8 @@ components:
           properties:
             id:
               type: integer
-              required: true
+          required:
+            - id
         - $ref: '#/components/schemas/CustomerCardView'
 
     EmployeeCriteria:
@@ -229,10 +237,8 @@ components:
       properties:
         role:
           type: string
-          required: false
         lastName:
           type: string
-          required: false
 
     ProductCriteria:
       type: object
@@ -241,16 +247,12 @@ components:
           type: array
           items:
             type: integer
-          required: false
         upc:
           type: string
-          required: false
         name:
           type: string
-          required: false
         hasDiscount:
           type: boolean
-          required: false
 
     ReceiptCriteria:
       type: object
@@ -259,29 +261,23 @@ components:
           type: array
           items:
             type: integer
-          required: false
         startDate:
           type: string
           format: date-time
-          required: false
         endDate:
           type: string
           format: date-time
-          required: false
 
     CustomerCardCriteria:
       type: object
       properties:
         lastName:
           type: string
-          required: false
 
     SortCriteria:
       type: object
       properties:
         sortField:
           type: string
-          required: false
         sortAscending:
           type: boolean
-          required: false
