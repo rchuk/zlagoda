@@ -1,31 +1,25 @@
 openapi: 3.0.3
 info:
-  title: Test
-  description: Test
+  title: Zlagoda
+  description: API for systems used by the employees of Zlagoda shops
   version: 1.0.0
 servers:
   - url: https://localhost:3333
 tags:
   - name: employee
     description: Employee controller
+  - name: productCategory
+    description: Product category controller
   - name: productArchetype
     description: Product archetype controller
   - name: product
     description: Product controller
+  - name: receipt
+    description: Receipt controller
   - name: customerCard
     description: Customer card controller
-paths:
-  /test:
-    get:
-      description: Returns test value
-      responses:
-        '200':
-          description: Ok
-          content:
-            application/json:
-              schema:
-                type: integer
 
+paths:
   /api/employee:
     get:
       tags:
@@ -141,6 +135,480 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Employee'
+
+  /api/product-category/:
+    get:
+      tags:
+        - productCategory
+      summary: Get list of product categories
+      operationId: getProductCategoryList
+      responses:
+        200:
+          description: List of product categories
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductCategory'
+    put:
+      tags:
+        - productCategory
+      summary: Create a new product category
+      operationId: createProductCategory
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductCategoryView'
+      responses:
+        200:
+          description: Id of new product category
+          content:
+            application/json:
+              schema:
+                type: integer
+
+  /api/product-category/{id}:
+    get:
+      tags:
+        - productCategory
+      summary: Get product category by id
+      operationId: getProductCategoryById
+      parameters:
+        - in: path
+          required: true
+          name: id
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Product category by id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductCategory'
+    post:
+      tags:
+        - productCategory
+      summary: Update existing product category
+      operationId: updateProductCategory
+      parameters:
+        - in: path
+          required: true
+          name: id
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductCategoryView'
+      responses:
+        200:
+          description: Boolean whether product category was updated
+          content:
+            application/json:
+              schema:
+                type: boolean
+    delete:
+      tags:
+        - productCategory
+      summary: Delete a product category by id
+      operationId: deleteProductCategory
+      parameters:
+        - in: path
+          required: true
+          name: id
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Boolean whether productCategory was deleted
+          content:
+            application/json:
+              schema:
+                type: boolean
+
+  /api/product-archetype:
+    get:
+      tags:
+        - productArchetype
+      summary: Get list of product archetypes
+      operationId: getProductArchetypeList
+      responses:
+        200:
+          description: List of product archetypes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductArchetype'
+    put:
+      tags:
+        - productArchetype
+      summary: Create a new product archetype
+      operationId: createProductArchetype
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductArchetypeView'
+      responses:
+        200:
+          description: Id of new product archetype
+          content:
+            application/json:
+              schema:
+                type: integer
+
+  /api/product-archetype/{id}:
+    get:
+      tags:
+        - productArchetype
+      summary: Get product archetype by id
+      operationId: getProductArchetypeById
+      parameters:
+        - in: path
+          required: true
+          name: id
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Product archetype by id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductArchetype'
+    post:
+      tags:
+        - productArchetype
+      summary: Update existing product archetype
+      operationId: updateProductArchetype
+      parameters:
+        - in: path
+          required: true
+          name: id
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductArchetypeView'
+      responses:
+        200:
+          description: Boolean whether product archetype was updated
+          content:
+            application/json:
+              schema:
+                type: boolean
+    delete:
+      tags:
+        - productArchetype
+      summary: Delete a product archetype by id
+      operationId: deleteProductArchetype
+      parameters:
+        - in: path
+          required: true
+          name: id
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Boolean whether product archetype was deleted
+          content:
+            application/json:
+              schema:
+                type: boolean
+
+  /api/product:
+    get:
+      tags:
+        - product
+      summary: Get list of products
+      operationId: getProductList
+      parameters:
+        - in: query
+          required: false
+          name: criteria
+          schema:
+            $ref: '#/components/schemas/ProductCriteria'
+      responses:
+        200:
+          description: List of products
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+    put:
+      tags:
+        - product
+      summary: Create a new product
+      operationId: createProduct
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductView'
+      responses:
+        200:
+          description: Id of new product
+          content:
+            application/json:
+              schema:
+                type: integer
+
+  /api/product/{id}:
+    get:
+      tags:
+        - product
+      summary: Get product by id
+      operationId: getProductById
+      parameters:
+        - in: path
+          required: true
+          name: id
+          schema:
+            type: integer
+      responses:
+        200:
+          description: product by id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+    post:
+      tags:
+        - product
+      summary: Update existing product
+      operationId: updateProdact
+      parameters:
+        - in: path
+          required: true
+          name: id
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductView'
+      responses:
+        200:
+          description: Boolean whether product was updated
+          content:
+            application/json:
+              schema:
+                type: boolean
+    delete:
+      tags:
+        - product
+      summary: Delete a product by id
+      operationId: deleteProduct
+      parameters:
+        - in: path
+          required: true
+          name: id
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Boolean whether product was deleted
+          content:
+            application/json:
+              schema:
+                type: boolean
+
+  /api/receipt:
+    get:
+      tags:
+        - receipt
+      summary: Get list of receipts
+      operationId: getReceiptList
+      parameters:
+        - in: query
+          required: false
+          name: criteria
+          schema:
+            $ref: '#/components/schemas/ReceiptCriteria'
+      responses:
+        200:
+          description: List of receipts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Receipt'
+    put:
+      tags:
+        - receipt
+      summary: Create a new receipt
+      operationId: createReceipt
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReceiptView'
+      responses:
+        200:
+          description: Id of new receipt
+          content:
+            application/json:
+              schema:
+                type: integer
+
+  /api/receipt/{id}:
+    get:
+      tags:
+        - receipt
+      summary: Get receipt by id
+      operationId: getReceiptById
+      parameters:
+        - in: path
+          required: true
+          name: id
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Receipt by id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Receipt'
+    delete:
+      tags:
+        - receipt
+      summary: Delete a receipt by id
+      operationId: deleteReceipt
+      parameters:
+        - in: path
+          required: true
+          name: id
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Boolean whether receipt was deleted
+          content:
+            application/json:
+              schema:
+                type: boolean
+
+  /api/customer-card:
+    get:
+      tags:
+        - customerCard
+      summary: Get list of customer cards
+      operationId: getCustomerCardList
+      parameters:
+        - in: query
+          required: false
+          name: criteria
+          schema:
+            $ref: '#/components/schemas/CustomerCardCriteria'
+      responses:
+        200:
+          description: List of customer cards
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CustomerCard'
+    put:
+      tags:
+        - customerCard
+      summary: Create a new customer card
+      operationId: createCustomerCard
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerCardView'
+      responses:
+        200:
+          description: Id of new customer card
+          content:
+            application/json:
+              schema:
+                type: integer
+
+  /api/customer-card/{id}:
+    get:
+      tags:
+        - customerCard
+      summary: Get customer card by id
+      operationId: getCustomerCardById
+      parameters:
+        - in: path
+          required: true
+          name: id
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Customer card by id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerCard'
+    post:
+      tags:
+        - customerCard
+      summary: Update existing customer card
+      operationId: updateCustomerCard
+      parameters:
+        - in: path
+          required: true
+          name: id
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerCardView'
+      responses:
+        200:
+          description: Boolean whether customer card was updated
+          content:
+            application/json:
+              schema:
+                type: boolean
+    delete:
+      tags:
+        - customerCard
+      summary: Delete a customer card by id
+      operationId: deleteCustomerCard
+      parameters:
+        - in: path
+          required: true
+          name: id
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Boolean whether customer card was deleted
+          content:
+            application/json:
+              schema:
+                type: boolean
 
 components:
   schemas:
