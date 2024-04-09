@@ -29,7 +29,7 @@ components:
         patronymic:
           type: string
         role:
-          type: string
+          $ref: '#/components/schemas/EmployeeRole'
         salary:
           type: integer
         workStartDate:
@@ -67,6 +67,12 @@ components:
           required:
             - id
         - $ref: '#/components/schemas/EmployeeView'
+
+    EmployeeRole:
+      type: string
+      enum:
+        - CASHIER
+        - MANAGER
 
     ProductCategoryView:
       type: object
@@ -236,7 +242,7 @@ components:
       type: object
       properties:
         role:
-          type: string
+          $ref: '#/components/schemas/EmployeeRole'
         lastName:
           type: string
 
