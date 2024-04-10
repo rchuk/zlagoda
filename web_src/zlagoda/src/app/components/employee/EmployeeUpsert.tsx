@@ -54,7 +54,7 @@ export default function EmployeeUpsert(props: EmployeeUpsertProps): React.ReactN
         };
 
         update()
-            .then(console.log)
+            .then(_ => showAlert("Працівника оновлено", "success"))
             .catch(e => showAlert(e.toString(), "error"));
     }
 
@@ -64,7 +64,9 @@ export default function EmployeeUpsert(props: EmployeeUpsertProps): React.ReactN
             setId(id);
         };
 
-        create().catch(e => showAlert(e.toString(), "error"));
+        create()
+            .then(_ => showAlert("Працівника створено", "success"))
+            .catch(e => showAlert(e.toString(), "error"));
     }
 
     function submit() {
