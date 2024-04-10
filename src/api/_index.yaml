@@ -126,15 +126,15 @@ paths:
     get:
       tags:
         - employee
-      summary: Get employee information about self
+      summary: Get employee id of self
       operationId: getEmployeeMe
       responses:
         200:
-          description: Employee information about self
+          description: Employee id of self
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Employee'
+                type: integer
 
   /api/product-category/:
     get:
