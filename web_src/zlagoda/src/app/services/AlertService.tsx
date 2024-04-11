@@ -23,6 +23,7 @@ export const AlertProvider = ({ children }: { children: React.ReactNode }) => {
         setIsOpen(false);
     };
 
+    // TODO: Create multiple snackbars
     return (
         <AlertContext.Provider value={showAlert}>
             {children}
