@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {MenuItem, Select, TextField} from "@mui/material";
+import {FormControl, InputLabel, MenuItem, Select, TextField} from "@mui/material";
 import {DatePicker} from "@mui/x-date-pickers";
 import {EmployeeApi, EmployeeRole, EmployeeView} from "../../../../generated";
 import dayjs from "dayjs";
@@ -80,17 +80,19 @@ export default function EmployeeUpsert(props: EmployeeUpsertProps): React.ReactN
             </Grid>
 
             <Grid xs={6}>
-                <Select
-                    label="Посада"
-                    required
-                    fullWidth
-                    value={view.role}
-                    onChange={e => setView({...view, role: e.target.value as EmployeeRole})}
-                >
-                    {Object.values(EmployeeRole).map(value => (
-                        <MenuItem key={value} value={value}>{EmployeeRole_i18[value]}</MenuItem>
-                    ))}
-                </Select>
+                <FormControl fullWidth>
+                    <InputLabel>Посада</InputLabel>
+                    <Select
+                        label="Посада"
+                        required
+                        value={view.role}
+                        onChange={e => setView({...view, role: e.target.value as EmployeeRole})}
+                    >
+                        {Object.values(EmployeeRole).map(value => (
+                            <MenuItem key={value} value={value}>{EmployeeRole_i18[value]}</MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
             </Grid>
 
             <Grid xs={6}>
