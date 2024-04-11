@@ -1,9 +1,8 @@
 import {Employee, EmployeeApi} from "../../../../generated";
-import React, {useContext, useEffect, useState} from "react";
-import {AlertContext} from "@/app/services/AlertService";
-import {Box} from "@mui/material";
+import React, {useState} from "react";
 import {EmployeeRole_i18} from "@/app/i18/EmployeeRole_i18";
 import dayjs from "dayjs";
+import ViewComponent from "@/app/components/common/ViewComponent";
 
 
 type EmployeeViewProps = {
@@ -13,19 +12,13 @@ type EmployeeViewProps = {
 
 export default function EmployeeView(props: EmployeeViewProps): React.ReactNode {
     const [employee, setEmployee] = useState<Employee | null>();
-    const showAlert = useContext(AlertContext);
 
-    useEffect(() => {
-        const fetch = async() => {
-            const newEmployee = await props.employeeService.getEmployeeById({ id: props.id });
-            setEmployee(newEmployee);
-        };
-
-        fetch().catch(e => showAlert(e.toString(), "error"));
-    }, [props.id]);
+    async function fetch(id: number) {
+        setEmployee(await props.employeeService.getEmployeeById({ id }));
+    }
 
     return (
-        <Box display="flex" flexDirection="column" rowGap={1}>
+        <ViewComponent id={props.id} fetch={fetch}>
             <div>
                 <b>Прізвище: </b><span>{employee?.firstName}</span>
             </div>
@@ -59,6 +52,6 @@ export default function EmployeeView(props: EmployeeViewProps): React.ReactNode 
             <div>
                 <b>Зарплатня: </b><span>{employee?.salary}</span>
             </div>
-        </Box>
+        </ViewComponent>
     );
 }

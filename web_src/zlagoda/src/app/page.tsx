@@ -7,6 +7,7 @@ import {AlertProvider} from "@/app/services/AlertService";
 import EmployeeView from "@/app/components/employee/EmployeeView";
 import ProductCategoryUpsert from "@/app/components/product-category/ProductCategoryUpsert";
 import ProductArchetypeUpsert from "@/app/components/product-archetype/ProductArchetypeUpsert";
+import ProductArchetypeView from "@/app/components/product-archetype/ProductArchetypeView";
 
 export default function Home() {
   return (
@@ -20,6 +21,7 @@ export default function Home() {
                 <EmployeeView></EmployeeView>
                 <ProductCategoryUpsert></ProductCategoryUpsert>
                 <ProductArchetypeUpsert></ProductArchetypeUpsert>
+                <ProductArchetypeView></ProductArchetypeView>
             </AlertProvider>
         </LocalizationProvider>
     </div>

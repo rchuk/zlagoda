@@ -43,7 +43,7 @@ export default function ProductArchetypeUpsert(props: ProductArchetypeUpsertProp
             setProductCategories(newProductCategories);
         };
 
-        fetch().catch(e => showAlert(e.toString(), "error"));
+        // fetch().catch(e => showAlert(e.toString(), "error"));
     });
 
     async function fetch(id: number) {
