@@ -64,6 +64,7 @@ export default function ProductArchetypeUpsert(props: ProductArchetypeUpsertProp
 
     return (
         <UpsertComponent
+            initialId={props.initialId}
             resetView={() => setView(getDefaultProductArchetypeView)}
             fetch={fetch}
             create={create}

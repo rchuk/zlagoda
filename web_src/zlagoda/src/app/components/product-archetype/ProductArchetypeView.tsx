@@ -22,7 +22,7 @@ export default function ProductArchetypeView(props: ProductArchetypeViewProps): 
     return (
         <ViewComponent id={props.id} fetch={fetch}>
             <div>
-                <b>Назва: </b><span>{productArchetype?.name}</span>
+                <b>Товар: </b><span>{productArchetype?.name}</span>
             </div>
             <div>
                 <b>Категорія: </b><span>{productCategory?.name}</span>

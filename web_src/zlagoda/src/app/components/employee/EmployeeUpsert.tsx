@@ -31,8 +31,8 @@ function getDefaultEmployeeView(): EmployeeView {
 export default function EmployeeUpsert(props: EmployeeUpsertProps): React.ReactNode {
     const [view, setView] = useState<EmployeeView>(getDefaultEmployeeView);
 
-    async function fetch() {
-        const {id, ...newView} = await props.employeeService.getEmployeeById({ id: props.initialId! });
+    async function fetch(id: number) {
+        const {id: _, ...newView} = await props.employeeService.getEmployeeById({ id });
         setView(newView);
     }
 

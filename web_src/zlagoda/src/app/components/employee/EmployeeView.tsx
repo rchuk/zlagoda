@@ -11,7 +11,7 @@ type EmployeeViewProps = {
 };
 
 export default function EmployeeView(props: EmployeeViewProps): React.ReactNode {
-    const [employee, setEmployee] = useState<Employee | null>();
+    const [employee, setEmployee] = useState<Employee | null>(null);
 
     async function fetch(id: number) {
         setEmployee(await props.employeeService.getEmployeeById({ id }));
