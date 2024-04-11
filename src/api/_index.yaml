@@ -997,9 +997,6 @@ components:
               type: integer
             limit:
               type: integer
-          required:
-            - offset
-            - limit
         - $ref: '#/components/schemas/SortCriteria'
 
     SortCriteria:
