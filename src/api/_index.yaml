@@ -8,15 +8,15 @@ servers:
 tags:
   - name: employee
     description: Employee controller
-  - name: productCategory
+  - name: product-category
     description: Product category controller
-  - name: productArchetype
+  - name: product-archetype
     description: Product archetype controller
   - name: product
     description: Product controller
   - name: receipt
     description: Receipt controller
-  - name: customerCard
+  - name: customer-card
     description: Customer card controller
 
 paths:
@@ -122,6 +122,26 @@ paths:
               schema:
                 type: boolean
 
+  /api/employee/count:
+    get:
+      tags:
+        - employee
+      summary: Count employees
+      operationId: countEmployee
+      parameters:
+        - in: query
+          required: false
+          name: criteria
+          schema:
+            $ref: '#/components/schemas/EmployeeCriteria'
+      responses:
+        200:
+          description: Number of employees
+          content:
+            application/json:
+              schema:
+                type: integer
+
   /api/employee/me:
     get:
       tags:
@@ -139,7 +159,7 @@ paths:
   /api/product-category/:
     get:
       tags:
-        - productCategory
+        - product-category
       summary: Get list of product categories
       operationId: getProductCategoryList
       responses:
@@ -153,7 +173,7 @@ paths:
                   $ref: '#/components/schemas/ProductCategory'
     put:
       tags:
-        - productCategory
+        - product-category
       summary: Create a new product category
       operationId: createProductCategory
       requestBody:
@@ -173,7 +193,7 @@ paths:
   /api/product-category/{id}:
     get:
       tags:
-        - productCategory
+        - product-category
       summary: Get product category by id
       operationId: getProductCategoryById
       parameters:
@@ -191,7 +211,7 @@ paths:
                 $ref: '#/components/schemas/ProductCategory'
     post:
       tags:
-        - productCategory
+        - product-category
       summary: Update existing product category
       operationId: updateProductCategory
       parameters:
@@ -215,7 +235,7 @@ paths:
                 type: boolean
     delete:
       tags:
-        - productCategory
+        - product-category
       summary: Delete a product category by id
       operationId: deleteProductCategory
       parameters:
@@ -232,10 +252,24 @@ paths:
               schema:
                 type: boolean
 
+  /api/product-category/count:
+    get:
+      tags:
+        - product-category
+      summary: Count product categories
+      operationId: countProductCategory
+      responses:
+        200:
+          description: Number of product categories
+          content:
+            application/json:
+              schema:
+                type: integer
+
   /api/product-archetype:
     get:
       tags:
-        - productArchetype
+        - product-archetype
       summary: Get list of product archetypes
       operationId: getProductArchetypeList
       responses:
@@ -249,7 +283,7 @@ paths:
                   $ref: '#/components/schemas/ProductArchetype'
     put:
       tags:
-        - productArchetype
+        - product-archetype
       summary: Create a new product archetype
       operationId: createProductArchetype
       requestBody:
@@ -269,7 +303,7 @@ paths:
   /api/product-archetype/{id}:
     get:
       tags:
-        - productArchetype
+        - product-archetype
       summary: Get product archetype by id
       operationId: getProductArchetypeById
       parameters:
@@ -287,7 +321,7 @@ paths:
                 $ref: '#/components/schemas/ProductArchetype'
     post:
       tags:
-        - productArchetype
+        - product-archetype
       summary: Update existing product archetype
       operationId: updateProductArchetype
       parameters:
@@ -311,7 +345,7 @@ paths:
                 type: boolean
     delete:
       tags:
-        - productArchetype
+        - product-archetype
       summary: Delete a product archetype by id
       operationId: deleteProductArchetype
       parameters:
@@ -327,6 +361,20 @@ paths:
             application/json:
               schema:
                 type: boolean
+
+  /api/product-archetype/count:
+    get:
+      tags:
+        - product-archetype
+      summary: Count product archetypes
+      operationId: countProductArchetype
+      responses:
+        200:
+          description: Number of product archetypes
+          content:
+            application/json:
+              schema:
+                type: integer
 
   /api/product:
     get:
@@ -430,6 +478,26 @@ paths:
               schema:
                 type: boolean
 
+  /api/product/count:
+    get:
+      tags:
+        - product
+      summary: Count products
+      operationId: countProduct
+      parameters:
+        - in: query
+          required: false
+          name: criteria
+          schema:
+            $ref: '#/components/schemas/ProductCriteria'
+      responses:
+        200:
+          description: Number of products
+          content:
+            application/json:
+              schema:
+                type: integer
+
   /api/receipt:
     get:
       tags:
@@ -508,10 +576,30 @@ paths:
               schema:
                 type: boolean
 
+  /api/receipt/count:
+    get:
+      tags:
+        - receipt
+      summary: Count receipts
+      operationId: countReceipt
+      parameters:
+        - in: query
+          required: false
+          name: criteria
+          schema:
+            $ref: '#/components/schemas/ReceiptCriteria'
+      responses:
+        200:
+          description: Number of receipts
+          content:
+            application/json:
+              schema:
+                type: integer
+
   /api/customer-card:
     get:
       tags:
-        - customerCard
+        - customer-card
       summary: Get list of customer cards
       operationId: getCustomerCardList
       parameters:
@@ -531,7 +619,7 @@ paths:
                   $ref: '#/components/schemas/CustomerCard'
     put:
       tags:
-        - customerCard
+        - customer-card
       summary: Create a new customer card
       operationId: createCustomerCard
       requestBody:
@@ -551,7 +639,7 @@ paths:
   /api/customer-card/{id}:
     get:
       tags:
-        - customerCard
+        - customer-card
       summary: Get customer card by id
       operationId: getCustomerCardById
       parameters:
@@ -569,7 +657,7 @@ paths:
                 $ref: '#/components/schemas/CustomerCard'
     post:
       tags:
-        - customerCard
+        - customer-card
       summary: Update existing customer card
       operationId: updateCustomerCard
       parameters:
@@ -593,7 +681,7 @@ paths:
                 type: boolean
     delete:
       tags:
-        - customerCard
+        - customer-card
       summary: Delete a customer card by id
       operationId: deleteCustomerCard
       parameters:
@@ -609,6 +697,26 @@ paths:
             application/json:
               schema:
                 type: boolean
+
+  /api/customer-card/count:
+    get:
+      tags:
+        - customer-card
+      summary: Count customer cards
+      operationId: countCustomerCard
+      parameters:
+        - in: query
+          required: false
+          name: criteria
+          schema:
+            $ref: '#/components/schemas/CustomerCardCriteria'
+      responses:
+        200:
+          description: Number of customer cards
+          content:
+            application/json:
+              schema:
+                type: integer
 
 components:
   schemas:
@@ -752,7 +860,7 @@ components:
         price:
           type: integer
       required:
-        - productArchetype
+        - product-archetype
         - quantity
         - price
 
