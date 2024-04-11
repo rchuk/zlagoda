@@ -850,6 +850,17 @@ components:
             - hasDiscount
         - $ref: '#/components/schemas/ProductView'
 
+    ReceiptItemView:
+      type: object
+      properties:
+        product:
+          type: integer
+        quantity:
+          type: integer
+      required:
+        - product
+        - quantity
+
     ReceiptItem:
       type: object
       properties:
@@ -860,7 +871,7 @@ components:
         price:
           type: integer
       required:
-        - product-archetype
+        - productArchetype
         - quantity
         - price
 
@@ -872,7 +883,7 @@ components:
         items:
           type: array
           items:
-            $ref: '#/components/schemas/ReceiptItem'
+            $ref: '#/components/schemas/ReceiptItemView'
       required:
         - items
 
@@ -987,6 +998,8 @@ components:
         - type: object
           properties:
             lastName:
+              type: string
+            phoneNumber:
               type: string
 
     BaseCriteria:
