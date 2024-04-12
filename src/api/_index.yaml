@@ -162,6 +162,12 @@ paths:
         - product-category
       summary: Get list of product categories
       operationId: getProductCategoryList
+      parameters:
+        - in: query
+          required: false
+          name: criteria
+          schema:
+            $ref: '#/components/schemas/ProductCategoryCriteria'
       responses:
         200:
           description: List of product categories
@@ -272,6 +278,12 @@ paths:
         - product-archetype
       summary: Get list of product archetypes
       operationId: getProductArchetypeList
+      parameters:
+        - in: query
+          required: false
+          name: criteria
+          schema:
+            $ref: '#/components/schemas/ProductArchetypeCriteria'
       responses:
         200:
           description: List of product archetypes
@@ -959,6 +971,14 @@ components:
               $ref: '#/components/schemas/EmployeeRole'
             lastName:
               type: string
+
+    ProductCategoryCriteria:
+      allOf:
+        - $ref: '#/components/schemas/BaseCriteria'
+
+    ProductArchetypeCriteria:
+      allOf:
+        - $ref: '#/components/schemas/BaseCriteria'
 
     ProductCriteria:
       allOf:
