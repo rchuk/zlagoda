@@ -975,6 +975,8 @@ components:
               type: string
             hasDiscount:
               type: boolean
+            query:
+              type: string
 
     ReceiptCriteria:
       allOf:
@@ -1000,6 +1002,8 @@ components:
             lastName:
               type: string
             phoneNumber:
+              type: string
+            query:
               type: string
 
     BaseCriteria:
