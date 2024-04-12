@@ -12,6 +12,7 @@ import CustomerCardUpsert from "@/app/components/customer-card/CustomerCardUpser
 import CustomerCardView from "@/app/components/customer-card/CustomerCardView";
 import ProductUpsert from "@/app/components/product/ProductUpsert";
 import ProductView from "@/app/components/product/ProductView";
+import ReceiptView from "@/app/components/receipt/ReceiptView";
 
 export default function Home() {
   return (
@@ -30,6 +31,7 @@ export default function Home() {
                 <CustomerCardView></CustomerCardView>
                 <ProductUpsert></ProductUpsert>
                 <ProductView></ProductView>
+                <ReceiptView></ReceiptView>
             </AlertProvider>
         </LocalizationProvider>
     </div>

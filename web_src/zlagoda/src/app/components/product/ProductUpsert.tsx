@@ -46,7 +46,7 @@ export default function ProductUpsert(props: ProductUpsertProps): React.ReactNod
             })));
         };
 
-        // fetch().catch(e => showAlert(e.toString(), "error"));
+        fetch().catch(e => showAlert(e.toString(), "error"));
     });
 
     async function fetch(id: number) {
