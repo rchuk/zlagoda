@@ -24,6 +24,7 @@ from fastapi import (  # noqa: F401
 from openapi_server.models.extra_models import TokenModel  # noqa: F401
 from openapi_server.models.product_category import ProductCategory
 from openapi_server.models.product_category_criteria import ProductCategoryCriteria
+from openapi_server.models.product_category_list_response import ProductCategoryListResponse
 from openapi_server.models.product_category_view import ProductCategoryView
 
 
@@ -32,20 +33,6 @@ router = APIRouter()
 ns_pkg = openapi_server.impl
 for _, name, _ in pkgutil.iter_modules(ns_pkg.__path__, ns_pkg.__name__ + "."):
     importlib.import_module(name)
-
-
-@router.get(
-    "/api/product-category/count",
-    responses={
-        200: {"model": int, "description": "Number of product categories"},
-    },
-    tags=["product-category"],
-    summary="Count product categories",
-    response_model_by_alias=True,
-)
-async def count_product_category(
-) -> int:
-    ...
 
 
 @router.put(
@@ -60,7 +47,8 @@ async def count_product_category(
 async def create_product_category(
     product_category_view: ProductCategoryView = Body(None, description=""),
 ) -> int:
-    ...
+    """Create a new product category"""
+    return BaseProductCategoryApi.subclasses[0]().create_product_category(product_category_view)
 
 
 @router.delete(
@@ -75,7 +63,8 @@ async def create_product_category(
 async def delete_product_category(
     id: int = Path(..., description=""),
 ) -> bool:
-    ...
+    """Delete a product category by id"""
+    return BaseProductCategoryApi.subclasses[0]().delete_product_category(id)
 
 
 @router.get(
@@ -90,13 +79,14 @@ async def delete_product_category(
 async def get_product_category_by_id(
     id: int = Path(..., description=""),
 ) -> ProductCategory:
-    ...
+    """Get product category by id"""
+    return BaseProductCategoryApi.subclasses[0]().get_product_category_by_id(id)
 
 
 @router.get(
     "/api/product-category/",
     responses={
-        200: {"model": List[ProductCategory], "description": "List of product categories"},
+        200: {"model": ProductCategoryListResponse, "description": "List of product categories"},
     },
     tags=["product-category"],
     summary="Get list of product categories",
@@ -104,8 +94,9 @@ async def get_product_category_by_id(
 )
 async def get_product_category_list(
     product_category_criteria: ProductCategoryCriteria = Body(None, description=""),
-) -> List[ProductCategory]:
-    ...
+) -> ProductCategoryListResponse:
+    """Get list of product categories"""
+    return BaseProductCategoryApi.subclasses[0]().get_product_category_list(product_category_criteria)
 
 
 @router.post(
@@ -121,4 +112,5 @@ async def update_product_category(
     id: int = Path(..., description=""),
     product_category_view: ProductCategoryView = Body(None, description=""),
 ) -> bool:
-    ...
+    """Update existing product category"""
+    return BaseProductCategoryApi.subclasses[0]().update_product_category(id, product_category_view)

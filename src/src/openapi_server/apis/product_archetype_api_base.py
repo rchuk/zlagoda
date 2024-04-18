@@ -4,6 +4,7 @@ from typing import ClassVar, Dict, List, Tuple  # noqa: F401
 
 from openapi_server.models.product_archetype import ProductArchetype
 from openapi_server.models.product_archetype_criteria import ProductArchetypeCriteria
+from openapi_server.models.product_archetype_list_response import ProductArchetypeListResponse
 from openapi_server.models.product_archetype_view import ProductArchetypeView
 
 
@@ -13,16 +14,11 @@ class BaseProductArchetypeApi:
     def __init_subclass__(cls, **kwargs):
         super().__init_subclass__(**kwargs)
         BaseProductArchetypeApi.subclasses = BaseProductArchetypeApi.subclasses + (cls,)
-    def count_product_archetype(
-        self,
-    ) -> int:
-        ...
-
-
     def create_product_archetype(
         self,
         product_archetype_view: ProductArchetypeView,
     ) -> int:
+        """Create a new product archetype"""
         ...
 
 
@@ -30,6 +26,7 @@ class BaseProductArchetypeApi:
         self,
         id: int,
     ) -> bool:
+        """Delete a product archetype by id"""
         ...
 
 
@@ -37,13 +34,15 @@ class BaseProductArchetypeApi:
         self,
         id: int,
     ) -> ProductArchetype:
+        """Get product archetype by id"""
         ...
 
 
     def get_product_archetype_list(
         self,
         product_archetype_criteria: ProductArchetypeCriteria,
-    ) -> List[ProductArchetype]:
+    ) -> ProductArchetypeListResponse:
+        """Get list of product archetypes"""
         ...
 
 
@@ -52,4 +51,5 @@ class BaseProductArchetypeApi:
         id: int,
         product_archetype_view: ProductArchetypeView,
     ) -> bool:
+        """Update existing product archetype"""
         ...

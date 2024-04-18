@@ -13,17 +13,11 @@ class BaseCustomerCardApi:
     def __init_subclass__(cls, **kwargs):
         super().__init_subclass__(**kwargs)
         BaseCustomerCardApi.subclasses = BaseCustomerCardApi.subclasses + (cls,)
-    def count_customer_card(
-        self,
-        customer_card_criteria: CustomerCardCriteria,
-    ) -> int:
-        ...
-
-
     def create_customer_card(
         self,
         customer_card_view: CustomerCardView,
     ) -> int:
+        """Create a new customer card"""
         ...
 
 
@@ -31,6 +25,7 @@ class BaseCustomerCardApi:
         self,
         id: int,
     ) -> bool:
+        """Delete a customer card by id"""
         ...
 
 
@@ -38,13 +33,15 @@ class BaseCustomerCardApi:
         self,
         id: int,
     ) -> CustomerCard:
+        """Get customer card by id"""
         ...
 
 
     def get_customer_card_list(
         self,
         customer_card_criteria: CustomerCardCriteria,
-    ) -> List[CustomerCard]:
+    ) -> CustomerCard:
+        """Get list of customer cards"""
         ...
 
 
@@ -53,4 +50,5 @@ class BaseCustomerCardApi:
         id: int,
         customer_card_view: CustomerCardView,
     ) -> bool:
+        """Update existing customer card"""
         ...

@@ -4,6 +4,7 @@ from typing import ClassVar, Dict, List, Tuple  # noqa: F401
 
 from openapi_server.models.receipt import Receipt
 from openapi_server.models.receipt_criteria import ReceiptCriteria
+from openapi_server.models.receipt_list_response import ReceiptListResponse
 from openapi_server.models.receipt_view import ReceiptView
 
 
@@ -13,17 +14,11 @@ class BaseReceiptApi:
     def __init_subclass__(cls, **kwargs):
         super().__init_subclass__(**kwargs)
         BaseReceiptApi.subclasses = BaseReceiptApi.subclasses + (cls,)
-    def count_receipt(
-        self,
-        receipt_criteria: ReceiptCriteria,
-    ) -> int:
-        ...
-
-
     def create_receipt(
         self,
         receipt_view: ReceiptView,
     ) -> int:
+        """Create a new receipt"""
         ...
 
 
@@ -31,6 +26,7 @@ class BaseReceiptApi:
         self,
         id: int,
     ) -> bool:
+        """Delete a receipt by id"""
         ...
 
 
@@ -38,11 +34,13 @@ class BaseReceiptApi:
         self,
         id: int,
     ) -> Receipt:
+        """Get receipt by id"""
         ...
 
 
     def get_receipt_list(
         self,
         receipt_criteria: ReceiptCriteria,
-    ) -> List[Receipt]:
+    ) -> ReceiptListResponse:
+        """Get list of receipts"""
         ...

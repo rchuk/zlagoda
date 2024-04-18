@@ -25,6 +25,7 @@ paths:
       tags:
         - employee
       summary: Get list of employees
+      description: Get list of employees
       operationId: getEmployeeList
       requestBody:
         required: false
@@ -38,13 +39,12 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Employee'
+                $ref: '#/components/schemas/EmployeeListResponse'
     put:
       tags:
         - employee
       summary: Create a new employee
+      description: Create a new employee
       operationId: createEmployee
       requestBody:
         required: true
@@ -65,6 +65,7 @@ paths:
       tags:
         - employee
       summary: Get employee by id
+      description: Get employee by id
       operationId: getEmployeeById
       parameters:
         - in: path
@@ -83,6 +84,7 @@ paths:
       tags:
         - employee
       summary: Update existing employee
+      description: Update existing employee
       operationId: updateEmployee
       parameters:
         - in: path
@@ -107,6 +109,7 @@ paths:
       tags:
         - employee
       summary: Delete an employee by id
+      description: Delete an employee by id
       operationId: deleteEmployee
       parameters:
         - in: path
@@ -122,31 +125,12 @@ paths:
               schema:
                 type: boolean
 
-  /api/employee/count:
-    get:
-      tags:
-        - employee
-      summary: Count employees
-      operationId: countEmployee
-      requestBody:
-        required: false
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/EmployeeCriteria'
-      responses:
-        200:
-          description: Number of employees
-          content:
-            application/json:
-              schema:
-                type: integer
-
   /api/employee/me:
     get:
       tags:
         - employee
       summary: Get employee id of self
+      description: Get employee id of self
       operationId: getEmployeeMe
       responses:
         200:
@@ -161,6 +145,7 @@ paths:
       tags:
         - product-category
       summary: Get list of product categories
+      description: Get list of product categories
       operationId: getProductCategoryList
       requestBody:
         required: false
@@ -174,13 +159,12 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/ProductCategory'
+                $ref: '#/components/schemas/ProductCategoryListResponse'
     put:
       tags:
         - product-category
       summary: Create a new product category
+      description: Create a new product category
       operationId: createProductCategory
       requestBody:
         required: true
@@ -201,6 +185,7 @@ paths:
       tags:
         - product-category
       summary: Get product category by id
+      description: Get product category by id
       operationId: getProductCategoryById
       parameters:
         - in: path
@@ -219,6 +204,7 @@ paths:
       tags:
         - product-category
       summary: Update existing product category
+      description: Update existing product category
       operationId: updateProductCategory
       parameters:
         - in: path
@@ -243,6 +229,7 @@ paths:
       tags:
         - product-category
       summary: Delete a product category by id
+      description: Delete a product category by id
       operationId: deleteProductCategory
       parameters:
         - in: path
@@ -258,25 +245,12 @@ paths:
               schema:
                 type: boolean
 
-  /api/product-category/count:
-    get:
-      tags:
-        - product-category
-      summary: Count product categories
-      operationId: countProductCategory
-      responses:
-        200:
-          description: Number of product categories
-          content:
-            application/json:
-              schema:
-                type: integer
-
   /api/product-archetype:
     get:
       tags:
         - product-archetype
       summary: Get list of product archetypes
+      description: Get list of product archetypes
       operationId: getProductArchetypeList
       requestBody:
         required: false
@@ -290,13 +264,12 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/ProductArchetype'
+                $ref: '#/components/schemas/ProductArchetypeListResponse'
     put:
       tags:
         - product-archetype
       summary: Create a new product archetype
+      description: Create a new product archetype
       operationId: createProductArchetype
       requestBody:
         required: true
@@ -317,6 +290,7 @@ paths:
       tags:
         - product-archetype
       summary: Get product archetype by id
+      description: Get product archetype by id
       operationId: getProductArchetypeById
       parameters:
         - in: path
@@ -335,6 +309,7 @@ paths:
       tags:
         - product-archetype
       summary: Update existing product archetype
+      description: Update existing product archetype
       operationId: updateProductArchetype
       parameters:
         - in: path
@@ -359,6 +334,7 @@ paths:
       tags:
         - product-archetype
       summary: Delete a product archetype by id
+      description: Delete a product archetype by id
       operationId: deleteProductArchetype
       parameters:
         - in: path
@@ -374,25 +350,12 @@ paths:
               schema:
                 type: boolean
 
-  /api/product-archetype/count:
-    get:
-      tags:
-        - product-archetype
-      summary: Count product archetypes
-      operationId: countProductArchetype
-      responses:
-        200:
-          description: Number of product archetypes
-          content:
-            application/json:
-              schema:
-                type: integer
-
   /api/product:
     get:
       tags:
         - product
       summary: Get list of products
+      description: Get list of products
       operationId: getProductList
       requestBody:
         required: false
@@ -406,13 +369,12 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Product'
+                $ref: '#/components/schemas/ProductListResponse'
     put:
       tags:
         - product
       summary: Create a new product
+      description: Create a new product
       operationId: createProduct
       requestBody:
         required: true
@@ -433,6 +395,7 @@ paths:
       tags:
         - product
       summary: Get product by id
+      description: Get product by id
       operationId: getProductById
       parameters:
         - in: path
@@ -451,6 +414,7 @@ paths:
       tags:
         - product
       summary: Update existing product
+      description: Update existing product
       operationId: updateProdact
       parameters:
         - in: path
@@ -475,6 +439,7 @@ paths:
       tags:
         - product
       summary: Delete a product by id
+      description: Delete a product by id
       operationId: deleteProduct
       parameters:
         - in: path
@@ -490,31 +455,12 @@ paths:
               schema:
                 type: boolean
 
-  /api/product/count:
-    get:
-      tags:
-        - product
-      summary: Count products
-      operationId: countProduct
-      requestBody:
-        required: false
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ProductCriteria'
-      responses:
-        200:
-          description: Number of products
-          content:
-            application/json:
-              schema:
-                type: integer
-
   /api/receipt:
     get:
       tags:
         - receipt
       summary: Get list of receipts
+      description: Get list of receipts
       operationId: getReceiptList
       requestBody:
         required: false
@@ -528,13 +474,12 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Receipt'
+                $ref: '#/components/schemas/ReceiptListResponse'
     put:
       tags:
         - receipt
       summary: Create a new receipt
+      description: Create a new receipt
       operationId: createReceipt
       requestBody:
         required: true
@@ -555,6 +500,7 @@ paths:
       tags:
         - receipt
       summary: Get receipt by id
+      description: Get receipt by id
       operationId: getReceiptById
       parameters:
         - in: path
@@ -573,6 +519,7 @@ paths:
       tags:
         - receipt
       summary: Delete a receipt by id
+      description: Delete a receipt by id
       operationId: deleteReceipt
       parameters:
         - in: path
@@ -588,31 +535,12 @@ paths:
               schema:
                 type: boolean
 
-  /api/receipt/count:
-    get:
-      tags:
-        - receipt
-      summary: Count receipts
-      operationId: countReceipt
-      requestBody:
-        required: false
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ReceiptCriteria'
-      responses:
-        200:
-          description: Number of receipts
-          content:
-            application/json:
-              schema:
-                type: integer
-
   /api/customer-card:
     get:
       tags:
         - customer-card
       summary: Get list of customer cards
+      description: Get list of customer cards
       operationId: getCustomerCardList
       requestBody:
         required: false
@@ -626,13 +554,12 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/CustomerCard'
+                $ref: '#/components/schemas/CustomerCard'
     put:
       tags:
         - customer-card
       summary: Create a new customer card
+      description: Create a new customer card
       operationId: createCustomerCard
       requestBody:
         required: true
@@ -653,6 +580,7 @@ paths:
       tags:
         - customer-card
       summary: Get customer card by id
+      description: Get customer card by id
       operationId: getCustomerCardById
       parameters:
         - in: path
@@ -671,6 +599,7 @@ paths:
       tags:
         - customer-card
       summary: Update existing customer card
+      description: Update existing customer card
       operationId: updateCustomerCard
       parameters:
         - in: path
@@ -695,6 +624,7 @@ paths:
       tags:
         - customer-card
       summary: Delete a customer card by id
+      description: Delete a customer card by id
       operationId: deleteCustomerCard
       parameters:
         - in: path
@@ -709,26 +639,6 @@ paths:
             application/json:
               schema:
                 type: boolean
-
-  /api/customer-card/count:
-    get:
-      tags:
-        - customer-card
-      summary: Count customer cards
-      operationId: countCustomerCard
-      requestBody:
-        required: false
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CustomerCardCriteria'
-      responses:
-        200:
-          description: Number of customer cards
-          content:
-            application/json:
-              schema:
-                type: integer
 
 components:
   schemas:
@@ -961,6 +871,86 @@ components:
           required:
             - id
         - $ref: '#/components/schemas/CustomerCardView'
+
+    EmployeeListResponse:
+      allOf:
+        - $ref: '#/components/schemas/ListResponse'
+        - type: object
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/Employee'
+          required:
+            - items
+
+    ProductCategoryListResponse:
+      allOf:
+        - $ref: '#/components/schemas/ListResponse'
+        - type: object
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/ProductCategory'
+          required:
+            - items
+
+    ProductArchetypeListResponse:
+      allOf:
+        - $ref: '#/components/schemas/ListResponse'
+        - type: object
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/ProductArchetype'
+          required:
+            - items
+
+    ProductListResponse:
+      allOf:
+        - $ref: '#/components/schemas/ListResponse'
+        - type: object
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/Product'
+          required:
+            - items
+
+    ReceiptListResponse:
+      allOf:
+        - $ref: '#/components/schemas/ListResponse'
+        - type: object
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/Receipt'
+          required:
+            - items
+
+    CustomerCardListResponse:
+      allOf:
+        - $ref: '#/components/schemas/ListResponse'
+        - type: object
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/CustomerCard'
+          required:
+            - items
+
+    ListResponse:
+      type: object
+      properties:
+        totalCount:
+          type: integer
+      required:
+        - totalCount
 
     EmployeeCriteria:
       allOf:

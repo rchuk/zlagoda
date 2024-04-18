@@ -4,6 +4,7 @@ from typing import ClassVar, Dict, List, Tuple  # noqa: F401
 
 from openapi_server.models.product_category import ProductCategory
 from openapi_server.models.product_category_criteria import ProductCategoryCriteria
+from openapi_server.models.product_category_list_response import ProductCategoryListResponse
 from openapi_server.models.product_category_view import ProductCategoryView
 
 
@@ -13,16 +14,11 @@ class BaseProductCategoryApi:
     def __init_subclass__(cls, **kwargs):
         super().__init_subclass__(**kwargs)
         BaseProductCategoryApi.subclasses = BaseProductCategoryApi.subclasses + (cls,)
-    def count_product_category(
-        self,
-    ) -> int:
-        ...
-
-
     def create_product_category(
         self,
         product_category_view: ProductCategoryView,
     ) -> int:
+        """Create a new product category"""
         ...
 
 
@@ -30,6 +26,7 @@ class BaseProductCategoryApi:
         self,
         id: int,
     ) -> bool:
+        """Delete a product category by id"""
         ...
 
 
@@ -37,13 +34,15 @@ class BaseProductCategoryApi:
         self,
         id: int,
     ) -> ProductCategory:
+        """Get product category by id"""
         ...
 
 
     def get_product_category_list(
         self,
         product_category_criteria: ProductCategoryCriteria,
-    ) -> List[ProductCategory]:
+    ) -> ProductCategoryListResponse:
+        """Get list of product categories"""
         ...
 
 
@@ -52,4 +51,5 @@ class BaseProductCategoryApi:
         id: int,
         product_category_view: ProductCategoryView,
     ) -> bool:
+        """Update existing product category"""
         ...

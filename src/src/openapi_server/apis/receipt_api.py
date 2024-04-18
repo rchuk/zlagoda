@@ -24,6 +24,7 @@ from fastapi import (  # noqa: F401
 from openapi_server.models.extra_models import TokenModel  # noqa: F401
 from openapi_server.models.receipt import Receipt
 from openapi_server.models.receipt_criteria import ReceiptCriteria
+from openapi_server.models.receipt_list_response import ReceiptListResponse
 from openapi_server.models.receipt_view import ReceiptView
 
 
@@ -32,21 +33,6 @@ router = APIRouter()
 ns_pkg = openapi_server.impl
 for _, name, _ in pkgutil.iter_modules(ns_pkg.__path__, ns_pkg.__name__ + "."):
     importlib.import_module(name)
-
-
-@router.get(
-    "/api/receipt/count",
-    responses={
-        200: {"model": int, "description": "Number of receipts"},
-    },
-    tags=["receipt"],
-    summary="Count receipts",
-    response_model_by_alias=True,
-)
-async def count_receipt(
-    receipt_criteria: ReceiptCriteria = Body(None, description=""),
-) -> int:
-    ...
 
 
 @router.put(
@@ -61,7 +47,8 @@ async def count_receipt(
 async def create_receipt(
     receipt_view: ReceiptView = Body(None, description=""),
 ) -> int:
-    ...
+    """Create a new receipt"""
+    return BaseReceiptApi.subclasses[0]().create_receipt(receipt_view)
 
 
 @router.delete(
@@ -76,7 +63,8 @@ async def create_receipt(
 async def delete_receipt(
     id: int = Path(..., description=""),
 ) -> bool:
-    ...
+    """Delete a receipt by id"""
+    return BaseReceiptApi.subclasses[0]().delete_receipt(id)
 
 
 @router.get(
@@ -91,13 +79,14 @@ async def delete_receipt(
 async def get_receipt_by_id(
     id: int = Path(..., description=""),
 ) -> Receipt:
-    ...
+    """Get receipt by id"""
+    return BaseReceiptApi.subclasses[0]().get_receipt_by_id(id)
 
 
 @router.get(
     "/api/receipt",
     responses={
-        200: {"model": List[Receipt], "description": "List of receipts"},
+        200: {"model": ReceiptListResponse, "description": "List of receipts"},
     },
     tags=["receipt"],
     summary="Get list of receipts",
@@ -105,5 +94,6 @@ async def get_receipt_by_id(
 )
 async def get_receipt_list(
     receipt_criteria: ReceiptCriteria = Body(None, description=""),
-) -> List[Receipt]:
-    ...
+) -> ReceiptListResponse:
+    """Get list of receipts"""
+    return BaseReceiptApi.subclasses[0]().get_receipt_list(receipt_criteria)

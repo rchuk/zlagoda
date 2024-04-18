@@ -24,6 +24,7 @@ from fastapi import (  # noqa: F401
 from openapi_server.models.extra_models import TokenModel  # noqa: F401
 from openapi_server.models.product_archetype import ProductArchetype
 from openapi_server.models.product_archetype_criteria import ProductArchetypeCriteria
+from openapi_server.models.product_archetype_list_response import ProductArchetypeListResponse
 from openapi_server.models.product_archetype_view import ProductArchetypeView
 
 
@@ -32,20 +33,6 @@ router = APIRouter()
 ns_pkg = openapi_server.impl
 for _, name, _ in pkgutil.iter_modules(ns_pkg.__path__, ns_pkg.__name__ + "."):
     importlib.import_module(name)
-
-
-@router.get(
-    "/api/product-archetype/count",
-    responses={
-        200: {"model": int, "description": "Number of product archetypes"},
-    },
-    tags=["product-archetype"],
-    summary="Count product archetypes",
-    response_model_by_alias=True,
-)
-async def count_product_archetype(
-) -> int:
-    ...
 
 
 @router.put(
@@ -60,7 +47,8 @@ async def count_product_archetype(
 async def create_product_archetype(
     product_archetype_view: ProductArchetypeView = Body(None, description=""),
 ) -> int:
-    ...
+    """Create a new product archetype"""
+    return BaseProductArchetypeApi.subclasses[0]().create_product_archetype(product_archetype_view)
 
 
 @router.delete(
@@ -75,7 +63,8 @@ async def create_product_archetype(
 async def delete_product_archetype(
     id: int = Path(..., description=""),
 ) -> bool:
-    ...
+    """Delete a product archetype by id"""
+    return BaseProductArchetypeApi.subclasses[0]().delete_product_archetype(id)
 
 
 @router.get(
@@ -90,13 +79,14 @@ async def delete_product_archetype(
 async def get_product_archetype_by_id(
     id: int = Path(..., description=""),
 ) -> ProductArchetype:
-    ...
+    """Get product archetype by id"""
+    return BaseProductArchetypeApi.subclasses[0]().get_product_archetype_by_id(id)
 
 
 @router.get(
     "/api/product-archetype",
     responses={
-        200: {"model": List[ProductArchetype], "description": "List of product archetypes"},
+        200: {"model": ProductArchetypeListResponse, "description": "List of product archetypes"},
     },
     tags=["product-archetype"],
     summary="Get list of product archetypes",
@@ -104,8 +94,9 @@ async def get_product_archetype_by_id(
 )
 async def get_product_archetype_list(
     product_archetype_criteria: ProductArchetypeCriteria = Body(None, description=""),
-) -> List[ProductArchetype]:
-    ...
+) -> ProductArchetypeListResponse:
+    """Get list of product archetypes"""
+    return BaseProductArchetypeApi.subclasses[0]().get_product_archetype_list(product_archetype_criteria)
 
 
 @router.post(
@@ -121,4 +112,5 @@ async def update_product_archetype(
     id: int = Path(..., description=""),
     product_archetype_view: ProductArchetypeView = Body(None, description=""),
 ) -> bool:
-    ...
+    """Update existing product archetype"""
+    return BaseProductArchetypeApi.subclasses[0]().update_product_archetype(id, product_archetype_view)
