@@ -1,0 +1,1226 @@
+openapi: 3.0.3
+info:
+  description: API for systems used by the employees of Zlagoda shops
+  title: Zlagoda
+  version: 1.0.0
+servers:
+- url: https://localhost:3333
+tags:
+- description: Employee controller
+  name: employee
+- description: Product category controller
+  name: product-category
+- description: Product archetype controller
+  name: product-archetype
+- description: Product controller
+  name: product
+- description: Receipt controller
+  name: receipt
+- description: Customer card controller
+  name: customer-card
+paths:
+  /api/employee:
+    get:
+      operationId: getEmployeeList
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmployeeCriteria'
+        required: false
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Employee'
+                type: array
+          description: List of employees
+      summary: Get list of employees
+      tags:
+      - employee
+    put:
+      operationId: createEmployee
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmployeeView'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: integer
+          description: Id of new employee
+      summary: Create a new employee
+      tags:
+      - employee
+  /api/employee/{id}:
+    delete:
+      operationId: deleteEmployee
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: boolean
+          description: Boolean whether employee was deleted
+      summary: Delete an employee by id
+      tags:
+      - employee
+    get:
+      operationId: getEmployeeById
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employee'
+          description: Employee by id
+      summary: Get employee by id
+      tags:
+      - employee
+    post:
+      operationId: updateEmployee
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmployeeView'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: boolean
+          description: Boolean whether employee was updated
+      summary: Update existing employee
+      tags:
+      - employee
+  /api/employee/count:
+    get:
+      operationId: countEmployee
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmployeeCriteria'
+        required: false
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: integer
+          description: Number of employees
+      summary: Count employees
+      tags:
+      - employee
+  /api/employee/me:
+    get:
+      operationId: getEmployeeMe
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: integer
+          description: Employee id of self
+      summary: Get employee id of self
+      tags:
+      - employee
+  /api/product-category/:
+    get:
+      operationId: getProductCategoryList
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductCategoryCriteria'
+        required: false
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ProductCategory'
+                type: array
+          description: List of product categories
+      summary: Get list of product categories
+      tags:
+      - product-category
+    put:
+      operationId: createProductCategory
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductCategoryView'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: integer
+          description: Id of new product category
+      summary: Create a new product category
+      tags:
+      - product-category
+  /api/product-category/{id}:
+    delete:
+      operationId: deleteProductCategory
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: boolean
+          description: Boolean whether productCategory was deleted
+      summary: Delete a product category by id
+      tags:
+      - product-category
+    get:
+      operationId: getProductCategoryById
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductCategory'
+          description: Product category by id
+      summary: Get product category by id
+      tags:
+      - product-category
+    post:
+      operationId: updateProductCategory
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductCategoryView'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: boolean
+          description: Boolean whether product category was updated
+      summary: Update existing product category
+      tags:
+      - product-category
+  /api/product-category/count:
+    get:
+      operationId: countProductCategory
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: integer
+          description: Number of product categories
+      summary: Count product categories
+      tags:
+      - product-category
+  /api/product-archetype:
+    get:
+      operationId: getProductArchetypeList
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductArchetypeCriteria'
+        required: false
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ProductArchetype'
+                type: array
+          description: List of product archetypes
+      summary: Get list of product archetypes
+      tags:
+      - product-archetype
+    put:
+      operationId: createProductArchetype
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductArchetypeView'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: integer
+          description: Id of new product archetype
+      summary: Create a new product archetype
+      tags:
+      - product-archetype
+  /api/product-archetype/{id}:
+    delete:
+      operationId: deleteProductArchetype
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: boolean
+          description: Boolean whether product archetype was deleted
+      summary: Delete a product archetype by id
+      tags:
+      - product-archetype
+    get:
+      operationId: getProductArchetypeById
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductArchetype'
+          description: Product archetype by id
+      summary: Get product archetype by id
+      tags:
+      - product-archetype
+    post:
+      operationId: updateProductArchetype
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductArchetypeView'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: boolean
+          description: Boolean whether product archetype was updated
+      summary: Update existing product archetype
+      tags:
+      - product-archetype
+  /api/product-archetype/count:
+    get:
+      operationId: countProductArchetype
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: integer
+          description: Number of product archetypes
+      summary: Count product archetypes
+      tags:
+      - product-archetype
+  /api/product:
+    get:
+      operationId: getProductList
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductCriteria'
+        required: false
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Product'
+                type: array
+          description: List of products
+      summary: Get list of products
+      tags:
+      - product
+    put:
+      operationId: createProduct
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductView'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: integer
+          description: Id of new product
+      summary: Create a new product
+      tags:
+      - product
+  /api/product/{id}:
+    delete:
+      operationId: deleteProduct
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: boolean
+          description: Boolean whether product was deleted
+      summary: Delete a product by id
+      tags:
+      - product
+    get:
+      operationId: getProductById
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+          description: product by id
+      summary: Get product by id
+      tags:
+      - product
+    post:
+      operationId: updateProdact
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductView'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: boolean
+          description: Boolean whether product was updated
+      summary: Update existing product
+      tags:
+      - product
+  /api/product/count:
+    get:
+      operationId: countProduct
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductCriteria'
+        required: false
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: integer
+          description: Number of products
+      summary: Count products
+      tags:
+      - product
+  /api/receipt:
+    get:
+      operationId: getReceiptList
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReceiptCriteria'
+        required: false
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Receipt'
+                type: array
+          description: List of receipts
+      summary: Get list of receipts
+      tags:
+      - receipt
+    put:
+      operationId: createReceipt
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReceiptView'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: integer
+          description: Id of new receipt
+      summary: Create a new receipt
+      tags:
+      - receipt
+  /api/receipt/{id}:
+    delete:
+      operationId: deleteReceipt
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: boolean
+          description: Boolean whether receipt was deleted
+      summary: Delete a receipt by id
+      tags:
+      - receipt
+    get:
+      operationId: getReceiptById
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Receipt'
+          description: Receipt by id
+      summary: Get receipt by id
+      tags:
+      - receipt
+  /api/receipt/count:
+    get:
+      operationId: countReceipt
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReceiptCriteria'
+        required: false
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: integer
+          description: Number of receipts
+      summary: Count receipts
+      tags:
+      - receipt
+  /api/customer-card:
+    get:
+      operationId: getCustomerCardList
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerCardCriteria'
+        required: false
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/CustomerCard'
+                type: array
+          description: List of customer cards
+      summary: Get list of customer cards
+      tags:
+      - customer-card
+    put:
+      operationId: createCustomerCard
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerCardView'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: integer
+          description: Id of new customer card
+      summary: Create a new customer card
+      tags:
+      - customer-card
+  /api/customer-card/{id}:
+    delete:
+      operationId: deleteCustomerCard
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: boolean
+          description: Boolean whether customer card was deleted
+      summary: Delete a customer card by id
+      tags:
+      - customer-card
+    get:
+      operationId: getCustomerCardById
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerCard'
+          description: Customer card by id
+      summary: Get customer card by id
+      tags:
+      - customer-card
+    post:
+      operationId: updateCustomerCard
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerCardView'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: boolean
+          description: Boolean whether customer card was updated
+      summary: Update existing customer card
+      tags:
+      - customer-card
+  /api/customer-card/count:
+    get:
+      operationId: countCustomerCard
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerCardCriteria'
+        required: false
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: integer
+          description: Number of customer cards
+      summary: Count customer cards
+      tags:
+      - customer-card
+components:
+  schemas:
+    EmployeeView:
+      example:
+        firstName: firstName
+        lastName: lastName
+        zipCode: zipCode
+        patronymic: patronymic
+        role: null
+        phoneNumber: phoneNumber
+        city: city
+        street: street
+        workStartDate: 2000-01-23
+        salary: 0
+        birthDate: 2000-01-23
+      properties:
+        firstName:
+          title: firstName
+          type: string
+        lastName:
+          title: lastName
+          type: string
+        patronymic:
+          title: patronymic
+          type: string
+        role:
+          $ref: '#/components/schemas/EmployeeRole'
+        salary:
+          title: salary
+          type: integer
+        workStartDate:
+          format: date
+          title: workStartDate
+          type: string
+        birthDate:
+          format: date
+          title: birthDate
+          type: string
+        phoneNumber:
+          title: phoneNumber
+          type: string
+        city:
+          title: city
+          type: string
+        street:
+          title: street
+          type: string
+        zipCode:
+          title: zipCode
+          type: string
+      required:
+      - birthDate
+      - city
+      - firstName
+      - lastName
+      - phoneNumber
+      - role
+      - salary
+      - street
+      - workStartDate
+      - zipCode
+      title: EmployeeView
+      type: object
+    Employee:
+      allOf:
+      - properties:
+          id:
+            type: integer
+        required:
+        - id
+        type: object
+      - $ref: '#/components/schemas/EmployeeView'
+      example:
+        firstName: firstName
+        lastName: lastName
+        zipCode: zipCode
+        patronymic: patronymic
+        role: null
+        phoneNumber: phoneNumber
+        city: city
+        street: street
+        workStartDate: 2000-01-23
+        id: 0
+        salary: 6
+        birthDate: 2000-01-23
+      title: Employee
+    EmployeeRole:
+      enum:
+      - CASHIER
+      - MANAGER
+      title: EmployeeRole
+      type: string
+    ProductCategoryView:
+      example:
+        name: name
+      properties:
+        name:
+          title: name
+          type: string
+      required:
+      - name
+      title: ProductCategoryView
+      type: object
+    ProductCategory:
+      allOf:
+      - properties:
+          id:
+            type: integer
+        required:
+        - id
+        type: object
+      - $ref: '#/components/schemas/ProductCategoryView'
+      example:
+        name: name
+        id: 0
+      title: ProductCategory
+    ProductArchetypeView:
+      example:
+        name: name
+        description: description
+        category: 0
+        manufacturer: manufacturer
+      properties:
+        name:
+          title: name
+          type: string
+        category:
+          title: category
+          type: integer
+        manufacturer:
+          title: manufacturer
+          type: string
+        description:
+          title: description
+          type: string
+      required:
+      - category
+      - description
+      - manufacturer
+      - name
+      title: ProductArchetypeView
+      type: object
+    ProductArchetype:
+      allOf:
+      - properties:
+          id:
+            type: integer
+        required:
+        - id
+        type: object
+      - $ref: '#/components/schemas/ProductArchetypeView'
+      example:
+        name: name
+        description: description
+        id: 0
+        category: 6
+        manufacturer: manufacturer
+      title: ProductArchetype
+    ProductView:
+      example:
+        archetype: 0
+        quantity: 1
+        price: 6
+        upc: upc
+      properties:
+        archetype:
+          title: archetype
+          type: integer
+        upc:
+          title: upc
+          type: string
+        price:
+          title: price
+          type: integer
+        quantity:
+          title: quantity
+          type: integer
+      required:
+      - archetype
+      - price
+      - quantity
+      - upc
+      title: ProductView
+      type: object
+    Product:
+      allOf:
+      - properties:
+          id:
+            type: integer
+          hasDiscount:
+            type: boolean
+        required:
+        - hasDiscount
+        - id
+        type: object
+      - $ref: '#/components/schemas/ProductView'
+      example:
+        archetype: 6
+        quantity: 5
+        hasDiscount: true
+        price: 1
+        upc: upc
+        id: 0
+      title: Product
+    ReceiptItemView:
+      example:
+        product: 6
+        quantity: 1
+      properties:
+        product:
+          title: product
+          type: integer
+        quantity:
+          title: quantity
+          type: integer
+      required:
+      - product
+      - quantity
+      title: ReceiptItemView
+      type: object
+    ReceiptItem:
+      example:
+        quantity: 7
+        price: 9
+        productArchetype: 2
+      properties:
+        productArchetype:
+          title: productArchetype
+          type: integer
+        quantity:
+          title: quantity
+          type: integer
+        price:
+          title: price
+          type: integer
+      required:
+      - price
+      - productArchetype
+      - quantity
+      title: ReceiptItem
+      type: object
+    ReceiptView:
+      example:
+        customerCardId: 0
+        items:
+        - product: 6
+          quantity: 1
+        - product: 6
+          quantity: 1
+      properties:
+        customerCardId:
+          title: customerCardId
+          type: integer
+        items:
+          items:
+            $ref: '#/components/schemas/ReceiptItemView'
+          title: items
+          type: array
+      required:
+      - items
+      title: ReceiptView
+      type: object
+    Receipt:
+      example:
+        dateTime: 2000-01-23T04:56:07.000+00:00
+        totalPrice: 5
+        customerCardId: 1
+        vat: 5
+        cashierId: 6
+        id: 0
+        items:
+        - quantity: 7
+          price: 9
+          productArchetype: 2
+        - quantity: 7
+          price: 9
+          productArchetype: 2
+      properties:
+        id:
+          title: id
+          type: integer
+        cashierId:
+          title: cashierId
+          type: integer
+        customerCardId:
+          title: customerCardId
+          type: integer
+        dateTime:
+          format: date-time
+          title: dateTime
+          type: string
+        totalPrice:
+          title: totalPrice
+          type: integer
+        vat:
+          title: vat
+          type: integer
+        items:
+          items:
+            $ref: '#/components/schemas/ReceiptItem'
+          title: items
+          type: array
+      required:
+      - cashierId
+      - dateTime
+      - id
+      - items
+      - totalPrice
+      - vat
+      title: Receipt
+      type: object
+    CustomerCardView:
+      example:
+        firstName: firstName
+        lastName: lastName
+        zipCode: zipCode
+        patronymic: patronymic
+        phoneNumber: phoneNumber
+        discountPercent: 0
+        city: city
+        street: street
+      properties:
+        firstName:
+          title: firstName
+          type: string
+        lastName:
+          title: lastName
+          type: string
+        patronymic:
+          title: patronymic
+          type: string
+        phoneNumber:
+          title: phoneNumber
+          type: string
+        discountPercent:
+          title: discountPercent
+          type: integer
+        city:
+          title: city
+          type: string
+        street:
+          title: street
+          type: string
+        zipCode:
+          title: zipCode
+          type: string
+      required:
+      - discountPercent
+      - firstName
+      - lastName
+      - phoneNumber
+      title: CustomerCardView
+      type: object
+    CustomerCard:
+      allOf:
+      - properties:
+          id:
+            type: integer
+        required:
+        - id
+        type: object
+      - $ref: '#/components/schemas/CustomerCardView'
+      example:
+        firstName: firstName
+        lastName: lastName
+        zipCode: zipCode
+        patronymic: patronymic
+        phoneNumber: phoneNumber
+        discountPercent: 6
+        city: city
+        street: street
+        id: 0
+      title: CustomerCard
+    EmployeeCriteria:
+      allOf:
+      - $ref: '#/components/schemas/BaseCriteria'
+      - properties:
+          role:
+            $ref: '#/components/schemas/EmployeeRole'
+          lastName:
+            type: string
+        type: object
+      example:
+        lastName: lastName
+        role: null
+      title: EmployeeCriteria
+    ProductCategoryCriteria:
+      allOf:
+      - $ref: '#/components/schemas/BaseCriteria'
+      example: {}
+      title: ProductCategoryCriteria
+    ProductArchetypeCriteria:
+      allOf:
+      - $ref: '#/components/schemas/BaseCriteria'
+      example: {}
+      title: ProductArchetypeCriteria
+    ProductCriteria:
+      allOf:
+      - $ref: '#/components/schemas/BaseCriteria'
+      - properties:
+          categoryIds:
+            items:
+              type: integer
+            type: array
+          upc:
+            type: string
+          name:
+            type: string
+          hasDiscount:
+            type: boolean
+          query:
+            type: string
+        type: object
+      example:
+        categoryIds:
+        - 0
+        - 0
+        hasDiscount: true
+        query: query
+        name: name
+        upc: upc
+      title: ProductCriteria
+    ReceiptCriteria:
+      allOf:
+      - $ref: '#/components/schemas/BaseCriteria'
+      - properties:
+          cashierIds:
+            items:
+              type: integer
+            type: array
+          startDate:
+            format: date-time
+            type: string
+          endDate:
+            format: date-time
+            type: string
+        type: object
+      example:
+        cashierIds:
+        - 0
+        - 0
+        endDate: 2000-01-23T04:56:07.000+00:00
+        startDate: 2000-01-23T04:56:07.000+00:00
+      title: ReceiptCriteria
+    CustomerCardCriteria:
+      allOf:
+      - $ref: '#/components/schemas/BaseCriteria'
+      - properties:
+          lastName:
+            type: string
+          phoneNumber:
+            type: string
+          query:
+            type: string
+        type: object
+      example:
+        lastName: lastName
+        phoneNumber: phoneNumber
+        query: query
+      title: CustomerCardCriteria
+    BaseCriteria:
+      allOf:
+      - properties:
+          offset:
+            type: integer
+          limit:
+            type: integer
+        type: object
+      - $ref: '#/components/schemas/SortCriteria'
+      title: BaseCriteria
+    SortCriteria:
+      properties:
+        sortField:
+          title: sortField
+          type: string
+        sortAscending:
+          title: sortAscending
+          type: boolean
+      title: SortCriteria
+      type: object
