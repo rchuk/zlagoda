@@ -26,12 +26,12 @@ paths:
         - employee
       summary: Get list of employees
       operationId: getEmployeeList
-      parameters:
-        - in: query
-          required: false
-          name: criteria
-          schema:
-            $ref: '#/components/schemas/EmployeeCriteria'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmployeeCriteria'
       responses:
         200:
           description: List of employees
@@ -128,12 +128,12 @@ paths:
         - employee
       summary: Count employees
       operationId: countEmployee
-      parameters:
-        - in: query
-          required: false
-          name: criteria
-          schema:
-            $ref: '#/components/schemas/EmployeeCriteria'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmployeeCriteria'
       responses:
         200:
           description: Number of employees
@@ -162,12 +162,12 @@ paths:
         - product-category
       summary: Get list of product categories
       operationId: getProductCategoryList
-      parameters:
-        - in: query
-          required: false
-          name: criteria
-          schema:
-            $ref: '#/components/schemas/ProductCategoryCriteria'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductCategoryCriteria'
       responses:
         200:
           description: List of product categories
@@ -278,12 +278,12 @@ paths:
         - product-archetype
       summary: Get list of product archetypes
       operationId: getProductArchetypeList
-      parameters:
-        - in: query
-          required: false
-          name: criteria
-          schema:
-            $ref: '#/components/schemas/ProductArchetypeCriteria'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductArchetypeCriteria'
       responses:
         200:
           description: List of product archetypes
@@ -394,12 +394,12 @@ paths:
         - product
       summary: Get list of products
       operationId: getProductList
-      parameters:
-        - in: query
-          required: false
-          name: criteria
-          schema:
-            $ref: '#/components/schemas/ProductCriteria'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductCriteria'
       responses:
         200:
           description: List of products
@@ -496,12 +496,12 @@ paths:
         - product
       summary: Count products
       operationId: countProduct
-      parameters:
-        - in: query
-          required: false
-          name: criteria
-          schema:
-            $ref: '#/components/schemas/ProductCriteria'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductCriteria'
       responses:
         200:
           description: Number of products
@@ -516,12 +516,12 @@ paths:
         - receipt
       summary: Get list of receipts
       operationId: getReceiptList
-      parameters:
-        - in: query
-          required: false
-          name: criteria
-          schema:
-            $ref: '#/components/schemas/ReceiptCriteria'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReceiptCriteria'
       responses:
         200:
           description: List of receipts
@@ -594,12 +594,12 @@ paths:
         - receipt
       summary: Count receipts
       operationId: countReceipt
-      parameters:
-        - in: query
-          required: false
-          name: criteria
-          schema:
-            $ref: '#/components/schemas/ReceiptCriteria'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReceiptCriteria'
       responses:
         200:
           description: Number of receipts
@@ -614,12 +614,12 @@ paths:
         - customer-card
       summary: Get list of customer cards
       operationId: getCustomerCardList
-      parameters:
-        - in: query
-          required: false
-          name: criteria
-          schema:
-            $ref: '#/components/schemas/CustomerCardCriteria'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerCardCriteria'
       responses:
         200:
           description: List of customer cards
@@ -716,12 +716,12 @@ paths:
         - customer-card
       summary: Count customer cards
       operationId: countCustomerCard
-      parameters:
-        - in: query
-          required: false
-          name: criteria
-          schema:
-            $ref: '#/components/schemas/CustomerCardCriteria'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerCardCriteria'
       responses:
         200:
           description: Number of customer cards

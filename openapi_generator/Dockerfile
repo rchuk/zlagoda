@@ -1,6 +1,10 @@
 FROM openapitools/openapi-generator-cli
 
-ADD script.sh /usr/local/bin/script.sh
-RUN chmod 777 /usr/local/bin/script.sh
-
-CMD /usr/local/bin/script.sh
+CMD /usr/local/bin/docker-entrypoint.sh generate \
+        -i /in/api/_index.yaml \
+        -g typescript-fetch \
+        -o /out/web_src/generated ; \
+    /usr/local/bin/docker-entrypoint.sh generate \
+        -i /in/api/_index.yaml \
+        -g python-fastapi \
+        -o /out/src
