@@ -8,18 +8,12 @@ from openapi_server.models.employee_view import EmployeeView
 
 
 class EmployeeApi(BaseEmployeeApi):
-    def count_employee(
-        self,
-        employee_criteria: EmployeeCriteria,
-    ) -> int:
-        return 666 # Test
-
-
     def create_employee(
         self,
         employee_view: EmployeeView,
     ) -> int:
-        raise NotImplementedError()
+        return 666
+        # raise NotImplementedError()
 
 
     def delete_employee(
