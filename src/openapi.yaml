@@ -33,9 +33,7 @@ paths:
           content:
             application/json:
               schema:
-                items:
-                  $ref: '#/components/schemas/Employee'
-                type: array
+                $ref: '#/components/schemas/EmployeeListResponse'
           description: List of employees
       summary: Get list of employees
       tags:
@@ -125,25 +123,6 @@ paths:
       summary: Update existing employee
       tags:
       - employee
-  /api/employee/count:
-    get:
-      operationId: countEmployee
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/EmployeeCriteria'
-        required: false
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                type: integer
-          description: Number of employees
-      summary: Count employees
-      tags:
-      - employee
   /api/employee/me:
     get:
       operationId: getEmployeeMe
@@ -171,9 +150,7 @@ paths:
           content:
             application/json:
               schema:
-                items:
-                  $ref: '#/components/schemas/ProductCategory'
-                type: array
+                $ref: '#/components/schemas/ProductCategoryListResponse'
           description: List of product categories
       summary: Get list of product categories
       tags:
@@ -263,19 +240,6 @@ paths:
       summary: Update existing product category
       tags:
       - product-category
-  /api/product-category/count:
-    get:
-      operationId: countProductCategory
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                type: integer
-          description: Number of product categories
-      summary: Count product categories
-      tags:
-      - product-category
   /api/product-archetype:
     get:
       operationId: getProductArchetypeList
@@ -290,9 +254,7 @@ paths:
           content:
             application/json:
               schema:
-                items:
-                  $ref: '#/components/schemas/ProductArchetype'
-                type: array
+                $ref: '#/components/schemas/ProductArchetypeListResponse'
           description: List of product archetypes
       summary: Get list of product archetypes
       tags:
@@ -382,19 +344,6 @@ paths:
       summary: Update existing product archetype
       tags:
       - product-archetype
-  /api/product-archetype/count:
-    get:
-      operationId: countProductArchetype
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                type: integer
-          description: Number of product archetypes
-      summary: Count product archetypes
-      tags:
-      - product-archetype
   /api/product:
     get:
       operationId: getProductList
@@ -409,9 +358,7 @@ paths:
           content:
             application/json:
               schema:
-                items:
-                  $ref: '#/components/schemas/Product'
-                type: array
+                $ref: '#/components/schemas/ProductListResponse'
           description: List of products
       summary: Get list of products
       tags:
@@ -501,25 +448,6 @@ paths:
       summary: Update existing product
       tags:
       - product
-  /api/product/count:
-    get:
-      operationId: countProduct
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ProductCriteria'
-        required: false
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                type: integer
-          description: Number of products
-      summary: Count products
-      tags:
-      - product
   /api/receipt:
     get:
       operationId: getReceiptList
@@ -534,9 +462,7 @@ paths:
           content:
             application/json:
               schema:
-                items:
-                  $ref: '#/components/schemas/Receipt'
-                type: array
+                $ref: '#/components/schemas/ReceiptListResponse'
           description: List of receipts
       summary: Get list of receipts
       tags:
@@ -600,25 +526,6 @@ paths:
       summary: Get receipt by id
       tags:
       - receipt
-  /api/receipt/count:
-    get:
-      operationId: countReceipt
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ReceiptCriteria'
-        required: false
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                type: integer
-          description: Number of receipts
-      summary: Count receipts
-      tags:
-      - receipt
   /api/customer-card:
     get:
       operationId: getCustomerCardList
@@ -633,9 +540,7 @@ paths:
           content:
             application/json:
               schema:
-                items:
-                  $ref: '#/components/schemas/CustomerCard'
-                type: array
+                $ref: '#/components/schemas/CustomerCard'
           description: List of customer cards
       summary: Get list of customer cards
       tags:
@@ -725,25 +630,6 @@ paths:
       summary: Update existing customer card
       tags:
       - customer-card
-  /api/customer-card/count:
-    get:
-      operationId: countCustomerCard
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CustomerCardCriteria'
-        required: false
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                type: integer
-          description: Number of customer cards
-      summary: Count customer cards
-      tags:
-      - customer-card
 components:
   schemas:
     EmployeeView:
@@ -826,8 +712,8 @@ components:
         city: city
         street: street
         workStartDate: 2000-01-23
-        id: 0
-        salary: 6
+        id: 6
+        salary: 1
         birthDate: 2000-01-23
       title: Employee
     EmployeeRole:
@@ -858,7 +744,7 @@ components:
       - $ref: '#/components/schemas/ProductCategoryView'
       example:
         name: name
-        id: 0
+        id: 6
       title: ProductCategory
     ProductArchetypeView:
       example:
@@ -898,8 +784,8 @@ components:
       example:
         name: name
         description: description
-        id: 0
-        category: 6
+        id: 6
+        category: 1
         manufacturer: manufacturer
       title: ProductArchetype
     ProductView:
@@ -941,12 +827,12 @@ components:
         type: object
       - $ref: '#/components/schemas/ProductView'
       example:
-        archetype: 6
+        archetype: 1
         quantity: 5
         hasDiscount: true
-        price: 1
+        price: 5
         upc: upc
-        id: 0
+        id: 6
       title: Product
     ReceiptItemView:
       example:
@@ -966,9 +852,9 @@ components:
       type: object
     ReceiptItem:
       example:
-        quantity: 7
-        price: 9
-        productArchetype: 2
+        quantity: 9
+        price: 3
+        productArchetype: 7
       properties:
         productArchetype:
           title: productArchetype
@@ -1010,17 +896,17 @@ components:
       example:
         dateTime: 2000-01-23T04:56:07.000+00:00
         totalPrice: 5
-        customerCardId: 1
-        vat: 5
-        cashierId: 6
-        id: 0
+        customerCardId: 5
+        vat: 2
+        cashierId: 1
+        id: 6
         items:
-        - quantity: 7
-          price: 9
-          productArchetype: 2
-        - quantity: 7
-          price: 9
-          productArchetype: 2
+        - quantity: 9
+          price: 3
+          productArchetype: 7
+        - quantity: 9
+          price: 3
+          productArchetype: 7
       properties:
         id:
           title: id
@@ -1117,6 +1003,184 @@ components:
         street: street
         id: 0
       title: CustomerCard
+    EmployeeListResponse:
+      example:
+        totalCount: 0
+        items:
+        - firstName: firstName
+          lastName: lastName
+          zipCode: zipCode
+          patronymic: patronymic
+          role: null
+          phoneNumber: phoneNumber
+          city: city
+          street: street
+          workStartDate: 2000-01-23
+          id: 6
+          salary: 1
+          birthDate: 2000-01-23
+        - firstName: firstName
+          lastName: lastName
+          zipCode: zipCode
+          patronymic: patronymic
+          role: null
+          phoneNumber: phoneNumber
+          city: city
+          street: street
+          workStartDate: 2000-01-23
+          id: 6
+          salary: 1
+          birthDate: 2000-01-23
+      properties:
+        totalCount:
+          title: totalCount
+          type: integer
+        items:
+          items:
+            $ref: '#/components/schemas/Employee'
+          title: items
+          type: array
+      required:
+      - items
+      - totalCount
+      title: EmployeeListResponse
+      type: object
+    ProductCategoryListResponse:
+      example:
+        totalCount: 0
+        items:
+        - name: name
+          id: 6
+        - name: name
+          id: 6
+      properties:
+        totalCount:
+          title: totalCount
+          type: integer
+        items:
+          items:
+            $ref: '#/components/schemas/ProductCategory'
+          title: items
+          type: array
+      required:
+      - items
+      - totalCount
+      title: ProductCategoryListResponse
+      type: object
+    ProductArchetypeListResponse:
+      example:
+        totalCount: 0
+        items:
+        - name: name
+          description: description
+          id: 6
+          category: 1
+          manufacturer: manufacturer
+        - name: name
+          description: description
+          id: 6
+          category: 1
+          manufacturer: manufacturer
+      properties:
+        totalCount:
+          title: totalCount
+          type: integer
+        items:
+          items:
+            $ref: '#/components/schemas/ProductArchetype'
+          title: items
+          type: array
+      required:
+      - items
+      - totalCount
+      title: ProductArchetypeListResponse
+      type: object
+    ProductListResponse:
+      example:
+        totalCount: 0
+        items:
+        - archetype: 1
+          quantity: 5
+          hasDiscount: true
+          price: 5
+          upc: upc
+          id: 6
+        - archetype: 1
+          quantity: 5
+          hasDiscount: true
+          price: 5
+          upc: upc
+          id: 6
+      properties:
+        totalCount:
+          title: totalCount
+          type: integer
+        items:
+          items:
+            $ref: '#/components/schemas/Product'
+          title: items
+          type: array
+      required:
+      - items
+      - totalCount
+      title: ProductListResponse
+      type: object
+    ReceiptListResponse:
+      example:
+        totalCount: 0
+        items:
+        - dateTime: 2000-01-23T04:56:07.000+00:00
+          totalPrice: 5
+          customerCardId: 5
+          vat: 2
+          cashierId: 1
+          id: 6
+          items:
+          - quantity: 9
+            price: 3
+            productArchetype: 7
+          - quantity: 9
+            price: 3
+            productArchetype: 7
+        - dateTime: 2000-01-23T04:56:07.000+00:00
+          totalPrice: 5
+          customerCardId: 5
+          vat: 2
+          cashierId: 1
+          id: 6
+          items:
+          - quantity: 9
+            price: 3
+            productArchetype: 7
+          - quantity: 9
+            price: 3
+            productArchetype: 7
+      properties:
+        totalCount:
+          title: totalCount
+          type: integer
+        items:
+          items:
+            $ref: '#/components/schemas/Receipt'
+          title: items
+          type: array
+      required:
+      - items
+      - totalCount
+      title: ReceiptListResponse
+      type: object
+    CustomerCardListResponse:
+      properties:
+        totalCount:
+          type: integer
+        items:
+          items:
+            $ref: '#/components/schemas/CustomerCard'
+          type: array
+      required:
+      - items
+      - totalCount
+      type: object
     EmployeeCriteria:
       allOf:
       - $ref: '#/components/schemas/BaseCriteria'

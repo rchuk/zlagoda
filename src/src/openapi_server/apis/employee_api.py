@@ -24,6 +24,7 @@ from fastapi import (  # noqa: F401
 from openapi_server.models.extra_models import TokenModel  # noqa: F401
 from openapi_server.models.employee import Employee
 from openapi_server.models.employee_criteria import EmployeeCriteria
+from openapi_server.models.employee_list_response import EmployeeListResponse
 from openapi_server.models.employee_view import EmployeeView
 
 
@@ -32,21 +33,6 @@ router = APIRouter()
 ns_pkg = openapi_server.impl
 for _, name, _ in pkgutil.iter_modules(ns_pkg.__path__, ns_pkg.__name__ + "."):
     importlib.import_module(name)
-
-
-@router.get(
-    "/api/employee/count",
-    responses={
-        200: {"model": int, "description": "Number of employees"},
-    },
-    tags=["employee"],
-    summary="Count employees",
-    response_model_by_alias=True,
-)
-async def count_employee(
-    employee_criteria: EmployeeCriteria = Body(None, description=""),
-) -> int:
-    ...
 
 
 @router.put(
@@ -97,7 +83,7 @@ async def get_employee_by_id(
 @router.get(
     "/api/employee",
     responses={
-        200: {"model": List[Employee], "description": "List of employees"},
+        200: {"model": EmployeeListResponse, "description": "List of employees"},
     },
     tags=["employee"],
     summary="Get list of employees",
@@ -105,7 +91,7 @@ async def get_employee_by_id(
 )
 async def get_employee_list(
     employee_criteria: EmployeeCriteria = Body(None, description=""),
-) -> List[Employee]:
+) -> EmployeeListResponse:
     ...
 
 

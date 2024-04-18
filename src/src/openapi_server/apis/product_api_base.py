@@ -4,6 +4,7 @@ from typing import ClassVar, Dict, List, Tuple  # noqa: F401
 
 from openapi_server.models.product import Product
 from openapi_server.models.product_criteria import ProductCriteria
+from openapi_server.models.product_list_response import ProductListResponse
 from openapi_server.models.product_view import ProductView
 
 
@@ -13,13 +14,6 @@ class BaseProductApi:
     def __init_subclass__(cls, **kwargs):
         super().__init_subclass__(**kwargs)
         BaseProductApi.subclasses = BaseProductApi.subclasses + (cls,)
-    def count_product(
-        self,
-        product_criteria: ProductCriteria,
-    ) -> int:
-        ...
-
-
     def create_product(
         self,
         product_view: ProductView,
@@ -44,7 +38,7 @@ class BaseProductApi:
     def get_product_list(
         self,
         product_criteria: ProductCriteria,
-    ) -> List[Product]:
+    ) -> ProductListResponse:
         ...
 
 

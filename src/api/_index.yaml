@@ -38,9 +38,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Employee'
+                $ref: '#/components/schemas/EmployeeListResponse'
     put:
       tags:
         - employee
@@ -122,26 +120,6 @@ paths:
               schema:
                 type: boolean
 
-  /api/employee/count:
-    get:
-      tags:
-        - employee
-      summary: Count employees
-      operationId: countEmployee
-      requestBody:
-        required: false
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/EmployeeCriteria'
-      responses:
-        200:
-          description: Number of employees
-          content:
-            application/json:
-              schema:
-                type: integer
-
   /api/employee/me:
     get:
       tags:
@@ -174,9 +152,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/ProductCategory'
+                $ref: '#/components/schemas/ProductCategoryListResponse'
     put:
       tags:
         - product-category
@@ -258,20 +234,6 @@ paths:
               schema:
                 type: boolean
 
-  /api/product-category/count:
-    get:
-      tags:
-        - product-category
-      summary: Count product categories
-      operationId: countProductCategory
-      responses:
-        200:
-          description: Number of product categories
-          content:
-            application/json:
-              schema:
-                type: integer
-
   /api/product-archetype:
     get:
       tags:
@@ -290,9 +252,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/ProductArchetype'
+                $ref: '#/components/schemas/ProductArchetypeListResponse'
     put:
       tags:
         - product-archetype
@@ -374,20 +334,6 @@ paths:
               schema:
                 type: boolean
 
-  /api/product-archetype/count:
-    get:
-      tags:
-        - product-archetype
-      summary: Count product archetypes
-      operationId: countProductArchetype
-      responses:
-        200:
-          description: Number of product archetypes
-          content:
-            application/json:
-              schema:
-                type: integer
-
   /api/product:
     get:
       tags:
@@ -406,9 +352,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Product'
+                $ref: '#/components/schemas/ProductListResponse'
     put:
       tags:
         - product
@@ -490,26 +434,6 @@ paths:
               schema:
                 type: boolean
 
-  /api/product/count:
-    get:
-      tags:
-        - product
-      summary: Count products
-      operationId: countProduct
-      requestBody:
-        required: false
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ProductCriteria'
-      responses:
-        200:
-          description: Number of products
-          content:
-            application/json:
-              schema:
-                type: integer
-
   /api/receipt:
     get:
       tags:
@@ -528,9 +452,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Receipt'
+                $ref: '#/components/schemas/ReceiptListResponse'
     put:
       tags:
         - receipt
@@ -588,26 +510,6 @@ paths:
               schema:
                 type: boolean
 
-  /api/receipt/count:
-    get:
-      tags:
-        - receipt
-      summary: Count receipts
-      operationId: countReceipt
-      requestBody:
-        required: false
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ReceiptCriteria'
-      responses:
-        200:
-          description: Number of receipts
-          content:
-            application/json:
-              schema:
-                type: integer
-
   /api/customer-card:
     get:
       tags:
@@ -626,9 +528,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/CustomerCard'
+                $ref: '#/components/schemas/CustomerCard'
     put:
       tags:
         - customer-card
@@ -709,26 +609,6 @@ paths:
             application/json:
               schema:
                 type: boolean
-
-  /api/customer-card/count:
-    get:
-      tags:
-        - customer-card
-      summary: Count customer cards
-      operationId: countCustomerCard
-      requestBody:
-        required: false
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CustomerCardCriteria'
-      responses:
-        200:
-          description: Number of customer cards
-          content:
-            application/json:
-              schema:
-                type: integer
 
 components:
   schemas:
@@ -961,6 +841,84 @@ components:
           required:
             - id
         - $ref: '#/components/schemas/CustomerCardView'
+
+    EmployeeListResponse:
+      type: object
+      properties:
+        totalCount:
+          type: integer
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Employee'
+      required:
+        - totalCount
+        - items
+
+    ProductCategoryListResponse:
+      type: object
+      properties:
+        totalCount:
+          type: integer
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductCategory'
+      required:
+        - totalCount
+        - items
+
+    ProductArchetypeListResponse:
+      type: object
+      properties:
+        totalCount:
+          type: integer
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductArchetype'
+      required:
+        - totalCount
+        - items
+
+    ProductListResponse:
+      type: object
+      properties:
+        totalCount:
+          type: integer
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Product'
+      required:
+        - totalCount
+        - items
+
+    ReceiptListResponse:
+      type: object
+      properties:
+        totalCount:
+          type: integer
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Receipt'
+      required:
+        - totalCount
+        - items
+
+    CustomerCardListResponse:
+      type: object
+      properties:
+        totalCount:
+          type: integer
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomerCard'
+      required:
+        - totalCount
+        - items
 
     EmployeeCriteria:
       allOf:

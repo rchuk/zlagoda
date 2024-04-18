@@ -13,13 +13,6 @@ class BaseCustomerCardApi:
     def __init_subclass__(cls, **kwargs):
         super().__init_subclass__(**kwargs)
         BaseCustomerCardApi.subclasses = BaseCustomerCardApi.subclasses + (cls,)
-    def count_customer_card(
-        self,
-        customer_card_criteria: CustomerCardCriteria,
-    ) -> int:
-        ...
-
-
     def create_customer_card(
         self,
         customer_card_view: CustomerCardView,
@@ -44,7 +37,7 @@ class BaseCustomerCardApi:
     def get_customer_card_list(
         self,
         customer_card_criteria: CustomerCardCriteria,
-    ) -> List[CustomerCard]:
+    ) -> CustomerCard:
         ...
 
 

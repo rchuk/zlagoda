@@ -34,21 +34,6 @@ for _, name, _ in pkgutil.iter_modules(ns_pkg.__path__, ns_pkg.__name__ + "."):
     importlib.import_module(name)
 
 
-@router.get(
-    "/api/customer-card/count",
-    responses={
-        200: {"model": int, "description": "Number of customer cards"},
-    },
-    tags=["customer-card"],
-    summary="Count customer cards",
-    response_model_by_alias=True,
-)
-async def count_customer_card(
-    customer_card_criteria: CustomerCardCriteria = Body(None, description=""),
-) -> int:
-    ...
-
-
 @router.put(
     "/api/customer-card",
     responses={
@@ -97,7 +82,7 @@ async def get_customer_card_by_id(
 @router.get(
     "/api/customer-card",
     responses={
-        200: {"model": List[CustomerCard], "description": "List of customer cards"},
+        200: {"model": CustomerCard, "description": "List of customer cards"},
     },
     tags=["customer-card"],
     summary="Get list of customer cards",
@@ -105,7 +90,7 @@ async def get_customer_card_by_id(
 )
 async def get_customer_card_list(
     customer_card_criteria: CustomerCardCriteria = Body(None, description=""),
-) -> List[CustomerCard]:
+) -> CustomerCard:
     ...
 
 
