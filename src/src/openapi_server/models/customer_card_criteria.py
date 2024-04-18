@@ -33,12 +33,13 @@ class CustomerCardCriteria(BaseModel):
     """ # noqa: E501
     offset: Optional[StrictInt] = None
     limit: Optional[StrictInt] = None
+    ids: Optional[List[StrictInt]] = None
     sort_field: Optional[StrictStr] = Field(default=None, alias="sortField")
     sort_ascending: Optional[StrictBool] = Field(default=None, alias="sortAscending")
     last_name: Optional[StrictStr] = Field(default=None, alias="lastName")
     phone_number: Optional[StrictStr] = Field(default=None, alias="phoneNumber")
     query: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["offset", "limit", "sortField", "sortAscending", "lastName", "phoneNumber", "query"]
+    __properties: ClassVar[List[str]] = ["offset", "limit", "ids", "sortField", "sortAscending", "lastName", "phoneNumber", "query"]
 
     model_config = {
         "populate_by_name": True,
@@ -91,6 +92,7 @@ class CustomerCardCriteria(BaseModel):
         _obj = cls.model_validate({
             "offset": obj.get("offset"),
             "limit": obj.get("limit"),
+            "ids": obj.get("ids"),
             "sortField": obj.get("sortField"),
             "sortAscending": obj.get("sortAscending"),
             "lastName": obj.get("lastName"),

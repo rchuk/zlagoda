@@ -34,12 +34,13 @@ class ReceiptCriteria(BaseModel):
     """ # noqa: E501
     offset: Optional[StrictInt] = None
     limit: Optional[StrictInt] = None
+    ids: Optional[List[StrictInt]] = None
     sort_field: Optional[StrictStr] = Field(default=None, alias="sortField")
     sort_ascending: Optional[StrictBool] = Field(default=None, alias="sortAscending")
     cashier_ids: Optional[List[StrictInt]] = Field(default=None, alias="cashierIds")
     start_date: Optional[datetime] = Field(default=None, alias="startDate")
     end_date: Optional[datetime] = Field(default=None, alias="endDate")
-    __properties: ClassVar[List[str]] = ["offset", "limit", "sortField", "sortAscending", "cashierIds", "startDate", "endDate"]
+    __properties: ClassVar[List[str]] = ["offset", "limit", "ids", "sortField", "sortAscending", "cashierIds", "startDate", "endDate"]
 
     model_config = {
         "populate_by_name": True,
@@ -92,6 +93,7 @@ class ReceiptCriteria(BaseModel):
         _obj = cls.model_validate({
             "offset": obj.get("offset"),
             "limit": obj.get("limit"),
+            "ids": obj.get("ids"),
             "sortField": obj.get("sortField"),
             "sortAscending": obj.get("sortAscending"),
             "cashierIds": obj.get("cashierIds"),

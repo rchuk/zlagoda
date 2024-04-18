@@ -35,7 +35,8 @@ class BaseCriteria(BaseModel):
     sort_ascending: Optional[StrictBool] = Field(default=None, alias="sortAscending")
     offset: Optional[StrictInt] = None
     limit: Optional[StrictInt] = None
-    __properties: ClassVar[List[str]] = ["sortField", "sortAscending", "offset", "limit"]
+    ids: Optional[List[StrictInt]] = None
+    __properties: ClassVar[List[str]] = ["sortField", "sortAscending", "offset", "limit", "ids"]
 
     model_config = {
         "populate_by_name": True,
@@ -89,7 +90,8 @@ class BaseCriteria(BaseModel):
             "sortField": obj.get("sortField"),
             "sortAscending": obj.get("sortAscending"),
             "offset": obj.get("offset"),
-            "limit": obj.get("limit")
+            "limit": obj.get("limit"),
+            "ids": obj.get("ids")
         })
         return _obj
 

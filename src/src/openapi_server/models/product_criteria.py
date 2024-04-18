@@ -33,6 +33,7 @@ class ProductCriteria(BaseModel):
     """ # noqa: E501
     offset: Optional[StrictInt] = None
     limit: Optional[StrictInt] = None
+    ids: Optional[List[StrictInt]] = None
     sort_field: Optional[StrictStr] = Field(default=None, alias="sortField")
     sort_ascending: Optional[StrictBool] = Field(default=None, alias="sortAscending")
     category_ids: Optional[List[StrictInt]] = Field(default=None, alias="categoryIds")
@@ -40,7 +41,7 @@ class ProductCriteria(BaseModel):
     name: Optional[StrictStr] = None
     has_discount: Optional[StrictBool] = Field(default=None, alias="hasDiscount")
     query: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["offset", "limit", "sortField", "sortAscending", "categoryIds", "upc", "name", "hasDiscount", "query"]
+    __properties: ClassVar[List[str]] = ["offset", "limit", "ids", "sortField", "sortAscending", "categoryIds", "upc", "name", "hasDiscount", "query"]
 
     model_config = {
         "populate_by_name": True,
@@ -93,6 +94,7 @@ class ProductCriteria(BaseModel):
         _obj = cls.model_validate({
             "offset": obj.get("offset"),
             "limit": obj.get("limit"),
+            "ids": obj.get("ids"),
             "sortField": obj.get("sortField"),
             "sortAscending": obj.get("sortAscending"),
             "categoryIds": obj.get("categoryIds"),

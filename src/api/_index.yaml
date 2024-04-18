@@ -1024,6 +1024,10 @@ components:
               type: integer
             limit:
               type: integer
+            ids:
+              type: array
+              items:
+                type: integer
         - $ref: '#/components/schemas/SortCriteria'
 
     SortCriteria:

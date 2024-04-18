@@ -33,9 +33,10 @@ class ProductArchetypeCriteria(BaseModel):
     """ # noqa: E501
     offset: Optional[StrictInt] = None
     limit: Optional[StrictInt] = None
+    ids: Optional[List[StrictInt]] = None
     sort_field: Optional[StrictStr] = Field(default=None, alias="sortField")
     sort_ascending: Optional[StrictBool] = Field(default=None, alias="sortAscending")
-    __properties: ClassVar[List[str]] = ["offset", "limit", "sortField", "sortAscending"]
+    __properties: ClassVar[List[str]] = ["offset", "limit", "ids", "sortField", "sortAscending"]
 
     model_config = {
         "populate_by_name": True,
@@ -88,6 +89,7 @@ class ProductArchetypeCriteria(BaseModel):
         _obj = cls.model_validate({
             "offset": obj.get("offset"),
             "limit": obj.get("limit"),
+            "ids": obj.get("ids"),
             "sortField": obj.get("sortField"),
             "sortAscending": obj.get("sortAscending")
         })
