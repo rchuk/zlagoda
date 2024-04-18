@@ -47,7 +47,8 @@ for _, name, _ in pkgutil.iter_modules(ns_pkg.__path__, ns_pkg.__name__ + "."):
 async def create_receipt(
     receipt_view: ReceiptView = Body(None, description=""),
 ) -> int:
-    ...
+    """Create a new receipt"""
+    return BaseReceiptApi.subclasses[0]().create_receipt(receipt_view)
 
 
 @router.delete(
@@ -62,7 +63,8 @@ async def create_receipt(
 async def delete_receipt(
     id: int = Path(..., description=""),
 ) -> bool:
-    ...
+    """Delete a receipt by id"""
+    return BaseReceiptApi.subclasses[0]().delete_receipt(id)
 
 
 @router.get(
@@ -77,7 +79,8 @@ async def delete_receipt(
 async def get_receipt_by_id(
     id: int = Path(..., description=""),
 ) -> Receipt:
-    ...
+    """Get receipt by id"""
+    return BaseReceiptApi.subclasses[0]().get_receipt_by_id(id)
 
 
 @router.get(
@@ -92,4 +95,5 @@ async def get_receipt_by_id(
 async def get_receipt_list(
     receipt_criteria: ReceiptCriteria = Body(None, description=""),
 ) -> ReceiptListResponse:
-    ...
+    """Get list of receipts"""
+    return BaseReceiptApi.subclasses[0]().get_receipt_list(receipt_criteria)

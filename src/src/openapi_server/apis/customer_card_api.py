@@ -46,7 +46,8 @@ for _, name, _ in pkgutil.iter_modules(ns_pkg.__path__, ns_pkg.__name__ + "."):
 async def create_customer_card(
     customer_card_view: CustomerCardView = Body(None, description=""),
 ) -> int:
-    ...
+    """Create a new customer card"""
+    return BaseCustomerCardApi.subclasses[0]().create_customer_card(customer_card_view)
 
 
 @router.delete(
@@ -61,7 +62,8 @@ async def create_customer_card(
 async def delete_customer_card(
     id: int = Path(..., description=""),
 ) -> bool:
-    ...
+    """Delete a customer card by id"""
+    return BaseCustomerCardApi.subclasses[0]().delete_customer_card(id)
 
 
 @router.get(
@@ -76,7 +78,8 @@ async def delete_customer_card(
 async def get_customer_card_by_id(
     id: int = Path(..., description=""),
 ) -> CustomerCard:
-    ...
+    """Get customer card by id"""
+    return BaseCustomerCardApi.subclasses[0]().get_customer_card_by_id(id)
 
 
 @router.get(
@@ -91,7 +94,8 @@ async def get_customer_card_by_id(
 async def get_customer_card_list(
     customer_card_criteria: CustomerCardCriteria = Body(None, description=""),
 ) -> CustomerCard:
-    ...
+    """Get list of customer cards"""
+    return BaseCustomerCardApi.subclasses[0]().get_customer_card_list(customer_card_criteria)
 
 
 @router.post(
@@ -107,4 +111,5 @@ async def update_customer_card(
     id: int = Path(..., description=""),
     customer_card_view: CustomerCardView = Body(None, description=""),
 ) -> bool:
-    ...
+    """Update existing customer card"""
+    return BaseCustomerCardApi.subclasses[0]().update_customer_card(id, customer_card_view)

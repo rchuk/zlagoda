@@ -47,7 +47,8 @@ for _, name, _ in pkgutil.iter_modules(ns_pkg.__path__, ns_pkg.__name__ + "."):
 async def create_employee(
     employee_view: EmployeeView = Body(None, description=""),
 ) -> int:
-    ...
+    """Create a new employee"""
+    return BaseEmployeeApi.subclasses[0]().create_employee(employee_view)
 
 
 @router.delete(
@@ -62,7 +63,8 @@ async def create_employee(
 async def delete_employee(
     id: int = Path(..., description=""),
 ) -> bool:
-    ...
+    """Delete an employee by id"""
+    return BaseEmployeeApi.subclasses[0]().delete_employee(id)
 
 
 @router.get(
@@ -77,7 +79,8 @@ async def delete_employee(
 async def get_employee_by_id(
     id: int = Path(..., description=""),
 ) -> Employee:
-    ...
+    """Get employee by id"""
+    return BaseEmployeeApi.subclasses[0]().get_employee_by_id(id)
 
 
 @router.get(
@@ -92,7 +95,8 @@ async def get_employee_by_id(
 async def get_employee_list(
     employee_criteria: EmployeeCriteria = Body(None, description=""),
 ) -> EmployeeListResponse:
-    ...
+    """Get list of employees"""
+    return BaseEmployeeApi.subclasses[0]().get_employee_list(employee_criteria)
 
 
 @router.get(
@@ -106,7 +110,8 @@ async def get_employee_list(
 )
 async def get_employee_me(
 ) -> int:
-    ...
+    """Get employee id of self"""
+    return BaseEmployeeApi.subclasses[0]().get_employee_me()
 
 
 @router.post(
@@ -122,4 +127,5 @@ async def update_employee(
     id: int = Path(..., description=""),
     employee_view: EmployeeView = Body(None, description=""),
 ) -> bool:
-    ...
+    """Update existing employee"""
+    return BaseEmployeeApi.subclasses[0]().update_employee(id, employee_view)

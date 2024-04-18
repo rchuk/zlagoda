@@ -18,6 +18,7 @@ class BaseProductApi:
         self,
         product_view: ProductView,
     ) -> int:
+        """Create a new product"""
         ...
 
 
@@ -25,6 +26,7 @@ class BaseProductApi:
         self,
         id: int,
     ) -> bool:
+        """Delete a product by id"""
         ...
 
 
@@ -32,6 +34,7 @@ class BaseProductApi:
         self,
         id: int,
     ) -> Product:
+        """Get product by id"""
         ...
 
 
@@ -39,6 +42,7 @@ class BaseProductApi:
         self,
         product_criteria: ProductCriteria,
     ) -> ProductListResponse:
+        """Get list of products"""
         ...
 
 
@@ -47,4 +51,5 @@ class BaseProductApi:
         id: int,
         product_view: ProductView,
     ) -> bool:
+        """Update existing product"""
         ...

@@ -47,7 +47,8 @@ for _, name, _ in pkgutil.iter_modules(ns_pkg.__path__, ns_pkg.__name__ + "."):
 async def create_product_archetype(
     product_archetype_view: ProductArchetypeView = Body(None, description=""),
 ) -> int:
-    ...
+    """Create a new product archetype"""
+    return BaseProductArchetypeApi.subclasses[0]().create_product_archetype(product_archetype_view)
 
 
 @router.delete(
@@ -62,7 +63,8 @@ async def create_product_archetype(
 async def delete_product_archetype(
     id: int = Path(..., description=""),
 ) -> bool:
-    ...
+    """Delete a product archetype by id"""
+    return BaseProductArchetypeApi.subclasses[0]().delete_product_archetype(id)
 
 
 @router.get(
@@ -77,7 +79,8 @@ async def delete_product_archetype(
 async def get_product_archetype_by_id(
     id: int = Path(..., description=""),
 ) -> ProductArchetype:
-    ...
+    """Get product archetype by id"""
+    return BaseProductArchetypeApi.subclasses[0]().get_product_archetype_by_id(id)
 
 
 @router.get(
@@ -92,7 +95,8 @@ async def get_product_archetype_by_id(
 async def get_product_archetype_list(
     product_archetype_criteria: ProductArchetypeCriteria = Body(None, description=""),
 ) -> ProductArchetypeListResponse:
-    ...
+    """Get list of product archetypes"""
+    return BaseProductArchetypeApi.subclasses[0]().get_product_archetype_list(product_archetype_criteria)
 
 
 @router.post(
@@ -108,4 +112,5 @@ async def update_product_archetype(
     id: int = Path(..., description=""),
     product_archetype_view: ProductArchetypeView = Body(None, description=""),
 ) -> bool:
-    ...
+    """Update existing product archetype"""
+    return BaseProductArchetypeApi.subclasses[0]().update_product_archetype(id, product_archetype_view)

@@ -18,6 +18,7 @@ class BaseProductCategoryApi:
         self,
         product_category_view: ProductCategoryView,
     ) -> int:
+        """Create a new product category"""
         ...
 
 
@@ -25,6 +26,7 @@ class BaseProductCategoryApi:
         self,
         id: int,
     ) -> bool:
+        """Delete a product category by id"""
         ...
 
 
@@ -32,6 +34,7 @@ class BaseProductCategoryApi:
         self,
         id: int,
     ) -> ProductCategory:
+        """Get product category by id"""
         ...
 
 
@@ -39,6 +42,7 @@ class BaseProductCategoryApi:
         self,
         product_category_criteria: ProductCategoryCriteria,
     ) -> ProductCategoryListResponse:
+        """Get list of product categories"""
         ...
 
 
@@ -47,4 +51,5 @@ class BaseProductCategoryApi:
         id: int,
         product_category_view: ProductCategoryView,
     ) -> bool:
+        """Update existing product category"""
         ...

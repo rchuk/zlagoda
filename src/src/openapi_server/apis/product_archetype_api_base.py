@@ -18,6 +18,7 @@ class BaseProductArchetypeApi:
         self,
         product_archetype_view: ProductArchetypeView,
     ) -> int:
+        """Create a new product archetype"""
         ...
 
 
@@ -25,6 +26,7 @@ class BaseProductArchetypeApi:
         self,
         id: int,
     ) -> bool:
+        """Delete a product archetype by id"""
         ...
 
 
@@ -32,6 +34,7 @@ class BaseProductArchetypeApi:
         self,
         id: int,
     ) -> ProductArchetype:
+        """Get product archetype by id"""
         ...
 
 
@@ -39,6 +42,7 @@ class BaseProductArchetypeApi:
         self,
         product_archetype_criteria: ProductArchetypeCriteria,
     ) -> ProductArchetypeListResponse:
+        """Get list of product archetypes"""
         ...
 
 
@@ -47,4 +51,5 @@ class BaseProductArchetypeApi:
         id: int,
         product_archetype_view: ProductArchetypeView,
     ) -> bool:
+        """Update existing product archetype"""
         ...

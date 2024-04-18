@@ -47,7 +47,8 @@ for _, name, _ in pkgutil.iter_modules(ns_pkg.__path__, ns_pkg.__name__ + "."):
 async def create_product_category(
     product_category_view: ProductCategoryView = Body(None, description=""),
 ) -> int:
-    ...
+    """Create a new product category"""
+    return BaseProductCategoryApi.subclasses[0]().create_product_category(product_category_view)
 
 
 @router.delete(
@@ -62,7 +63,8 @@ async def create_product_category(
 async def delete_product_category(
     id: int = Path(..., description=""),
 ) -> bool:
-    ...
+    """Delete a product category by id"""
+    return BaseProductCategoryApi.subclasses[0]().delete_product_category(id)
 
 
 @router.get(
@@ -77,7 +79,8 @@ async def delete_product_category(
 async def get_product_category_by_id(
     id: int = Path(..., description=""),
 ) -> ProductCategory:
-    ...
+    """Get product category by id"""
+    return BaseProductCategoryApi.subclasses[0]().get_product_category_by_id(id)
 
 
 @router.get(
@@ -92,7 +95,8 @@ async def get_product_category_by_id(
 async def get_product_category_list(
     product_category_criteria: ProductCategoryCriteria = Body(None, description=""),
 ) -> ProductCategoryListResponse:
-    ...
+    """Get list of product categories"""
+    return BaseProductCategoryApi.subclasses[0]().get_product_category_list(product_category_criteria)
 
 
 @router.post(
@@ -108,4 +112,5 @@ async def update_product_category(
     id: int = Path(..., description=""),
     product_category_view: ProductCategoryView = Body(None, description=""),
 ) -> bool:
-    ...
+    """Update existing product category"""
+    return BaseProductCategoryApi.subclasses[0]().update_product_category(id, product_category_view)

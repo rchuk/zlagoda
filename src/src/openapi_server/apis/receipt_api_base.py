@@ -18,6 +18,7 @@ class BaseReceiptApi:
         self,
         receipt_view: ReceiptView,
     ) -> int:
+        """Create a new receipt"""
         ...
 
 
@@ -25,6 +26,7 @@ class BaseReceiptApi:
         self,
         id: int,
     ) -> bool:
+        """Delete a receipt by id"""
         ...
 
 
@@ -32,6 +34,7 @@ class BaseReceiptApi:
         self,
         id: int,
     ) -> Receipt:
+        """Get receipt by id"""
         ...
 
 
@@ -39,4 +42,5 @@ class BaseReceiptApi:
         self,
         receipt_criteria: ReceiptCriteria,
     ) -> ReceiptListResponse:
+        """Get list of receipts"""
         ...

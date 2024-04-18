@@ -17,6 +17,7 @@ class BaseCustomerCardApi:
         self,
         customer_card_view: CustomerCardView,
     ) -> int:
+        """Create a new customer card"""
         ...
 
 
@@ -24,6 +25,7 @@ class BaseCustomerCardApi:
         self,
         id: int,
     ) -> bool:
+        """Delete a customer card by id"""
         ...
 
 
@@ -31,6 +33,7 @@ class BaseCustomerCardApi:
         self,
         id: int,
     ) -> CustomerCard:
+        """Get customer card by id"""
         ...
 
 
@@ -38,6 +41,7 @@ class BaseCustomerCardApi:
         self,
         customer_card_criteria: CustomerCardCriteria,
     ) -> CustomerCard:
+        """Get list of customer cards"""
         ...
 
 
@@ -46,4 +50,5 @@ class BaseCustomerCardApi:
         id: int,
         customer_card_view: CustomerCardView,
     ) -> bool:
+        """Update existing customer card"""
         ...

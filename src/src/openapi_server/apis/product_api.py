@@ -47,7 +47,8 @@ for _, name, _ in pkgutil.iter_modules(ns_pkg.__path__, ns_pkg.__name__ + "."):
 async def create_product(
     product_view: ProductView = Body(None, description=""),
 ) -> int:
-    ...
+    """Create a new product"""
+    return BaseProductApi.subclasses[0]().create_product(product_view)
 
 
 @router.delete(
@@ -62,7 +63,8 @@ async def create_product(
 async def delete_product(
     id: int = Path(..., description=""),
 ) -> bool:
-    ...
+    """Delete a product by id"""
+    return BaseProductApi.subclasses[0]().delete_product(id)
 
 
 @router.get(
@@ -77,7 +79,8 @@ async def delete_product(
 async def get_product_by_id(
     id: int = Path(..., description=""),
 ) -> Product:
-    ...
+    """Get product by id"""
+    return BaseProductApi.subclasses[0]().get_product_by_id(id)
 
 
 @router.get(
@@ -92,7 +95,8 @@ async def get_product_by_id(
 async def get_product_list(
     product_criteria: ProductCriteria = Body(None, description=""),
 ) -> ProductListResponse:
-    ...
+    """Get list of products"""
+    return BaseProductApi.subclasses[0]().get_product_list(product_criteria)
 
 
 @router.post(
@@ -108,4 +112,5 @@ async def update_prodact(
     id: int = Path(..., description=""),
     product_view: ProductView = Body(None, description=""),
 ) -> bool:
-    ...
+    """Update existing product"""
+    return BaseProductApi.subclasses[0]().update_prodact(id, product_view)

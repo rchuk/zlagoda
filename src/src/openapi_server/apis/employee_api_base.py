@@ -18,6 +18,7 @@ class BaseEmployeeApi:
         self,
         employee_view: EmployeeView,
     ) -> int:
+        """Create a new employee"""
         ...
 
 
@@ -25,6 +26,7 @@ class BaseEmployeeApi:
         self,
         id: int,
     ) -> bool:
+        """Delete an employee by id"""
         ...
 
 
@@ -32,6 +34,7 @@ class BaseEmployeeApi:
         self,
         id: int,
     ) -> Employee:
+        """Get employee by id"""
         ...
 
 
@@ -39,12 +42,14 @@ class BaseEmployeeApi:
         self,
         employee_criteria: EmployeeCriteria,
     ) -> EmployeeListResponse:
+        """Get list of employees"""
         ...
 
 
     def get_employee_me(
         self,
     ) -> int:
+        """Get employee id of self"""
         ...
 
 
@@ -53,4 +58,5 @@ class BaseEmployeeApi:
         id: int,
         employee_view: EmployeeView,
     ) -> bool:
+        """Update existing employee"""
         ...

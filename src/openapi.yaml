@@ -21,6 +21,7 @@ tags:
 paths:
   /api/employee:
     get:
+      description: Get list of employees
       operationId: getEmployeeList
       requestBody:
         content:
@@ -39,6 +40,7 @@ paths:
       tags:
       - employee
     put:
+      description: Create a new employee
       operationId: createEmployee
       requestBody:
         content:
@@ -58,6 +60,7 @@ paths:
       - employee
   /api/employee/{id}:
     delete:
+      description: Delete an employee by id
       operationId: deleteEmployee
       parameters:
       - explode: false
@@ -78,6 +81,7 @@ paths:
       tags:
       - employee
     get:
+      description: Get employee by id
       operationId: getEmployeeById
       parameters:
       - explode: false
@@ -98,6 +102,7 @@ paths:
       tags:
       - employee
     post:
+      description: Update existing employee
       operationId: updateEmployee
       parameters:
       - explode: false
@@ -125,6 +130,7 @@ paths:
       - employee
   /api/employee/me:
     get:
+      description: Get employee id of self
       operationId: getEmployeeMe
       responses:
         "200":
@@ -138,6 +144,7 @@ paths:
       - employee
   /api/product-category/:
     get:
+      description: Get list of product categories
       operationId: getProductCategoryList
       requestBody:
         content:
@@ -156,6 +163,7 @@ paths:
       tags:
       - product-category
     put:
+      description: Create a new product category
       operationId: createProductCategory
       requestBody:
         content:
@@ -175,6 +183,7 @@ paths:
       - product-category
   /api/product-category/{id}:
     delete:
+      description: Delete a product category by id
       operationId: deleteProductCategory
       parameters:
       - explode: false
@@ -195,6 +204,7 @@ paths:
       tags:
       - product-category
     get:
+      description: Get product category by id
       operationId: getProductCategoryById
       parameters:
       - explode: false
@@ -215,6 +225,7 @@ paths:
       tags:
       - product-category
     post:
+      description: Update existing product category
       operationId: updateProductCategory
       parameters:
       - explode: false
@@ -242,6 +253,7 @@ paths:
       - product-category
   /api/product-archetype:
     get:
+      description: Get list of product archetypes
       operationId: getProductArchetypeList
       requestBody:
         content:
@@ -260,6 +272,7 @@ paths:
       tags:
       - product-archetype
     put:
+      description: Create a new product archetype
       operationId: createProductArchetype
       requestBody:
         content:
@@ -279,6 +292,7 @@ paths:
       - product-archetype
   /api/product-archetype/{id}:
     delete:
+      description: Delete a product archetype by id
       operationId: deleteProductArchetype
       parameters:
       - explode: false
@@ -299,6 +313,7 @@ paths:
       tags:
       - product-archetype
     get:
+      description: Get product archetype by id
       operationId: getProductArchetypeById
       parameters:
       - explode: false
@@ -319,6 +334,7 @@ paths:
       tags:
       - product-archetype
     post:
+      description: Update existing product archetype
       operationId: updateProductArchetype
       parameters:
       - explode: false
@@ -346,6 +362,7 @@ paths:
       - product-archetype
   /api/product:
     get:
+      description: Get list of products
       operationId: getProductList
       requestBody:
         content:
@@ -364,6 +381,7 @@ paths:
       tags:
       - product
     put:
+      description: Create a new product
       operationId: createProduct
       requestBody:
         content:
@@ -383,6 +401,7 @@ paths:
       - product
   /api/product/{id}:
     delete:
+      description: Delete a product by id
       operationId: deleteProduct
       parameters:
       - explode: false
@@ -403,6 +422,7 @@ paths:
       tags:
       - product
     get:
+      description: Get product by id
       operationId: getProductById
       parameters:
       - explode: false
@@ -423,6 +443,7 @@ paths:
       tags:
       - product
     post:
+      description: Update existing product
       operationId: updateProdact
       parameters:
       - explode: false
@@ -450,6 +471,7 @@ paths:
       - product
   /api/receipt:
     get:
+      description: Get list of receipts
       operationId: getReceiptList
       requestBody:
         content:
@@ -468,6 +490,7 @@ paths:
       tags:
       - receipt
     put:
+      description: Create a new receipt
       operationId: createReceipt
       requestBody:
         content:
@@ -487,6 +510,7 @@ paths:
       - receipt
   /api/receipt/{id}:
     delete:
+      description: Delete a receipt by id
       operationId: deleteReceipt
       parameters:
       - explode: false
@@ -507,6 +531,7 @@ paths:
       tags:
       - receipt
     get:
+      description: Get receipt by id
       operationId: getReceiptById
       parameters:
       - explode: false
@@ -528,6 +553,7 @@ paths:
       - receipt
   /api/customer-card:
     get:
+      description: Get list of customer cards
       operationId: getCustomerCardList
       requestBody:
         content:
@@ -546,6 +572,7 @@ paths:
       tags:
       - customer-card
     put:
+      description: Create a new customer card
       operationId: createCustomerCard
       requestBody:
         content:
@@ -565,6 +592,7 @@ paths:
       - customer-card
   /api/customer-card/{id}:
     delete:
+      description: Delete a customer card by id
       operationId: deleteCustomerCard
       parameters:
       - explode: false
@@ -585,6 +613,7 @@ paths:
       tags:
       - customer-card
     get:
+      description: Get customer card by id
       operationId: getCustomerCardById
       parameters:
       - explode: false
@@ -605,6 +634,7 @@ paths:
       tags:
       - customer-card
     post:
+      description: Update existing customer card
       operationId: updateCustomerCard
       parameters:
       - explode: false
