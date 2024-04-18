@@ -1004,6 +1004,16 @@ components:
         id: 0
       title: CustomerCard
     EmployeeListResponse:
+      allOf:
+      - $ref: '#/components/schemas/ListResponse'
+      - properties:
+          items:
+            items:
+              $ref: '#/components/schemas/Employee'
+            type: array
+        required:
+        - items
+        type: object
       example:
         totalCount: 0
         items:
@@ -1031,21 +1041,18 @@ components:
           id: 6
           salary: 1
           birthDate: 2000-01-23
-      properties:
-        totalCount:
-          title: totalCount
-          type: integer
-        items:
-          items:
-            $ref: '#/components/schemas/Employee'
-          title: items
-          type: array
-      required:
-      - items
-      - totalCount
       title: EmployeeListResponse
-      type: object
     ProductCategoryListResponse:
+      allOf:
+      - $ref: '#/components/schemas/ListResponse'
+      - properties:
+          items:
+            items:
+              $ref: '#/components/schemas/ProductCategory'
+            type: array
+        required:
+        - items
+        type: object
       example:
         totalCount: 0
         items:
@@ -1053,21 +1060,18 @@ components:
           id: 6
         - name: name
           id: 6
-      properties:
-        totalCount:
-          title: totalCount
-          type: integer
-        items:
-          items:
-            $ref: '#/components/schemas/ProductCategory'
-          title: items
-          type: array
-      required:
-      - items
-      - totalCount
       title: ProductCategoryListResponse
-      type: object
     ProductArchetypeListResponse:
+      allOf:
+      - $ref: '#/components/schemas/ListResponse'
+      - properties:
+          items:
+            items:
+              $ref: '#/components/schemas/ProductArchetype'
+            type: array
+        required:
+        - items
+        type: object
       example:
         totalCount: 0
         items:
@@ -1081,21 +1085,18 @@ components:
           id: 6
           category: 1
           manufacturer: manufacturer
-      properties:
-        totalCount:
-          title: totalCount
-          type: integer
-        items:
-          items:
-            $ref: '#/components/schemas/ProductArchetype'
-          title: items
-          type: array
-      required:
-      - items
-      - totalCount
       title: ProductArchetypeListResponse
-      type: object
     ProductListResponse:
+      allOf:
+      - $ref: '#/components/schemas/ListResponse'
+      - properties:
+          items:
+            items:
+              $ref: '#/components/schemas/Product'
+            type: array
+        required:
+        - items
+        type: object
       example:
         totalCount: 0
         items:
@@ -1111,21 +1112,18 @@ components:
           price: 5
           upc: upc
           id: 6
-      properties:
-        totalCount:
-          title: totalCount
-          type: integer
-        items:
-          items:
-            $ref: '#/components/schemas/Product'
-          title: items
-          type: array
-      required:
-      - items
-      - totalCount
       title: ProductListResponse
-      type: object
     ReceiptListResponse:
+      allOf:
+      - $ref: '#/components/schemas/ListResponse'
+      - properties:
+          items:
+            items:
+              $ref: '#/components/schemas/Receipt'
+            type: array
+        required:
+        - items
+        type: object
       example:
         totalCount: 0
         items:
@@ -1155,31 +1153,26 @@ components:
           - quantity: 9
             price: 3
             productArchetype: 7
+      title: ReceiptListResponse
+    CustomerCardListResponse:
+      allOf:
+      - $ref: '#/components/schemas/ListResponse'
+      - properties:
+          items:
+            items:
+              $ref: '#/components/schemas/CustomerCard'
+            type: array
+        required:
+        - items
+        type: object
+    ListResponse:
       properties:
         totalCount:
           title: totalCount
           type: integer
-        items:
-          items:
-            $ref: '#/components/schemas/Receipt'
-          title: items
-          type: array
       required:
-      - items
       - totalCount
-      title: ReceiptListResponse
-      type: object
-    CustomerCardListResponse:
-      properties:
-        totalCount:
-          type: integer
-        items:
-          items:
-            $ref: '#/components/schemas/CustomerCard'
-          type: array
-      required:
-      - items
-      - totalCount
+      title: ListResponse
       type: object
     EmployeeCriteria:
       allOf:

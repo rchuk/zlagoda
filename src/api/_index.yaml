@@ -843,82 +843,84 @@ components:
         - $ref: '#/components/schemas/CustomerCardView'
 
     EmployeeListResponse:
-      type: object
-      properties:
-        totalCount:
-          type: integer
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/Employee'
-      required:
-        - totalCount
-        - items
+      allOf:
+        - $ref: '#/components/schemas/ListResponse'
+        - type: object
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/Employee'
+          required:
+            - items
 
     ProductCategoryListResponse:
-      type: object
-      properties:
-        totalCount:
-          type: integer
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/ProductCategory'
-      required:
-        - totalCount
-        - items
+      allOf:
+        - $ref: '#/components/schemas/ListResponse'
+        - type: object
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/ProductCategory'
+          required:
+            - items
 
     ProductArchetypeListResponse:
-      type: object
-      properties:
-        totalCount:
-          type: integer
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/ProductArchetype'
-      required:
-        - totalCount
-        - items
+      allOf:
+        - $ref: '#/components/schemas/ListResponse'
+        - type: object
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/ProductArchetype'
+          required:
+            - items
 
     ProductListResponse:
-      type: object
-      properties:
-        totalCount:
-          type: integer
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/Product'
-      required:
-        - totalCount
-        - items
+      allOf:
+        - $ref: '#/components/schemas/ListResponse'
+        - type: object
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/Product'
+          required:
+            - items
 
     ReceiptListResponse:
-      type: object
-      properties:
-        totalCount:
-          type: integer
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/Receipt'
-      required:
-        - totalCount
-        - items
+      allOf:
+        - $ref: '#/components/schemas/ListResponse'
+        - type: object
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/Receipt'
+          required:
+            - items
 
     CustomerCardListResponse:
+      allOf:
+        - $ref: '#/components/schemas/ListResponse'
+        - type: object
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/CustomerCard'
+          required:
+            - items
+
+    ListResponse:
       type: object
       properties:
         totalCount:
           type: integer
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/CustomerCard'
       required:
         - totalCount
-        - items
 
     EmployeeCriteria:
       allOf:
