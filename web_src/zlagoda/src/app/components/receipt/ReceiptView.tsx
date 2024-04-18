@@ -34,7 +34,7 @@ export default function ReceiptView(props: ReceiptViewProps): React.ReactNode {
     useEffect(() => {
         const fetch = async() => {
             const newProductArchetypes = await props.productArchetypeService.getProductArchetypeList();
-            setProductArchetypes(newProductArchetypes.map(archetype => ({
+            setProductArchetypes(newProductArchetypes.items.map(archetype => ({
                 id: archetype.id,
                 name: archetype.name
             })));
@@ -63,7 +63,7 @@ export default function ReceiptView(props: ReceiptViewProps): React.ReactNode {
                 <b>Картка клієнта: </b><span>{customerCard ? `${customerCard?.firstName} ${customerCard?.lastName}` : ""}</span>
             </div>
             <div>
-                <b>Дата створення: </b><span>{receipt ? dayjs(receipt!.dateTime).format("DD.MM.YYYY") : ""}</span>
+                <b>Дата створення: </b><span>{receipt ? dayjs(receipt!.dateTime).format("DD.MM.YYYY HH:mm:ss") : ""}</span>
             </div>
             <div>
                 <b>ПДВ: </b><span>{receipt?.vat}</span>

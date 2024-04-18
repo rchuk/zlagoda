@@ -2,12 +2,12 @@ import React, {PropsWithChildren, useContext, useEffect} from "react";
 import {AlertContext} from "@/app/services/AlertService";
 import {Box} from "@mui/material";
 
-type ViewContainerProps = {
+type ViewComponentProps = {
     id: number,
     fetch: (id: number) => Promise<void>
 };
 
-export default function ViewComponent(props: PropsWithChildren<ViewContainerProps>): React.ReactNode {
+export default function ViewComponent(props: PropsWithChildren<ViewComponentProps>): React.ReactNode {
     const showAlert = useContext(AlertContext);
 
     useEffect(() => {
