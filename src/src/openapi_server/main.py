@@ -21,6 +21,8 @@ from openapi_server.apis.product_archetype_api import router as ProductArchetype
 from openapi_server.apis.product_category_api import router as ProductCategoryApiRouter
 from openapi_server.apis.receipt_api import router as ReceiptApiRouter
 
+from fastapi.middleware.cors import CORSMiddleware
+
 app = FastAPI(
     title="Zlagoda",
     description="API for systems used by the employees of Zlagoda shops",
@@ -33,3 +35,16 @@ app.include_router(ProductApiRouter)
 app.include_router(ProductArchetypeApiRouter)
 app.include_router(ProductCategoryApiRouter)
 app.include_router(ReceiptApiRouter)
+
+origins = [
+    "http://localhost",
+    "http://localhost:3000"
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
