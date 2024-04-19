@@ -24,6 +24,7 @@ from fastapi import (  # noqa: F401
 from openapi_server.models.extra_models import TokenModel  # noqa: F401
 from openapi_server.models.customer_card import CustomerCard
 from openapi_server.models.customer_card_criteria import CustomerCardCriteria
+from openapi_server.models.customer_card_list_response import CustomerCardListResponse
 from openapi_server.models.customer_card_view import CustomerCardView
 
 
@@ -85,7 +86,7 @@ async def get_customer_card_by_id(
 @router.get(
     "/api/customer-card",
     responses={
-        200: {"model": CustomerCard, "description": "List of customer cards"},
+        200: {"model": CustomerCardListResponse, "description": "List of customer cards"},
     },
     tags=["customer-card"],
     summary="Get list of customer cards",
@@ -93,7 +94,7 @@ async def get_customer_card_by_id(
 )
 async def get_customer_card_list(
     customer_card_criteria: CustomerCardCriteria = Body(None, description=""),
-) -> CustomerCard:
+) -> CustomerCardListResponse:
     """Get list of customer cards"""
     return BaseCustomerCardApi.subclasses[0]().get_customer_card_list(customer_card_criteria)
 

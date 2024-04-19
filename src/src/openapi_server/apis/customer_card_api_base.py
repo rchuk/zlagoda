@@ -4,6 +4,7 @@ from typing import ClassVar, Dict, List, Tuple  # noqa: F401
 
 from openapi_server.models.customer_card import CustomerCard
 from openapi_server.models.customer_card_criteria import CustomerCardCriteria
+from openapi_server.models.customer_card_list_response import CustomerCardListResponse
 from openapi_server.models.customer_card_view import CustomerCardView
 
 
@@ -40,7 +41,7 @@ class BaseCustomerCardApi:
     def get_customer_card_list(
         self,
         customer_card_criteria: CustomerCardCriteria,
-    ) -> CustomerCard:
+    ) -> CustomerCardListResponse:
         """Get list of customer cards"""
         ...
 
