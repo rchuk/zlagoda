@@ -15,7 +15,8 @@ export default function ViewComponent(props: PropsWithChildren<ViewComponentProp
     }, [props.id]);
 
     return (
-        <Box display="flex" flexDirection="column" rowGap={1}>
+        <Box display="flex" flexDirection="column" rowGap={1}
+             sx={{ width: 500 }}>
             {props.children}
         </Box>
     );

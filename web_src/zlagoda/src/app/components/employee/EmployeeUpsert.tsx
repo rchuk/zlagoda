@@ -121,18 +121,20 @@ export default function EmployeeUpsert(props: EmployeeUpsertProps): React.ReactN
                 />
             </Grid>
             <Grid xs={6}>
+                <TextField label="Зарплатня"
+                           type="number"
+                           required
+                           inputProps={{min: 0}}
+                           fullWidth
+                           value={view.salary}
+                           onChange={e => setView({...view, salary: Number(e.target.value)})}
+                />
+            </Grid>
+            <Grid xs={6}>
                 <TextField label="Місто"
                            required
                            fullWidth
                            value={view.city} onChange={e => setView({...view, city: e.target.value})}
-                />
-            </Grid>
-            <Grid xs={6}>
-                <TextField label="Вулиця"
-                           required
-                           fullWidth
-                           value={view.street}
-                           onChange={e => setView({...view, street: e.target.value})}
                 />
             </Grid>
             <Grid xs={6}>
@@ -143,14 +145,12 @@ export default function EmployeeUpsert(props: EmployeeUpsertProps): React.ReactN
                            onChange={e => setView({...view, zipCode: e.target.value})}
                 />
             </Grid>
-            <Grid xs={6}>
-                <TextField label="Зарплатня"
-                           type="number"
+            <Grid xs={12}>
+                <TextField label="Вулиця"
                            required
-                           inputProps={{min: 0}}
                            fullWidth
-                           value={view.salary}
-                           onChange={e => setView({...view, salary: Number(e.target.value)})}
+                           value={view.street}
+                           onChange={e => setView({...view, street: e.target.value})}
                 />
             </Grid>
         </UpsertComponent>

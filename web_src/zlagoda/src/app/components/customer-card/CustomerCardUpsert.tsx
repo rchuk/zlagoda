@@ -89,17 +89,17 @@ export default function CustomerCardUpsert(props: CustomerCardUpsertProps): Reac
                 />
             </Grid>
             <Grid xs={6}>
-                <TextField label="Вулиця"
-                           fullWidth
-                           value={view.street}
-                           onChange={e => setView({...view, street: e.target.value})}
-                />
-            </Grid>
-            <Grid xs={6}>
                 <TextField label="Поштовий індекс"
                            fullWidth
                            value={view.zipCode}
                            onChange={e => setView({...view, zipCode: e.target.value})}
+                />
+            </Grid>
+            <Grid xs={12}>
+                <TextField label="Вулиця"
+                           fullWidth
+                           value={view.street}
+                           onChange={e => setView({...view, street: e.target.value})}
                 />
             </Grid>
             <Grid xs={6}>
