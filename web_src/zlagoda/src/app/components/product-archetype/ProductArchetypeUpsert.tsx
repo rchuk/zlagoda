@@ -32,7 +32,7 @@ export default function ProductArchetypeUpsert(props: ProductArchetypeUpsertProp
 
     // TODO: Deps might be wrong
     const selectedCategory = useMemo(
-        () => productCategories ? productCategories[view.category] : null,
+        () => productCategories?.find(category => category.id == view.category) ?? null,
         [productCategories]
     );
     //
@@ -40,7 +40,7 @@ export default function ProductArchetypeUpsert(props: ProductArchetypeUpsertProp
     useEffect(() => {
         const fetch = async() => {
             const newProductCategories = await props.productCategoryService.getProductCategoryList();
-            setProductCategories(newProductCategories);
+            setProductCategories(newProductCategories.items);
         };
 
         // fetch().catch(e => showAlert(e.toString(), "error"));

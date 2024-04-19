@@ -27,12 +27,12 @@ type ProductUpsertProps = {
 
 export default function ProductUpsert(props: ProductUpsertProps): React.ReactNode {
     const [view, setView] = useState<ProductView>(getDefaultProductView);
-    const [productArchetypes, setProductArchetypes] = useState<Array<ProductArchetypeShort> | null>(null);
+    const [productArchetypes, setProductArchetypes] = useState<ProductArchetypeShort[] | null>(null);
     const showAlert = useContext(AlertContext);
 
     // TODO: Test
     const selectedArchetype = useMemo(
-        () => productArchetypes ? productArchetypes[view.archetype] : null,
+        () => productArchetypes?.find(archetype => archetype.id == view.archetype) ?? null,
         [productArchetypes]
     );
     //
@@ -40,7 +40,7 @@ export default function ProductUpsert(props: ProductUpsertProps): React.ReactNod
     useEffect(() => {
         const fetch = async() => {
             const newProductArchetypes = await props.productArchetypeService.getProductArchetypeList();
-            setProductArchetypes(newProductArchetypes.map(archetype => ({
+            setProductArchetypes(newProductArchetypes.items.map(archetype => ({
                 id: archetype.id,
                 name: archetype.name
             })));
