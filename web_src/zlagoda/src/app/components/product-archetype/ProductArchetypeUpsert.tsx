@@ -9,6 +9,7 @@ import {AlertContext} from "@/app/services/AlertService";
 import Grid from "@mui/material/Unstable_Grid2";
 import {Autocomplete, TextField} from "@mui/material";
 import UpsertComponent from "@/app/components/common/UpsertComponent";
+import {findEntity} from "@/app/components/common/utils/ObjectUtils";
 
 function getDefaultProductArchetypeView(): ProductArchetypeView {
     return {
@@ -32,7 +33,7 @@ export default function ProductArchetypeUpsert(props: ProductArchetypeUpsertProp
 
     // TODO: Deps might be wrong
     const selectedCategory = useMemo(
-        () => productCategories?.find(category => category.id == view.category) ?? null,
+        () => findEntity(productCategories, view.category),
         [productCategories]
     );
     //
@@ -43,7 +44,7 @@ export default function ProductArchetypeUpsert(props: ProductArchetypeUpsertProp
             setProductCategories(newProductCategories.items);
         };
 
-        // fetch().catch(e => showAlert(e.toString(), "error"));
+        fetch().catch(e => showAlert(e.toString(), "error"));
     });
 
     async function fetch(id: number) {

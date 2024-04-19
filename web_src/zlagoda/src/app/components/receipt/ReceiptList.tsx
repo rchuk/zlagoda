@@ -13,6 +13,7 @@ import {GridColDef} from '@mui/x-data-grid';
 import ListComponent, {getDefaultBaseCriteria} from "@/app/components/common/ListComponent";
 import dayjs from "dayjs";
 import {AlertContext} from "@/app/services/AlertService";
+import {createIdsCriteria, findEntity} from "@/app/components/common/utils/ObjectUtils";
 
 type ReceiptListProps = {
   receiptService: ReceiptApi,
@@ -30,9 +31,7 @@ export default function ReceiptList(props: ReceiptListProps): React.ReactNode {
   useEffect(() => {
     const fetch = async() => {
       const response = await props.employeeService.getEmployeeList({
-        employeeCriteria: {
-          ids: items?.map(item => item.id) ?? []
-        }
+        employeeCriteria: createIdsCriteria(items)
       });
 
       setEmployees(response.items);
@@ -43,9 +42,7 @@ export default function ReceiptList(props: ReceiptListProps): React.ReactNode {
   useEffect(() => {
     const fetch = async() => {
       const response = await props.customerCardService.getCustomerCardList({
-        customerCardCriteria: {
-          ids: items?.map(item => item.id) ?? []
-        }
+        customerCardCriteria: createIdsCriteria(items)
       });
 
       setCustomerCards(response.items);
@@ -84,7 +81,7 @@ export default function ReceiptList(props: ReceiptListProps): React.ReactNode {
       field: "cashierId",
       headerName: "Касир",
       valueGetter: value => {
-        const employee = employees?.find(employee => employee.id == value);
+        const employee = findEntity(employees, value);
         if (!employee)
           return "";
 
@@ -99,7 +96,7 @@ export default function ReceiptList(props: ReceiptListProps): React.ReactNode {
         if (!value)
           return "";
 
-        const customerCard = customerCards?.find(customerCard => customerCard.id == value);
+        const customerCard = findEntity(customerCards, value);
         if (!customerCard)
           return "";
 
@@ -110,7 +107,7 @@ export default function ReceiptList(props: ReceiptListProps): React.ReactNode {
     {
       field: "dateTime",
       headerName: "Дата",
-      valueGetter: (value, row) => dayjs(row.dateTime).format("DD.MM.YYYY HH:mm:ss"),
+      valueGetter: value => dayjs(value).format("DD.MM.YYYY HH:mm:ss"),
       width: 200
     },
     {

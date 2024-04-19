@@ -9,6 +9,7 @@ import {Box} from "@mui/material";
 import {GridColDef} from '@mui/x-data-grid';
 import ListComponent, {getDefaultBaseCriteria} from "@/app/components/common/ListComponent";
 import {AlertContext} from "@/app/services/AlertService";
+import {createIdsCriteria, findEntity} from "@/app/components/common/utils/ObjectUtils";
 
 type ProductArchetypeListProps = {
   productArchetypeService: ProductArchetypeApi,
@@ -24,9 +25,7 @@ export default function ProductArchetypeList(props: ProductArchetypeListProps): 
   useEffect(() => {
     const fetch = async() => {
       const response = await props.productCategoryService.getProductCategoryList({
-        productCategoryCriteria: {
-          ids: items?.map(item => item.id) ?? []
-        }
+        productCategoryCriteria: createIdsCriteria(items)
       });
 
       setProductCategories(response.items);
@@ -73,9 +72,7 @@ export default function ProductArchetypeList(props: ProductArchetypeListProps): 
     {
       field: "category",
       headerName: "Категорія",
-      valueGetter: value => {
-        return productCategories?.find(category => category.id == value)?.name ?? "";
-      },
+      valueGetter: value => findEntity(productCategories, value)?.name ?? "",
       width: 200
     },
     {

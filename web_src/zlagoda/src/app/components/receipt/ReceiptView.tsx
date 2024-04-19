@@ -1,20 +1,16 @@
 import {
-    CustomerCard,
-    CustomerCardApi, Employee,
-    EmployeeApi,
-    ProductArchetypeApi,
-    Receipt,
-    ReceiptApi
+  CustomerCard,
+  CustomerCardApi, Employee,
+  EmployeeApi, ProductArchetype,
+  ProductArchetypeApi,
+  Receipt,
+  ReceiptApi
 } from "../../../../generated";
 import React, {useContext, useEffect, useState} from "react";
 import ViewComponent from "@/app/components/common/ViewComponent";
 import dayjs from "dayjs";
 import {AlertContext} from "@/app/services/AlertService";
-
-type ProductArchetypeShort = {
-    id: number,
-    name: string
-};
+import {findEntity} from "@/app/components/common/utils/ObjectUtils";
 
 type ReceiptViewProps = {
     id: number,
@@ -26,18 +22,15 @@ type ReceiptViewProps = {
 
 export default function ReceiptView(props: ReceiptViewProps): React.ReactNode {
     const [receipt, setReceipt] = useState<Receipt | null>(null);
-    const [productArchetypes, setProductArchetypes] = useState<Array<ProductArchetypeShort> | null>(null);
+    const [productArchetypes, setProductArchetypes] = useState<ProductArchetype[] | null>(null);
     const [employee, setEmployee] = useState<Employee | null>(null);
     const [customerCard, setCustomerCard] = useState<CustomerCard | null>(null);
     const showAlert = useContext(AlertContext);
 
     useEffect(() => {
         const fetch = async() => {
-            const newProductArchetypes = await props.productArchetypeService.getProductArchetypeList();
-            setProductArchetypes(newProductArchetypes.items.map(archetype => ({
-                id: archetype.id,
-                name: archetype.name
-            })));
+            const response = await props.productArchetypeService.getProductArchetypeList();
+            setProductArchetypes(response.items);
         };
 
         fetch().catch(e => showAlert(e.toString(), "error"));
@@ -76,7 +69,7 @@ export default function ReceiptView(props: ReceiptViewProps): React.ReactNode {
                 <ul>
                     {receipt?.items.map(item =>
                         <li>
-                            {productArchetypes!.find(archetype => archetype.id == item.productArchetype)?.name ?? ""} | Ціна: {item.price} | Кількість: {item.quantity}
+                            {findEntity(productArchetypes, item.productArchetype)?.name ?? ""} | Ціна: {item.price} | Кількість: {item.quantity}
                         </li>
                     )}
                 </ul>

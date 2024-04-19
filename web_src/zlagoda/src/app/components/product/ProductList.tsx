@@ -9,6 +9,7 @@ import {Box, Checkbox} from "@mui/material";
 import {GridColDef} from '@mui/x-data-grid';
 import ListComponent, {getDefaultBaseCriteria} from "@/app/components/common/ListComponent";
  import {AlertContext} from "@/app/services/AlertService";
+ import {createIdsCriteria, findEntity} from "@/app/components/common/utils/ObjectUtils";
 
 type ProductListProps = {
   productService: ProductApi,
@@ -24,9 +25,7 @@ export default function ProductList(props: ProductListProps): React.ReactNode {
   useEffect(() => {
     const fetch = async() => {
       const response = await props.productArchetypeService.getProductArchetypeList({
-        productArchetypeCriteria: {
-          ids: items?.map(item => item.archetype) ?? []
-        }
+        productArchetypeCriteria: createIdsCriteria(items)
       });
 
       setProductArchetypes(response.items);
@@ -67,10 +66,8 @@ export default function ProductList(props: ProductListProps): React.ReactNode {
     { field: "id", headerName: "ID", width: 80 },
     {
       field: "archetype",
-      valueGetter: value => {
-        return productArchetypes?.find(archetype => archetype.id == value)?.name ?? ""
-      },
       headerName: "Назва",
+      valueGetter: value => findEntity(productArchetypes, value)?. name ?? "",
       width: 300
     },
     {

@@ -1,9 +1,10 @@
-import {ProductApi, ProductArchetypeApi, ProductView} from "../../../../generated";
+import {ProductApi, ProductArchetype, ProductArchetypeApi, ProductView} from "../../../../generated";
 import React, {useContext, useEffect, useMemo, useState} from "react";
 import {AlertContext} from "@/app/services/AlertService";
 import UpsertComponent from "@/app/components/common/UpsertComponent";
 import Grid from "@mui/material/Unstable_Grid2";
 import {Autocomplete, TextField} from "@mui/material";
+import {findEntity} from "@/app/components/common/utils/ObjectUtils";
 
 function getDefaultProductView(): ProductView {
     return {
@@ -14,11 +15,6 @@ function getDefaultProductView(): ProductView {
     };
 }
 
-type ProductArchetypeShort = {
-    id: number,
-    name: string
-};
-
 type ProductUpsertProps = {
     initialId?: number,
     productService: ProductApi,
@@ -27,23 +23,19 @@ type ProductUpsertProps = {
 
 export default function ProductUpsert(props: ProductUpsertProps): React.ReactNode {
     const [view, setView] = useState<ProductView>(getDefaultProductView);
-    const [productArchetypes, setProductArchetypes] = useState<ProductArchetypeShort[] | null>(null);
+    const [productArchetypes, setProductArchetypes] = useState<ProductArchetype[] | null>(null);
     const showAlert = useContext(AlertContext);
 
     // TODO: Test
     const selectedArchetype = useMemo(
-        () => productArchetypes?.find(archetype => archetype.id == view.archetype) ?? null,
+        () => findEntity(productArchetypes, view.archetype),
         [productArchetypes]
     );
-    //
 
     useEffect(() => {
         const fetch = async() => {
-            const newProductArchetypes = await props.productArchetypeService.getProductArchetypeList();
-            setProductArchetypes(newProductArchetypes.items.map(archetype => ({
-                id: archetype.id,
-                name: archetype.name
-            })));
+            const response = await props.productArchetypeService.getProductArchetypeList();
+            setProductArchetypes(response.items);
         };
 
         fetch().catch(e => showAlert(e.toString(), "error"));
