@@ -13,6 +13,12 @@ import CustomerCardView from "@/app/components/customer-card/CustomerCardView";
 import ProductUpsert from "@/app/components/product/ProductUpsert";
 import ProductView from "@/app/components/product/ProductView";
 import ReceiptView from "@/app/components/receipt/ReceiptView";
+import EmployeeList from "@/app/components/employee/EmployeeList"
+import ProductCategoryList from "@/app/components/product-category/ProductCategoryList";
+import ProductList from "@/app/components/product/ProductList";
+import ProductArchetypeList from "@/app/components/product-archetype/ProductArchetypeList";
+import CustomerCardList from "@/app/components/customer-card/CustomerCardList";
+import ReceiptList from "@/app/components/receipt/ReceiptList";
 
 export default function Home() {
   return (
@@ -32,6 +38,12 @@ export default function Home() {
                 <ProductUpsert></ProductUpsert>
                 <ProductView></ProductView>
                 <ReceiptView></ReceiptView>
+                <EmployeeList></EmployeeList>
+                <ProductCategoryList></ProductCategoryList>
+                <ProductList></ProductList>
+                <ProductArchetypeList></ProductArchetypeList>
+                <CustomerCardList></CustomerCardList>
+                <ReceiptList></ReceiptList>
             </AlertProvider>
         </LocalizationProvider>
     </div>

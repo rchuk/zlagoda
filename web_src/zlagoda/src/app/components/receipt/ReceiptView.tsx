@@ -76,7 +76,7 @@ export default function ReceiptView(props: ReceiptViewProps): React.ReactNode {
                 <ul>
                     {receipt?.items.map(item =>
                         <li>
-                            {productArchetypes![item.productArchetype].name} | Ціна: {item.price} | Кількість: {item.quantity}
+                            {productArchetypes!.find(archetype => archetype.id == item.productArchetype)?.name ?? ""} | Ціна: {item.price} | Кількість: {item.quantity}
                         </li>
                     )}
                 </ul>
