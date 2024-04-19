@@ -14,6 +14,7 @@ import ListComponent, {getDefaultBaseCriteria} from "@/app/components/common/Lis
 import dayjs from "dayjs";
 import {AlertContext} from "@/app/services/AlertService";
 import {createIdsCriteria, findEntity} from "@/app/components/common/utils/ObjectUtils";
+import {formatDateTime, getEntityPersonFullName} from "@/app/components/common/utils/BusinessUtils";
 
 type ReceiptListProps = {
   receiptService: ReceiptApi,
@@ -80,34 +81,19 @@ export default function ReceiptList(props: ReceiptListProps): React.ReactNode {
     {
       field: "cashierId",
       headerName: "Касир",
-      valueGetter: value => {
-        const employee = findEntity(employees, value);
-        if (!employee)
-          return "";
-
-        return `${employee.lastName} ${employee.firstName}`;
-      },
+      valueGetter: value=> getEntityPersonFullName(findEntity(employees, value)),
       width: 350
     },
     {
       field: "customCardId",
       headerName: "Клієнт",
-      valueGetter: value => {
-        if (!value)
-          return "";
-
-        const customerCard = findEntity(customerCards, value);
-        if (!customerCard)
-          return "";
-
-        return `${customerCard.lastName} ${customerCard.firstName}`;
-      },
+      valueGetter: value => value ? getEntityPersonFullName(findEntity(customerCards, value)) : "",
       width: 350
     },
     {
       field: "dateTime",
       headerName: "Дата",
-      valueGetter: value => dayjs(value).format("DD.MM.YYYY HH:mm:ss"),
+      valueGetter: value => formatDateTime(value),
       width: 200
     },
     {

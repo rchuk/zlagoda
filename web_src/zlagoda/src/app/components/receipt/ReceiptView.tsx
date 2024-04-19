@@ -11,6 +11,11 @@ import ViewComponent from "@/app/components/common/ViewComponent";
 import dayjs from "dayjs";
 import {AlertContext} from "@/app/services/AlertService";
 import {findEntity} from "@/app/components/common/utils/ObjectUtils";
+import {
+  formatDateTime,
+  getEntityPersonFullName,
+  getEntityPersonFullNameWithPatronymic
+} from "@/app/components/common/utils/BusinessUtils";
 
 type ReceiptViewProps = {
     id: number,
@@ -50,13 +55,13 @@ export default function ReceiptView(props: ReceiptViewProps): React.ReactNode {
     return (
         <ViewComponent id={props.id} fetch={fetch}>
             <div>
-                <b>Касир: </b><span>{employee ? `${employee?.firstName} ${employee?.lastName}` : ""}</span>
+                <b>Касир: </b><span>{getEntityPersonFullNameWithPatronymic(employee)}</span>
             </div>
             <div>
-                <b>Картка клієнта: </b><span>{customerCard ? `${customerCard?.firstName} ${customerCard?.lastName}` : ""}</span>
+                <b>Картка клієнта: </b><span>{getEntityPersonFullNameWithPatronymic(customerCard)}</span>
             </div>
             <div>
-                <b>Дата створення: </b><span>{receipt ? dayjs(receipt!.dateTime).format("DD.MM.YYYY HH:mm:ss") : ""}</span>
+                <b>Дата створення: </b><span>{formatDateTime(receipt?.dateTime ?? null)}</span>
             </div>
             <div>
                 <b>ПДВ: </b><span>{receipt?.vat}</span>

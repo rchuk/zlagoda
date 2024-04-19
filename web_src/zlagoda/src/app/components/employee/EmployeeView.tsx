@@ -3,6 +3,7 @@ import React, {useState} from "react";
 import {EmployeeRole_i18} from "@/app/i18/EmployeeRole_i18";
 import dayjs from "dayjs";
 import ViewComponent from "@/app/components/common/ViewComponent";
+import {formatDate} from "@/app/components/common/utils/BusinessUtils";
 
 
 type EmployeeViewProps = {
@@ -32,10 +33,10 @@ export default function EmployeeView(props: EmployeeViewProps): React.ReactNode 
                 <b>Посада: </b><span>{employee ? EmployeeRole_i18[employee.role] : ""}</span>
             </div>
             <div>
-                <b>Дата початку роботи: </b><span>{employee ? dayjs(employee.workStartDate).format("DD.MM.YYYY") : ""}</span>
+                <b>Дата початку роботи: </b><span>{formatDate(employee?.workStartDate ?? null)}</span>
             </div>
             <div>
-                <b>Дата народження: </b><span>{employee ? dayjs(employee.birthDate).format("DD.MM.YYYY") : ""}</span>
+                <b>Дата народження: </b><span>{formatDate(employee?.birthDate ?? null)}</span>
             </div>
             <div>
                 <b>Номер телефону: </b><span>{employee?.phoneNumber}</span>
