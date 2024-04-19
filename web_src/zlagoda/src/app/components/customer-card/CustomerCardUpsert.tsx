@@ -1,8 +1,9 @@
-import {CustomerCardView, CustomerCardApi} from "../../../../generated";
-import React, {useState} from "react";
+import {CustomerCardView} from "../../../../generated";
+import React, {useContext, useState} from "react";
 import {TextField} from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
-import UpsertComponent from "@/app/components/common/UpsertComponent";;
+import UpsertComponent from "@/app/components/common/UpsertComponent";
+import {ServicesContext} from "@/app/services/ServiceProvider";
 
 function getDefaultCustomerCardView(): CustomerCardView {
     return {
@@ -18,24 +19,24 @@ function getDefaultCustomerCardView(): CustomerCardView {
 }
 
 type CustomerCardUpsertProps = {
-    initialId?: number,
-    customerCardService: CustomerCardApi
+    initialId?: number
 };
 
 export default function CustomerCardUpsert(props: CustomerCardUpsertProps): React.ReactNode {
+    const { customerCardService } = useContext(ServicesContext);
     const [view, setView] = useState<CustomerCardView>(getDefaultCustomerCardView);
 
     async function fetch(id: number) {
-        const {id: _, ...newView} = await props.customerCardService.getCustomerCardById({ id });
+        const {id: _, ...newView} = await customerCardService.getCustomerCardById({ id });
         setView(newView);
     }
 
     async function update(id: number) {
-        await props.customerCardService.updateCustomerCard({id, customerCardView: view});
+        await customerCardService.updateCustomerCard({id, customerCardView: view});
     }
 
     async function create(): Promise<number> {
-        return await props.customerCardService.createCustomerCard({customerCardView: view});
+        return await customerCardService.createCustomerCard({customerCardView: view});
     }
 
     function cancel() {

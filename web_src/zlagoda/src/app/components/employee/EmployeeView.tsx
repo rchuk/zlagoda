@@ -1,21 +1,21 @@
-import {Employee, EmployeeApi} from "../../../../generated";
-import React, {useState} from "react";
+import {Employee} from "../../../../generated";
+import React, {useContext, useState} from "react";
 import {EmployeeRole_i18} from "@/app/i18/EmployeeRole_i18";
-import dayjs from "dayjs";
 import ViewComponent from "@/app/components/common/ViewComponent";
 import {formatDate} from "@/app/components/common/utils/BusinessUtils";
+import {ServicesContext} from "@/app/services/ServiceProvider";
 
 
 type EmployeeViewProps = {
-    id: number,
-    employeeService: EmployeeApi
+    id: number
 };
 
 export default function EmployeeView(props: EmployeeViewProps): React.ReactNode {
+    const { employeeService } = useContext(ServicesContext);
     const [employee, setEmployee] = useState<Employee | null>(null);
 
     async function fetch(id: number) {
-        setEmployee(await props.employeeService.getEmployeeById({ id }));
+        setEmployee(await employeeService.getEmployeeById({ id }));
     }
 
     return (

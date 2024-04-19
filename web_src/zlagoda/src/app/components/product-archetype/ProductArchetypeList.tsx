@@ -1,8 +1,7 @@
 import {
   ProductArchetype,
-  ProductArchetypeApi,
   ProductArchetypeCriteria,
-  ProductArchetypeListResponse, ProductCategory, ProductCategoryApi
+  ProductArchetypeListResponse, ProductCategory
 } from "../../../../generated";
 import React, {useContext, useEffect, useState} from "react";
 import {Box} from "@mui/material";
@@ -10,13 +9,14 @@ import {GridColDef} from '@mui/x-data-grid';
 import ListComponent, {getDefaultBaseCriteria} from "@/app/components/common/ListComponent";
 import {AlertContext} from "@/app/services/AlertService";
 import {createIdsCriteria, findEntity} from "@/app/components/common/utils/ObjectUtils";
+import {ServicesContext} from "@/app/services/ServiceProvider";
 
 type ProductArchetypeListProps = {
-  productArchetypeService: ProductArchetypeApi,
-  productCategoryService: ProductCategoryApi
+
 };
 
 export default function ProductArchetypeList(props: ProductArchetypeListProps): React.ReactNode {
+  const { productArchetypeService, productCategoryService } = useContext(ServicesContext);
   const [items, setItems] = useState<ProductArchetype[] | null>(null);
   const [criteria, setCriteria] = useState<ProductArchetypeCriteria>(getDefaultBaseCriteria);
   const [productCategories, setProductCategories] = useState<ProductCategory[] | null>(null);
@@ -24,7 +24,7 @@ export default function ProductArchetypeList(props: ProductArchetypeListProps): 
 
   useEffect(() => {
     const fetch = async() => {
-      const response = await props.productCategoryService.getProductCategoryList({
+      const response = await productCategoryService.getProductCategoryList({
         productCategoryCriteria: createIdsCriteria(items)
       });
 
@@ -43,7 +43,7 @@ export default function ProductArchetypeList(props: ProductArchetypeListProps): 
       ]
     };
 
-    // return await props.productArchetypeService.getProductArchetypeList({ productArchetypeCriteria: criteria });
+    // return await productArchetypeService.getProductArchetypeList({ productArchetypeCriteria: criteria });
   }
 
   function handleCreate(callback: () => void) {

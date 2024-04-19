@@ -1,20 +1,21 @@
 import {
   Employee,
-  EmployeeApi,
   EmployeeCriteria,
   EmployeeListResponse, EmployeeRole
 } from "../../../../generated";
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import {Box} from "@mui/material";
 import {GridColDef} from '@mui/x-data-grid';
 import ListComponent, {getDefaultBaseCriteria} from "@/app/components/common/ListComponent";
 import {EmployeeRole_i18} from "@/app/i18/EmployeeRole_i18";
+import {ServicesContext} from "@/app/services/ServiceProvider";
 
 type EmployeeListProps = {
-  employeeService: EmployeeApi
+
 };
 
 export default function EmployeeList(props: EmployeeListProps): React.ReactNode {
+  const { employeeService } = useContext(ServicesContext);
   const [criteria, setCriteria] = useState<EmployeeCriteria>(getDefaultBaseCriteria);
 
   async function fetch(): Promise<EmployeeListResponse> {
@@ -30,7 +31,7 @@ export default function EmployeeList(props: EmployeeListProps): React.ReactNode 
       ]
     };
 
-    // return await props.employeeService.getEmployeeList({ employeeCriteria: criteria });
+    // return await employeeService.getEmployeeList({ employeeCriteria: criteria });
   }
 
   function handleCreate(callback: () => void) {

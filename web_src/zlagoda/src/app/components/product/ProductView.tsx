@@ -1,23 +1,23 @@
-import {Product, ProductApi, ProductArchetype, ProductArchetypeApi} from "../../../../generated";
-import React, {useState} from "react";
+import {Product, ProductArchetype} from "../../../../generated";
+import React, {useContext, useState} from "react";
 import ViewComponent from "@/app/components/common/ViewComponent";
 import {Checkbox} from "@mui/material";
+import {ServicesContext} from "@/app/services/ServiceProvider";
 
 
 type ProductViewProps = {
-    id: number,
-    productService: ProductApi,
-    productArchetypeService: ProductArchetypeApi
+    id: number
 };
 
 export default function ProductView(props: ProductViewProps): React.ReactNode {
+    const { productService, productArchetypeService } = useContext(ServicesContext);
     const [product, setProduct] = useState<Product | null>(null);
     const [productArchetype, setProductArchetype] = useState<ProductArchetype | null>(null);
 
     async function fetch(id: number) {
-        setProduct(await props.productService.getProductById({ id }));
+        setProduct(await productService.getProductById({ id }));
         // TODO: Test
-        setProductArchetype(await props.productArchetypeService.getProductArchetypeById({ id: product!.id }));
+        setProductArchetype(await productArchetypeService.getProductArchetypeById({ id: product!.id }));
     }
 
     // TODO: Add link to archetype

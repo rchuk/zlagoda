@@ -1,15 +1,15 @@
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import {FormControl, InputLabel, MenuItem, Select, TextField} from "@mui/material";
 import {DatePicker} from "@mui/x-date-pickers";
-import {EmployeeApi, EmployeeRole, EmployeeView} from "../../../../generated";
+import {EmployeeRole, EmployeeView} from "../../../../generated";
 import dayjs from "dayjs";
 import Grid from "@mui/material/Unstable_Grid2";
 import {EmployeeRole_i18} from "@/app/i18/EmployeeRole_i18";
 import UpsertComponent from "@/app/components/common/UpsertComponent";
+import {ServicesContext} from "@/app/services/ServiceProvider";
 
 type EmployeeUpsertProps = {
-    initialId?: number,
-    employeeService: EmployeeApi
+    initialId?: number
 };
 
 function getDefaultEmployeeView(): EmployeeView {
@@ -29,19 +29,20 @@ function getDefaultEmployeeView(): EmployeeView {
 }
 
 export default function EmployeeUpsert(props: EmployeeUpsertProps): React.ReactNode {
+    const { employeeService } = useContext(ServicesContext);
     const [view, setView] = useState<EmployeeView>(getDefaultEmployeeView);
 
     async function fetch(id: number) {
-        const {id: _, ...newView} = await props.employeeService.getEmployeeById({ id });
+        const {id: _, ...newView} = await employeeService.getEmployeeById({ id });
         setView(newView);
     }
 
     async function update(id: number) {
-        await props.employeeService.updateEmployee({id, employeeView: view});
+        await employeeService.updateEmployee({id, employeeView: view});
     }
 
     async function create(): Promise<number> {
-        return await props.employeeService.createEmployee({employeeView: view});
+        return await employeeService.createEmployee({employeeView: view});
     }
 
     function cancel() {

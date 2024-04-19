@@ -1,31 +1,30 @@
 import {
   CustomerCard,
-  CustomerCardApi, Employee,
-  EmployeeApi, ProductArchetype,
-  ProductArchetypeApi,
-  Receipt,
-  ReceiptApi
+  Employee,
+  ProductArchetype,
+  Receipt
 } from "../../../../generated";
 import React, {useContext, useEffect, useState} from "react";
 import ViewComponent from "@/app/components/common/ViewComponent";
-import dayjs from "dayjs";
 import {AlertContext} from "@/app/services/AlertService";
 import {findEntity} from "@/app/components/common/utils/ObjectUtils";
 import {
   formatDateTime,
-  getEntityPersonFullName,
   getEntityPersonFullNameWithPatronymic
 } from "@/app/components/common/utils/BusinessUtils";
+import {ServicesContext} from "@/app/services/ServiceProvider";
 
 type ReceiptViewProps = {
-    id: number,
-    receiptService: ReceiptApi,
-    productArchetypeService: ProductArchetypeApi,
-    employeeService: EmployeeApi,
-    customerCardService: CustomerCardApi
+    id: number
 };
 
 export default function ReceiptView(props: ReceiptViewProps): React.ReactNode {
+    const {
+      receiptService,
+      productArchetypeService,
+      employeeService,
+      customerCardService
+    } = useContext(ServicesContext);
     const [receipt, setReceipt] = useState<Receipt | null>(null);
     const [productArchetypes, setProductArchetypes] = useState<ProductArchetype[] | null>(null);
     const [employee, setEmployee] = useState<Employee | null>(null);
@@ -34,19 +33,19 @@ export default function ReceiptView(props: ReceiptViewProps): React.ReactNode {
 
     useEffect(() => {
         const fetch = async() => {
-            const response = await props.productArchetypeService.getProductArchetypeList();
+            const response = await productArchetypeService.getProductArchetypeList();
             setProductArchetypes(response.items);
         };
 
         fetch().catch(e => showAlert(e.toString(), "error"));
-    });
+    }, []);
 
     async function fetch(id: number) {
-        setReceipt(await props.receiptService.getReceiptById({ id }));
+        setReceipt(await receiptService.getReceiptById({ id }));
         // TODO: Test
-        setEmployee(await props.employeeService.getEmployeeById({ id: receipt!.cashierId }));
+        setEmployee(await employeeService.getEmployeeById({ id: receipt!.cashierId }));
         if (receipt?.customerCardId != null)
-            setCustomerCard(await props.customerCardService.getCustomerCardById({ id: receipt!.customerCardId }));
+            setCustomerCard(await customerCardService.getCustomerCardById({ id: receipt!.customerCardId }));
         else
             setCustomerCard(null);
     }

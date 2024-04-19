@@ -1,8 +1,9 @@
-import {ProductCategoryApi, ProductCategoryView} from "../../../../generated";
-import React, {useState} from "react";
+import {ProductCategoryView} from "../../../../generated";
+import React, {useContext, useState} from "react";
 import {TextField} from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 import UpsertComponent from "@/app/components/common/UpsertComponent";
+import {ServicesContext} from "@/app/services/ServiceProvider";
 
 function getDefaultProductCategoryView(): ProductCategoryView {
     return {
@@ -11,24 +12,24 @@ function getDefaultProductCategoryView(): ProductCategoryView {
 }
 
 type ProductCategoryUpsertProps = {
-    initialId?: number,
-    productCategoryService: ProductCategoryApi
+    initialId?: number
 };
 
 export default function ProductCategoryUpsert(props: ProductCategoryUpsertProps): React.ReactNode {
+    const { productCategoryService } = useContext(ServicesContext);
     const [view, setView] = useState<ProductCategoryView>(getDefaultProductCategoryView);
 
     async function fetch() {
-        const {id, ...newView} = await props.productCategoryService.getProductCategoryById({id: props.initialId!});
+        const {id, ...newView} = await productCategoryService.getProductCategoryById({id: props.initialId!});
         setView(newView);
     }
 
     async function update(id: number) {
-        await props.productCategoryService.updateProductCategory({id, productCategoryView: view});
+        await productCategoryService.updateProductCategory({id, productCategoryView: view});
     }
 
     async function create(): Promise<number> {
-        return await props.productCategoryService.createProductCategory({productCategoryView: view});
+        return await productCategoryService.createProductCategory({productCategoryView: view});
     }
 
     function cancel() {

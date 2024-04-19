@@ -1,17 +1,18 @@
-import {CustomerCardApi, CustomerCard} from "../../../../generated";
-import React, {useState} from "react";
+import {CustomerCard} from "../../../../generated";
+import React, {useContext, useState} from "react";
 import ViewComponent from "@/app/components/common/ViewComponent";
+import {ServicesContext} from "@/app/services/ServiceProvider";
 
 type CustomerCardViewProps = {
-    id: number,
-    customerCardService: CustomerCardApi
+    id: number
 };
 
 export default function CustomerCardView(props: CustomerCardViewProps): React.ReactNode {
+    const { customerCardService } = useContext(ServicesContext);
     const [customerCard, setCustomerCard] = useState<CustomerCard | null>(null);
 
     async function fetch(id: number) {
-        setCustomerCard(await props.customerCardService.getCustomerCardById({ id }));
+        setCustomerCard(await customerCardService.getCustomerCardById({ id }));
     }
 
     return (

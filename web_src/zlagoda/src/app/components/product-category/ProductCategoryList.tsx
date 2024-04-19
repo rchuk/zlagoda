@@ -1,19 +1,20 @@
 import {
   ProductCategory,
-  ProductCategoryApi,
   ProductCategoryCriteria,
   ProductCategoryListResponse
 } from "../../../../generated";
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import {Box} from "@mui/material";
 import {GridColDef} from '@mui/x-data-grid';
 import ListComponent, {getDefaultBaseCriteria} from "@/app/components/common/ListComponent";
+import {ServicesContext} from "@/app/services/ServiceProvider";
 
 type ProductCategoryListProps = {
-  productCategoryService: ProductCategoryApi
+
 };
 
 export default function ProductCategoryList(props: ProductCategoryListProps): React.ReactNode {
+  const { productCategoryService } = useContext(ServicesContext);
   const [criteria, setCriteria] = useState<ProductCategoryCriteria>(getDefaultBaseCriteria);
 
   async function fetch(): Promise<ProductCategoryListResponse> {
@@ -25,7 +26,7 @@ export default function ProductCategoryList(props: ProductCategoryListProps): Re
       ]
     };
 
-    // return await props.productCategoryService.getProductCategoryList({ productCategoryCriteria: criteria });
+    // return await productCategoryService.getProductCategoryList({ productCategoryCriteria: criteria });
   }
 
   function handleCreate(callback: () => void) {

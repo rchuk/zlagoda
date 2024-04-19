@@ -1,19 +1,20 @@
 import {
   CustomerCard,
-  CustomerCardApi,
   CustomerCardCriteria,
   CustomerCardListResponse
 } from "../../../../generated";
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import {Box} from "@mui/material";
 import {GridColDef} from '@mui/x-data-grid';
 import ListComponent, {getDefaultBaseCriteria} from "@/app/components/common/ListComponent";
+import {ServicesContext} from "@/app/services/ServiceProvider";
 
 type CustomerCardListProps = {
-  customerCardService: CustomerCardApi
+
 };
 
 export default function CustomerCardList(props: CustomerCardListProps): React.ReactNode {
+  const { customerCardService } = useContext(ServicesContext);
   const [criteria, setCriteria] = useState<CustomerCardCriteria>(getDefaultBaseCriteria);
 
   async function fetch(): Promise<CustomerCardListResponse> {
@@ -25,7 +26,7 @@ export default function CustomerCardList(props: CustomerCardListProps): React.Re
       ]
     };
 
-    // return await props.customerCardService.getCustomerCardList({ customerCardCriteria: criteria });
+    // return await customerCardService.getCustomerCardList({ customerCardCriteria: criteria });
   }
 
   function handleCreate(callback: () => void) {

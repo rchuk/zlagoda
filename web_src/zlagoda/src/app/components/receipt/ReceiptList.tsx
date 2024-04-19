@@ -1,9 +1,7 @@
 import {
   CustomerCard,
-  CustomerCardApi, Employee,
-  EmployeeApi,
+  Employee,
   Receipt,
-  ReceiptApi,
   ReceiptCriteria,
   ReceiptListResponse
 } from "../../../../generated";
@@ -11,18 +9,21 @@ import React, {useContext, useEffect, useState} from "react";
 import {Box} from "@mui/material";
 import {GridColDef} from '@mui/x-data-grid';
 import ListComponent, {getDefaultBaseCriteria} from "@/app/components/common/ListComponent";
-import dayjs from "dayjs";
 import {AlertContext} from "@/app/services/AlertService";
 import {createIdsCriteria, findEntity} from "@/app/components/common/utils/ObjectUtils";
 import {formatDateTime, getEntityPersonFullName} from "@/app/components/common/utils/BusinessUtils";
+import {ServicesContext} from "@/app/services/ServiceProvider";
 
 type ReceiptListProps = {
-  receiptService: ReceiptApi,
-  employeeService: EmployeeApi,
-  customerCardService: CustomerCardApi
+
 };
 
 export default function ReceiptList(props: ReceiptListProps): React.ReactNode {
+  const {
+    receiptService,
+    employeeService,
+    customerCardService
+  } = useContext(ServicesContext);
   const [items, setItems] = useState<Receipt[] | null>(null);
   const [criteria, setCriteria] = useState<ReceiptCriteria>(getDefaultBaseCriteria);
   const [employees, setEmployees] = useState<Employee[] | null>(null);
@@ -31,7 +32,7 @@ export default function ReceiptList(props: ReceiptListProps): React.ReactNode {
 
   useEffect(() => {
     const fetch = async() => {
-      const response = await props.employeeService.getEmployeeList({
+      const response = await employeeService.getEmployeeList({
         employeeCriteria: createIdsCriteria(items)
       });
 
@@ -42,7 +43,7 @@ export default function ReceiptList(props: ReceiptListProps): React.ReactNode {
   }, [items]);
   useEffect(() => {
     const fetch = async() => {
-      const response = await props.customerCardService.getCustomerCardList({
+      const response = await customerCardService.getCustomerCardList({
         customerCardCriteria: createIdsCriteria(items)
       });
 
@@ -61,7 +62,7 @@ export default function ReceiptList(props: ReceiptListProps): React.ReactNode {
       ]
     };
 
-    // return await props.receiptService.getReceiptList({ receiptCriteria: criteria });
+    // return await receiptService.getReceiptList({ receiptCriteria: criteria });
   }
 
   function handleCreate(callback: () => void) {

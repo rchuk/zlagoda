@@ -1,10 +1,11 @@
-import {ProductApi, ProductArchetype, ProductArchetypeApi, ProductView} from "../../../../generated";
+import {ProductArchetype, ProductView} from "../../../../generated";
 import React, {useContext, useEffect, useMemo, useState} from "react";
 import {AlertContext} from "@/app/services/AlertService";
 import UpsertComponent from "@/app/components/common/UpsertComponent";
 import Grid from "@mui/material/Unstable_Grid2";
 import {Autocomplete, TextField} from "@mui/material";
 import {findEntity} from "@/app/components/common/utils/ObjectUtils";
+import {ServicesContext} from "@/app/services/ServiceProvider";
 
 function getDefaultProductView(): ProductView {
     return {
@@ -16,12 +17,11 @@ function getDefaultProductView(): ProductView {
 }
 
 type ProductUpsertProps = {
-    initialId?: number,
-    productService: ProductApi,
-    productArchetypeService: ProductArchetypeApi
+    initialId?: number
 };
 
 export default function ProductUpsert(props: ProductUpsertProps): React.ReactNode {
+    const { productService, productArchetypeService } = useContext(ServicesContext);
     const [view, setView] = useState<ProductView>(getDefaultProductView);
     const [productArchetypes, setProductArchetypes] = useState<ProductArchetype[] | null>(null);
     const showAlert = useContext(AlertContext);
@@ -34,23 +34,23 @@ export default function ProductUpsert(props: ProductUpsertProps): React.ReactNod
 
     useEffect(() => {
         const fetch = async() => {
-            const response = await props.productArchetypeService.getProductArchetypeList();
+            const response = await productArchetypeService.getProductArchetypeList();
             setProductArchetypes(response.items);
         };
 
         fetch().catch(e => showAlert(e.toString(), "error"));
-    });
+    }, []);
 
     async function fetch(id: number) {
-        setView(await props.productService.getProductById({id}));
+        setView(await productService.getProductById({id}));
     }
 
     async function create(): Promise<number> {
-        return await props.productService.createProduct({productView: view});
+        return await productService.createProduct({productView: view});
     }
 
     async function update(id: number) {
-        await props.productService.updateProdact({id, productView: view});
+        await productService.updateProdact({id, productView: view});
     }
 
     function cancel() {

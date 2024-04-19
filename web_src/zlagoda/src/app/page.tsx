@@ -19,33 +19,53 @@ import ProductList from "@/app/components/product/ProductList";
 import ProductArchetypeList from "@/app/components/product-archetype/ProductArchetypeList";
 import CustomerCardList from "@/app/components/customer-card/CustomerCardList";
 import ReceiptList from "@/app/components/receipt/ReceiptList";
+import ServicesProvider, {Services} from "@/app/services/ServiceProvider";
+import {
+  CustomerCardApi,
+  EmployeeApi,
+  ProductApi,
+  ProductArchetypeApi,
+  ProductCategoryApi,
+  ReceiptApi
+} from "../../generated";
 
 export default function Home() {
+  const services: Services = {
+    employeeService: new EmployeeApi(),
+    productCategoryService: new ProductCategoryApi(),
+    productArchetypeService: new ProductArchetypeApi(),
+    productService: new ProductApi(),
+    receiptService: new ReceiptApi(),
+    customerCardService: new CustomerCardApi()
+  };
+
   return (
     <div>
-        <LocalizationProvider
-            dateAdapter={AdapterDayjs} adapterLocale="uk"
-        >
-            <AlertProvider>
-                <h1>Hello world!</h1>
-                <EmployeeUpsert></EmployeeUpsert>
-                <EmployeeView></EmployeeView>
-                <ProductCategoryUpsert></ProductCategoryUpsert>
-                <ProductArchetypeUpsert></ProductArchetypeUpsert>
-                <ProductArchetypeView></ProductArchetypeView>
-                <CustomerCardUpsert></CustomerCardUpsert>
-                <CustomerCardView></CustomerCardView>
-                <ProductUpsert></ProductUpsert>
-                <ProductView></ProductView>
-                <ReceiptView></ReceiptView>
-                <EmployeeList></EmployeeList>
-                <ProductCategoryList></ProductCategoryList>
-                <ProductList></ProductList>
-                <ProductArchetypeList></ProductArchetypeList>
-                <CustomerCardList></CustomerCardList>
-                <ReceiptList></ReceiptList>
-            </AlertProvider>
-        </LocalizationProvider>
+      <LocalizationProvider
+        dateAdapter={AdapterDayjs} adapterLocale="uk"
+      >
+        <AlertProvider>
+          <ServicesProvider services={services}>
+            <h1>Hello world!</h1>
+            <EmployeeUpsert></EmployeeUpsert>
+            <EmployeeView></EmployeeView>
+            <ProductCategoryUpsert></ProductCategoryUpsert>
+            <ProductArchetypeUpsert></ProductArchetypeUpsert>
+            <ProductArchetypeView></ProductArchetypeView>
+            <CustomerCardUpsert></CustomerCardUpsert>
+            <CustomerCardView></CustomerCardView>
+            <ProductUpsert></ProductUpsert>
+            <ProductView></ProductView>
+            <ReceiptView></ReceiptView>
+            <EmployeeList></EmployeeList>
+            <ProductCategoryList></ProductCategoryList>
+            <ProductList></ProductList>
+            <ProductArchetypeList></ProductArchetypeList>
+            <CustomerCardList></CustomerCardList>
+            <ReceiptList></ReceiptList>
+          </ServicesProvider>
+        </AlertProvider>
+      </LocalizationProvider>
     </div>
   );
 }

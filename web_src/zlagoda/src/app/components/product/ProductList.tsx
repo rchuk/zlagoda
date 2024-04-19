@@ -1,6 +1,6 @@
  import {
   Product,
-  ProductApi, ProductArchetype, ProductArchetypeApi,
+  ProductArchetype,
   ProductCriteria,
   ProductListResponse
 } from "../../../../generated";
@@ -10,13 +10,14 @@ import {GridColDef} from '@mui/x-data-grid';
 import ListComponent, {getDefaultBaseCriteria} from "@/app/components/common/ListComponent";
  import {AlertContext} from "@/app/services/AlertService";
  import {createIdsCriteria, findEntity} from "@/app/components/common/utils/ObjectUtils";
+ import {ServicesContext} from "@/app/services/ServiceProvider";
 
 type ProductListProps = {
-  productService: ProductApi,
-  productArchetypeService: ProductArchetypeApi
+
 };
 
 export default function ProductList(props: ProductListProps): React.ReactNode {
+  const { productService, productArchetypeService } = useContext(ServicesContext);
   const [items, setItems] = useState<Product[] | null>(null);
   const [criteria, setCriteria] = useState<ProductCriteria>(getDefaultBaseCriteria);
   const [productArchetypes, setProductArchetypes] = useState<ProductArchetype[] | null>(null);
@@ -24,7 +25,7 @@ export default function ProductList(props: ProductListProps): React.ReactNode {
 
   useEffect(() => {
     const fetch = async() => {
-      const response = await props.productArchetypeService.getProductArchetypeList({
+      const response = await productArchetypeService.getProductArchetypeList({
         productArchetypeCriteria: createIdsCriteria(items)
       });
 
@@ -43,7 +44,7 @@ export default function ProductList(props: ProductListProps): React.ReactNode {
       ]
     };
 
-    // return await props.productService.getProductList({ productCriteria: criteria });
+    // return await productService.getProductList({ productCriteria: criteria });
   }
 
   function handleCreate(callback: () => void) {
