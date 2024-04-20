@@ -36,15 +36,7 @@ export default function ProductList(props: ProductListProps): React.ReactNode {
   }, [items]);
 
   async function fetch(): Promise<ProductListResponse> {
-    return {
-      totalCount: 2,
-      items: [
-        { id: 0, upc: "12345", price: 100, archetype: 0, quantity: 10, hasDiscount: false },
-        { id: 1, upc: "54321", price: 250, archetype: 1, quantity: 25, hasDiscount: true }
-      ]
-    };
-
-    // return await productService.getProductList({ productCriteria: criteria });
+    return await productService.getProductList({ productCriteria: criteria });
   }
 
   function handleCreate(callback: () => void) {

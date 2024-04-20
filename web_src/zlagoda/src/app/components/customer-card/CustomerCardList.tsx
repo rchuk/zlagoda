@@ -18,15 +18,7 @@ export default function CustomerCardList(props: CustomerCardListProps): React.Re
   const [criteria, setCriteria] = useState<CustomerCardCriteria>(getDefaultBaseCriteria);
 
   async function fetch(): Promise<CustomerCardListResponse> {
-    return {
-      totalCount: 2,
-      items: [
-        { id: 0, firstName: "Валентин", lastName: "Нагорний", patronymic: "Миколайович", discountPercent: 10, phoneNumber: "+380556029485" },
-        { id: 3, firstName: "Андрій", lastName: "Запорожець", discountPercent: 12, phoneNumber: "+380556024485" }
-      ]
-    };
-
-    // return await customerCardService.getCustomerCardList({ customerCardCriteria: criteria });
+    return await customerCardService.getCustomerCardList({ customerCardCriteria: criteria });
   }
 
   function handleCreate(callback: () => void) {

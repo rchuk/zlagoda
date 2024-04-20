@@ -35,15 +35,7 @@ export default function ProductArchetypeList(props: ProductArchetypeListProps): 
   }, [items]);
 
   async function fetch(): Promise<ProductArchetypeListResponse> {
-    return {
-      totalCount: 2,
-      items: [
-        { id: 0, name: "Щось", category: 0, manufacturer: "Київський Завод ЛХБЧ", description: "asfasf" },
-        { id: 1, name: "Бла бла", category: 4, manufacturer: "Харківський КМСБ", description: "dgkdkgkd" }
-      ]
-    };
-
-    // return await productArchetypeService.getProductArchetypeList({ productArchetypeCriteria: criteria });
+    return await productArchetypeService.getProductArchetypeList({ productArchetypeCriteria: criteria });
   }
 
   function handleCreate(callback: () => void) {

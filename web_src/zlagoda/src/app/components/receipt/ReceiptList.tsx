@@ -54,15 +54,7 @@ export default function ReceiptList(props: ReceiptListProps): React.ReactNode {
   }, [items]);
 
   async function fetch(): Promise<ReceiptListResponse> {
-    return {
-      totalCount: 2,
-      items: [
-        { id: 0, cashierId: 0, customerCardId: 66, dateTime: new Date(), vat: 100, totalPrice: 1500, items: []},
-        { id: 55, cashierId: 2, dateTime: new Date(), vat: 5, totalPrice: 250, items: []},
-      ]
-    };
-
-    // return await receiptService.getReceiptList({ receiptCriteria: criteria });
+    return await receiptService.getReceiptList({ receiptCriteria: criteria });
   }
 
   function handleCreate(callback: () => void) {

@@ -1,7 +1,7 @@
 import {
   Employee,
   EmployeeCriteria,
-  EmployeeListResponse, EmployeeRole
+  EmployeeListResponse
 } from "../../../../generated";
 import React, {useContext, useState} from "react";
 import {Box} from "@mui/material";
@@ -9,6 +9,7 @@ import {GridColDef} from '@mui/x-data-grid';
 import ListComponent, {getDefaultBaseCriteria} from "@/app/components/common/ListComponent";
 import {EmployeeRole_i18} from "@/app/i18/EmployeeRole_i18";
 import {ServicesContext} from "@/app/services/ServiceProvider";
+import {useRouter} from "next/router";
 
 type EmployeeListProps = {
 
@@ -19,19 +20,7 @@ export default function EmployeeList(props: EmployeeListProps): React.ReactNode 
   const [criteria, setCriteria] = useState<EmployeeCriteria>(getDefaultBaseCriteria);
 
   async function fetch(): Promise<EmployeeListResponse> {
-    return {
-      totalCount: 2,
-      items: [
-        { id: 1, firstName: "Валентин", lastName: "Нагорний", patronymic: "Миколайович", role: EmployeeRole.Cashier, salary: 15000, phoneNumber: "+380556029485",
-          workStartDate: new Date(), birthDate: new Date(), zipCode: "04118", city: "Kyiv", street: "Some street"
-        },
-        { id: 3, firstName: "Андрій", lastName: "Запорожець", patronymic: "Батькович", role: EmployeeRole.Manager, salary: 25000, phoneNumber: "+380556024485",
-          workStartDate: new Date(), birthDate: new Date(), zipCode: "04115", city: "Kyiv", street: "Different street"
-        }
-      ]
-    };
-
-    // return await employeeService.getEmployeeList({ employeeCriteria: criteria });
+    return await employeeService.getEmployeeList({ employeeCriteria: criteria });
   }
 
   function handleCreate(callback: () => void) {

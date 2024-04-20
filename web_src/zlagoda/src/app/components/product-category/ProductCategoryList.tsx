@@ -18,15 +18,7 @@ export default function ProductCategoryList(props: ProductCategoryListProps): Re
   const [criteria, setCriteria] = useState<ProductCategoryCriteria>(getDefaultBaseCriteria);
 
   async function fetch(): Promise<ProductCategoryListResponse> {
-    return {
-      totalCount: 2,
-      items: [
-        { id: 0, name: "Тест" },
-        { id: 1, name: "Бла бла" }
-      ]
-    };
-
-    // return await productCategoryService.getProductCategoryList({ productCategoryCriteria: criteria });
+    return await productCategoryService.getProductCategoryList({ productCategoryCriteria: criteria });
   }
 
   function handleCreate(callback: () => void) {
