@@ -78,17 +78,15 @@ export default function EmployeeList(props: EmployeeListProps): React.ReactNode 
   // TODO: Handle filters
 
   return (
-    <Box>
-      <ListComponent
-        columns={columns}
-        fetch={fetch}
-        create={handleCreate}
-        view={handleView}
-        update={handleUpdate}
-        delete={handleDelete}
-        criteria={criteria}
-        setCriteria={setCriteria}
-      />
-    </Box>
+    <ListComponent
+      columns={columns}
+      fetch={fetch}
+      create={handleCreate}
+      view={handleView}
+      update={handleUpdate}
+      delete={handleDelete}
+      criteria={criteria}
+      setCriteria={setCriteria}
+    />
   );
 }

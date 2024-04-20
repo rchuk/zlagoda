@@ -105,19 +105,17 @@ export default function ReceiptList(props: ReceiptListProps): React.ReactNode {
   // TODO: Handle filters
 
   return (
-    <Box>
-      <ListComponent
-        columns={columns}
-        fetch={fetch}
-        create={handleCreate}
-        view={handleView}
-        delete={handleDelete}
-        criteria={criteria}
-        setCriteria={setCriteria}
+    <ListComponent
+      columns={columns}
+      fetch={fetch}
+      create={handleCreate}
+      view={handleView}
+      delete={handleDelete}
+      criteria={criteria}
+      setCriteria={setCriteria}
 
-        items={items}
-        setItems={setItems}
-      />
-    </Box>
+      items={items}
+      setItems={setItems}
+    />
   );
 }

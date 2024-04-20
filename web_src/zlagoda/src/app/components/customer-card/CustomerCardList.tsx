@@ -71,17 +71,15 @@ export default function CustomerCardList(props: CustomerCardListProps): React.Re
   // TODO: Handle filters
 
   return (
-    <Box>
-      <ListComponent
-        columns={columns}
-        fetch={fetch}
-        create={handleCreate}
-        view={handleView}
-        update={handleUpdate}
-        delete={handleDelete}
-        criteria={criteria}
-        setCriteria={setCriteria}
-      />
-    </Box>
+    <ListComponent
+      columns={columns}
+      fetch={fetch}
+      create={handleCreate}
+      view={handleView}
+      update={handleUpdate}
+      delete={handleDelete}
+      criteria={criteria}
+      setCriteria={setCriteria}
+    />
   );
 }

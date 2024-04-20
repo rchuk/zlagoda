@@ -46,16 +46,14 @@ export default function ProductCategoryList(props: ProductCategoryListProps): Re
   // TODO: Handle filters
 
   return (
-    <Box>
-      <ListComponent
-        columns={columns}
-        fetch={fetch}
-        create={handleCreate}
-        update={handleUpdate}
-        delete={handleDelete}
-        criteria={criteria}
-        setCriteria={setCriteria}
-      />
-    </Box>
+    <ListComponent
+      columns={columns}
+      fetch={fetch}
+      create={handleCreate}
+      update={handleUpdate}
+      delete={handleDelete}
+      criteria={criteria}
+      setCriteria={setCriteria}
+    />
   );
 }

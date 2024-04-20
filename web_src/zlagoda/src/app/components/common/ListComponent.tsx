@@ -176,28 +176,27 @@ export default function ListComponent<ItemT extends GridValidRowModel, CriteriaT
   ];
 
   return (
-    <Box sx={{ margin: 2 }}>
-      <DataGrid
-        columns={columns}
-        rows={items ?? []}
-        paginationMode="server"
-        rowCount={itemCount ?? 0}
-        onPaginationModelChange={onPaginationModelChange}
-        pageSizeOptions={[10, 25, 50]}
-        sortingMode="server"
-        onSortModelChange={onSortModelChange}
-        filterMode="server"
-        disableColumnFilter={!props.setFilter}
-        onFilterModelChange={onFilterModelChange}
-        slots={{
-          toolbar: ListToolbar as GridSlots["toolbar"],
-        }}
-        slotProps={{
-          toolbar: {
-            createItem: props.create && handleCreate
-          },
-        }}
-      />
-    </Box>
+    <DataGrid
+      sx={{ margin: 2 }}
+      columns={columns}
+      rows={items ?? []}
+      paginationMode="server"
+      rowCount={itemCount ?? 0}
+      onPaginationModelChange={onPaginationModelChange}
+      pageSizeOptions={[10, 25, 50]}
+      sortingMode="server"
+      onSortModelChange={onSortModelChange}
+      filterMode="server"
+      disableColumnFilter={!props.setFilter}
+      onFilterModelChange={onFilterModelChange}
+      slots={{
+        toolbar: ListToolbar as GridSlots["toolbar"],
+      }}
+      slotProps={{
+        toolbar: {
+          createItem: props.create && handleCreate
+        },
+      }}
+    />
   );
 }
