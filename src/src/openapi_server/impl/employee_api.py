@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import List
+from typing import List, TypedDict
 
 from openapi_server.apis.employee_api_base import BaseEmployeeApi
 
@@ -12,22 +12,36 @@ from openapi_server.models.employee_view import EmployeeView
 
 class EmployeeApi(BaseEmployeeApi):
     def __init__(self):
-        self._employees: List[Employee] = [
-            Employee(
+        self._employees: TypedDict[int, Employee] = {
+            0: Employee(
                 id = 0,
                 first_name = "Дмитро",
                 last_name = "Запорожець",
                 patronymic = "Олександрович",
                 role = EmployeeRole.MANAGER,
-                salary = 20000,
+                salary = 25000,
                 work_start_date = datetime(2020, 5, 1).date().isoformat(),
                 birth_date = datetime(2004, 12, 16).date().isoformat(),
-                phone_number = "+380674460000",
+                phone_number = "+380674400000",
                 city = "Київ",
                 street = "Якась вулиця",
                 zip_code = "01001"
+            ),
+            2: Employee(
+                id = 2,
+                first_name = "Руслан",
+                last_name = "Омельчук",
+                patronymic = "Ігорович",
+                role = EmployeeRole.CASHIER,
+                salary = 17000,
+                work_start_date = datetime(2020, 11, 3).date().isoformat(),
+                birth_date = datetime(2004, 11, 24).date().isoformat(),
+                phone_number = "+380664000000",
+                city = "Київ",
+                street = "Інша вулиця",
+                zip_code = "04210"
             )
-        ]
+        }
 
     def create_employee(
         self,
@@ -55,7 +69,7 @@ class EmployeeApi(BaseEmployeeApi):
         employee_criteria: EmployeeCriteria,
     ) -> EmployeeListResponse:
         # TODO: Handle paging
-        return EmployeeListResponse(total_count=len(self._employees), items=self._employees)
+        return EmployeeListResponse(total_count=len(self._employees), items=list(self._employees.values()))
 
 
     def get_employee_me(
