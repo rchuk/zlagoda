@@ -78,7 +78,7 @@ export default function ReceiptList(props: ReceiptListProps): React.ReactNode {
       width: 350
     },
     {
-      field: "customCardId",
+      field: "customerCardId",
       headerName: "Клієнт",
       valueGetter: value => value ? getEntityPersonFullName(findEntity(customerCards, value)) : "",
       width: 350
