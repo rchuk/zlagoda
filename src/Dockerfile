@@ -1,4 +1,4 @@
-FROM python:3.7 AS builder
+FROM python:3.11 AS builder
 
 WORKDIR /usr/src/app
 
@@ -10,12 +10,14 @@ RUN pip install --upgrade pip
 COPY . .
 RUN pip install --no-cache-dir .
 
+RUN pip install -r requirements.txt
 
-FROM python:3.7 AS test_runner
-WORKDIR /tmp
-COPY --from=builder /venv /venv
-COPY --from=builder /usr/src/app/tests tests
-ENV PATH=/venv/bin:$PATH
+
+# FROM python:3.7 AS test_runner
+# WORKDIR /tmp
+# COPY --from=builder /venv /venv
+# COPY --from=builder /usr/src/app/tests tests
+# ENV PATH=/venv/bin:$PATH
 
 # install test dependencies
 # RUN pip install pytest
