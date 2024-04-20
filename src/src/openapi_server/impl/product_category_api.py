@@ -39,7 +39,7 @@ class ProductCategoryApi(BaseProductCategoryApi):
         self,
         id: int,
     ) -> ProductCategory:
-        raise self._categories[id]
+        return self._categories[id]
 
 
     def get_product_category_list(
