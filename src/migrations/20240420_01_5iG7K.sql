@@ -1,4 +1,4 @@
--- Initialize tables
+-- Create product_category table
 -- depends: 
 
 CREATE TABLE product_category (

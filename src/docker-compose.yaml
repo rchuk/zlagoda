@@ -1,9 +1,0 @@
-version: '3.6'
-services:
-  service:
-    build:
-      context: .
-      target: service
-    ports:
-      - "3333:3333"
-    command: uvicorn openapi_server.main:app --host 0.0.0.0 --port 3333
