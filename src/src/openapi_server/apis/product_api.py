@@ -83,7 +83,7 @@ async def get_product_by_id(
     return BaseProductApi.subclasses[0]().get_product_by_id(id)
 
 
-@router.get(
+@router.post(
     "/api/product",
     responses={
         200: {"model": ProductListResponse, "description": "List of products"},

@@ -83,7 +83,7 @@ async def get_product_archetype_by_id(
     return BaseProductArchetypeApi.subclasses[0]().get_product_archetype_by_id(id)
 
 
-@router.get(
+@router.post(
     "/api/product-archetype",
     responses={
         200: {"model": ProductArchetypeListResponse, "description": "List of product archetypes"},

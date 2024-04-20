@@ -83,7 +83,7 @@ async def get_receipt_by_id(
     return BaseReceiptApi.subclasses[0]().get_receipt_by_id(id)
 
 
-@router.get(
+@router.post(
     "/api/receipt",
     responses={
         200: {"model": ReceiptListResponse, "description": "List of receipts"},

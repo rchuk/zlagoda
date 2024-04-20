@@ -83,7 +83,7 @@ async def get_customer_card_by_id(
     return BaseCustomerCardApi.subclasses[0]().get_customer_card_by_id(id)
 
 
-@router.get(
+@router.post(
     "/api/customer-card",
     responses={
         200: {"model": CustomerCardListResponse, "description": "List of customer cards"},

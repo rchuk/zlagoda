@@ -83,7 +83,7 @@ async def get_product_category_by_id(
     return BaseProductCategoryApi.subclasses[0]().get_product_category_by_id(id)
 
 
-@router.get(
+@router.post(
     "/api/product-category/",
     responses={
         200: {"model": ProductCategoryListResponse, "description": "List of product categories"},

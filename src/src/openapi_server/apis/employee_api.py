@@ -83,7 +83,7 @@ async def get_employee_by_id(
     return BaseEmployeeApi.subclasses[0]().get_employee_by_id(id)
 
 
-@router.get(
+@router.post(
     "/api/employee",
     responses={
         200: {"model": EmployeeListResponse, "description": "List of employees"},

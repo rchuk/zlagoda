@@ -20,7 +20,7 @@ tags:
   name: customer-card
 paths:
   /api/employee:
-    get:
+    post:
       description: Get list of employees
       operationId: getEmployeeList
       requestBody:
@@ -143,7 +143,7 @@ paths:
       tags:
       - employee
   /api/product-category/:
-    get:
+    post:
       description: Get list of product categories
       operationId: getProductCategoryList
       requestBody:
@@ -252,7 +252,7 @@ paths:
       tags:
       - product-category
   /api/product-archetype:
-    get:
+    post:
       description: Get list of product archetypes
       operationId: getProductArchetypeList
       requestBody:
@@ -361,7 +361,7 @@ paths:
       tags:
       - product-archetype
   /api/product:
-    get:
+    post:
       description: Get list of products
       operationId: getProductList
       requestBody:
@@ -470,7 +470,7 @@ paths:
       tags:
       - product
   /api/receipt:
-    get:
+    post:
       description: Get list of receipts
       operationId: getReceiptList
       requestBody:
@@ -552,7 +552,7 @@ paths:
       tags:
       - receipt
   /api/customer-card:
-    get:
+    post:
       description: Get list of customer cards
       operationId: getCustomerCardList
       requestBody:

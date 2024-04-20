@@ -21,7 +21,7 @@ tags:
 
 paths:
   /api/employee:
-    get:
+    post:
       tags:
         - employee
       summary: Get list of employees
@@ -141,7 +141,7 @@ paths:
                 type: integer
 
   /api/product-category/:
-    get:
+    post:
       tags:
         - product-category
       summary: Get list of product categories
@@ -246,7 +246,7 @@ paths:
                 type: boolean
 
   /api/product-archetype:
-    get:
+    post:
       tags:
         - product-archetype
       summary: Get list of product archetypes
@@ -351,7 +351,7 @@ paths:
                 type: boolean
 
   /api/product:
-    get:
+    post:
       tags:
         - product
       summary: Get list of products
@@ -456,7 +456,7 @@ paths:
                 type: boolean
 
   /api/receipt:
-    get:
+    post:
       tags:
         - receipt
       summary: Get list of receipts
@@ -536,7 +536,7 @@ paths:
                 type: boolean
 
   /api/customer-card:
-    get:
+    post:
       tags:
         - customer-card
       summary: Get list of customer cards
