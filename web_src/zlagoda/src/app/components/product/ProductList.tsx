@@ -13,7 +13,9 @@ import ListComponent, {getDefaultBaseCriteria} from "@/app/components/common/Lis
  import {ServicesContext} from "@/app/services/ServiceProvider";
 
 type ProductListProps = {
-
+  create?: (callback: () => void) => void,
+  update?: (id: number) => void,
+  view?: (id: number) => void
 };
 
 export default function ProductList(props: ProductListProps): React.ReactNode {
@@ -36,31 +38,23 @@ export default function ProductList(props: ProductListProps): React.ReactNode {
   }, [items]);
 
   async function fetch(): Promise<ProductListResponse> {
-    return {
-      totalCount: 2,
-      items: [
-        { id: 0, upc: "12345", price: 100, archetype: 0, quantity: 10, hasDiscount: false },
-        { id: 1, upc: "54321", price: 250, archetype: 1, quantity: 25, hasDiscount: true }
-      ]
-    };
+    return await productService.getProductList({ productCriteria: criteria });
+  }
 
-    // return await productService.getProductList({ productCriteria: criteria });
+  async function handleDelete(id: number) {
+    return await productService.deleteProduct({ id });
   }
 
   function handleCreate(callback: () => void) {
-
+    props.create?.(callback);
   }
 
   function handleView(id: number) {
-
+    props.view?.(id);
   }
 
   function handleUpdate(id: number) {
-
-  }
-
-  function handleDelete(id: number, callback: () => void) {
-
+    props.update?.(id);
   }
 
   const columns: GridColDef<Product>[] = [
@@ -97,20 +91,18 @@ export default function ProductList(props: ProductListProps): React.ReactNode {
   // TODO: Handle filters
 
   return (
-    <Box>
-      <ListComponent
-        columns={columns}
-        fetch={fetch}
-        create={handleCreate}
-        view={handleView}
-        update={handleUpdate}
-        delete={handleDelete}
-        criteria={criteria}
-        setCriteria={setCriteria}
+    <ListComponent
+      columns={columns}
+      fetch={fetch}
+      create={handleCreate}
+      view={handleView}
+      update={handleUpdate}
+      delete={handleDelete}
+      criteria={criteria}
+      setCriteria={setCriteria}
 
-        items={items}
-        setItems={setItems}
-      />
-    </Box>
+      items={items}
+      setItems={setItems}
+    />
   );
 }

@@ -10,7 +10,8 @@ import ListComponent, {getDefaultBaseCriteria} from "@/app/components/common/Lis
 import {ServicesContext} from "@/app/services/ServiceProvider";
 
 type ProductCategoryListProps = {
-
+  create?: (callback: () => void) => void,
+  update?: (id: number) => void
 };
 
 export default function ProductCategoryList(props: ProductCategoryListProps): React.ReactNode {
@@ -18,27 +19,19 @@ export default function ProductCategoryList(props: ProductCategoryListProps): Re
   const [criteria, setCriteria] = useState<ProductCategoryCriteria>(getDefaultBaseCriteria);
 
   async function fetch(): Promise<ProductCategoryListResponse> {
-    return {
-      totalCount: 2,
-      items: [
-        { id: 0, name: "Тест" },
-        { id: 1, name: "Бла бла" }
-      ]
-    };
+    return await productCategoryService.getProductCategoryList({ productCategoryCriteria: criteria });
+  }
 
-    // return await productCategoryService.getProductCategoryList({ productCategoryCriteria: criteria });
+  async function handleDelete(id: number) {
+    return await productCategoryService.deleteProductCategory({ id });
   }
 
   function handleCreate(callback: () => void) {
-
+    props.create?.(callback);
   }
 
   function handleUpdate(id: number) {
-
-  }
-
-  function handleDelete(id: number, callback: () => void) {
-
+    props.update?.(id);
   }
 
   const columns: GridColDef<ProductCategory>[] = [
@@ -53,16 +46,14 @@ export default function ProductCategoryList(props: ProductCategoryListProps): Re
   // TODO: Handle filters
 
   return (
-    <Box>
-      <ListComponent
-        columns={columns}
-        fetch={fetch}
-        create={handleCreate}
-        update={handleUpdate}
-        delete={handleDelete}
-        criteria={criteria}
-        setCriteria={setCriteria}
-      />
-    </Box>
+    <ListComponent
+      columns={columns}
+      fetch={fetch}
+      create={handleCreate}
+      update={handleUpdate}
+      delete={handleDelete}
+      criteria={criteria}
+      setCriteria={setCriteria}
+    />
   );
 }

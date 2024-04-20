@@ -13,9 +13,13 @@ import {
   getEntityPersonFullNameWithPatronymic
 } from "@/app/components/common/utils/BusinessUtils";
 import {ServicesContext} from "@/app/services/ServiceProvider";
+import Link from "next/link";
 
 type ReceiptViewProps = {
-    id: number
+    id: number,
+    onError?: (reason: any) => void,
+    edit?: (id: number) => void,
+    cancel?: () => void
 };
 
 export default function ReceiptView(props: ReceiptViewProps): React.ReactNode {
@@ -41,20 +45,26 @@ export default function ReceiptView(props: ReceiptViewProps): React.ReactNode {
     }, []);
 
     async function fetch(id: number) {
-        setReceipt(await receiptService.getReceiptById({ id }));
-        // TODO: Test
-        setEmployee(await employeeService.getEmployeeById({ id: receipt!.cashierId }));
-        if (receipt?.customerCardId != null)
-            setCustomerCard(await customerCardService.getCustomerCardById({ id: receipt!.customerCardId }));
+        const newReceipt = await receiptService.getReceiptById({ id });
+        setReceipt(newReceipt);
+        setEmployee(await employeeService.getEmployeeById({ id: newReceipt.cashierId }));
+        if (newReceipt.customerCardId != null)
+            setCustomerCard(await customerCardService.getCustomerCardById({ id: newReceipt.customerCardId }));
         else
             setCustomerCard(null);
     }
 
     // TODO: Add links to archetype, client card and cashier
     return (
-        <ViewComponent id={props.id} fetch={fetch}>
+        <ViewComponent id={props.id} fetch={fetch} onError={props.onError} edit={props.edit} cancel={props.cancel}
+                       header="Перегляд чеку"
+        >
+            <h2 style={{ textAlign: "center" }}>Перегляд чеку</h2>
             <div>
-                <b>Касир: </b><span>{getEntityPersonFullNameWithPatronymic(employee)}</span>
+                <b>Касир: </b>
+                <Link href={`/employee/${employee?.id}`}>
+                  {getEntityPersonFullNameWithPatronymic(employee)}
+                </Link>
             </div>
             <div>
                 <b>Картка клієнта: </b><span>{getEntityPersonFullNameWithPatronymic(customerCard)}</span>

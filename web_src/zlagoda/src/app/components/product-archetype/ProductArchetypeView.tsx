@@ -4,7 +4,10 @@ import ViewComponent from "@/app/components/common/ViewComponent";
 import {ServicesContext} from "@/app/services/ServiceProvider";
 
 type ProductArchetypeViewProps = {
-    id: number
+    id: number,
+    onError?: (reason: any) => void,
+    edit?: (id: number) => void,
+    cancel?: () => void
 };
 
 export default function ProductArchetypeView(props: ProductArchetypeViewProps): React.ReactNode {
@@ -13,14 +16,16 @@ export default function ProductArchetypeView(props: ProductArchetypeViewProps): 
     const [productCategory, setProductCategory] = useState<ProductCategory | null>(null);
 
     async function fetch(id: number) {
-        setProductArchetype(await productArchetypeService.getProductArchetypeById({ id }));
-        // TODO: Test
-        setProductCategory(await productCategoryService.getProductCategoryById({ id: productArchetype!.category }));
+        const newProductArchetype = await productArchetypeService.getProductArchetypeById({ id });
+        setProductArchetype(newProductArchetype);
+        setProductCategory(await productCategoryService.getProductCategoryById({ id: newProductArchetype.category }));
     }
 
     // TODO: Add link to category
     return (
-        <ViewComponent id={props.id} fetch={fetch}>
+        <ViewComponent id={props.id} fetch={fetch} onError={props.onError} edit={props.edit} cancel={props.cancel}
+                       header="Перегляд типу товару"
+        >
             <div>
                 <b>Товар: </b><span>{productArchetype?.name}</span>
             </div>

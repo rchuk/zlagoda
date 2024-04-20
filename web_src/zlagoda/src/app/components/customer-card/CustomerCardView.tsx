@@ -4,7 +4,10 @@ import ViewComponent from "@/app/components/common/ViewComponent";
 import {ServicesContext} from "@/app/services/ServiceProvider";
 
 type CustomerCardViewProps = {
-    id: number
+    id: number,
+    onError?: (reason: any) => void,
+    edit?: (id: number) => void,
+    cancel?: () => void
 };
 
 export default function CustomerCardView(props: CustomerCardViewProps): React.ReactNode {
@@ -16,7 +19,9 @@ export default function CustomerCardView(props: CustomerCardViewProps): React.Re
     }
 
     return (
-        <ViewComponent id={props.id} fetch={fetch}>
+        <ViewComponent id={props.id} fetch={fetch} onError={props.onError} edit={props.edit} cancel={props.cancel}
+                       header="Перегляд картки клієнта"
+        >
             <div>
                 <b>Прізвище: </b><span>{customerCard?.firstName}</span>
             </div>

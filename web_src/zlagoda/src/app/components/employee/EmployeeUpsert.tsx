@@ -1,5 +1,5 @@
 import React, {useContext, useState} from "react";
-import {FormControl, InputLabel, MenuItem, Select, TextField} from "@mui/material";
+import {Box, FormControl, InputLabel, MenuItem, Select, TextField} from "@mui/material";
 import {DatePicker} from "@mui/x-date-pickers";
 import {EmployeeRole, EmployeeView} from "../../../../generated";
 import dayjs from "dayjs";
@@ -9,7 +9,9 @@ import UpsertComponent from "@/app/components/common/UpsertComponent";
 import {ServicesContext} from "@/app/services/ServiceProvider";
 
 type EmployeeUpsertProps = {
-    initialId?: number
+    initialId: number | null,
+    onError?: (reason: any) => void,
+    cancel?: () => void
 };
 
 function getDefaultEmployeeView(): EmployeeView {
@@ -45,10 +47,6 @@ export default function EmployeeUpsert(props: EmployeeUpsertProps): React.ReactN
         return await employeeService.createEmployee({employeeView: view});
     }
 
-    function cancel() {
-
-    }
-
     return (
         <UpsertComponent
             initialId={props.initialId}
@@ -56,7 +54,10 @@ export default function EmployeeUpsert(props: EmployeeUpsertProps): React.ReactN
             fetch={fetch}
             create={create}
             update={update}
-            cancel={cancel}>
+            cancel={props.cancel}
+            onError={props.onError}
+            header={props.initialId != null ? "Редагування інформації про працівника" : "Створення інформації про працівника"}
+        >
             <Grid xs={6}>
                 <TextField label="Прізвище"
                            required

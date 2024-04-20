@@ -10,7 +10,9 @@ import ListComponent, {getDefaultBaseCriteria} from "@/app/components/common/Lis
 import {ServicesContext} from "@/app/services/ServiceProvider";
 
 type CustomerCardListProps = {
-
+    create?: (callback: () => void) => void,
+    update?: (id: number) => void,
+    view?: (id: number) => void
 };
 
 export default function CustomerCardList(props: CustomerCardListProps): React.ReactNode {
@@ -18,31 +20,23 @@ export default function CustomerCardList(props: CustomerCardListProps): React.Re
   const [criteria, setCriteria] = useState<CustomerCardCriteria>(getDefaultBaseCriteria);
 
   async function fetch(): Promise<CustomerCardListResponse> {
-    return {
-      totalCount: 2,
-      items: [
-        { id: 0, firstName: "Валентин", lastName: "Нагорний", patronymic: "Миколайович", discountPercent: 10, phoneNumber: "+380556029485" },
-        { id: 3, firstName: "Андрій", lastName: "Запорожець", discountPercent: 12, phoneNumber: "+380556024485" }
-      ]
-    };
+    return await customerCardService.getCustomerCardList({ customerCardCriteria: criteria });
+  }
 
-    // return await customerCardService.getCustomerCardList({ customerCardCriteria: criteria });
+  async function handleDelete(id: number) {
+    return await customerCardService.deleteCustomerCard({ id });
   }
 
   function handleCreate(callback: () => void) {
-
+    props.create?.(callback);
   }
 
   function handleView(id: number) {
-
+    props.view?.(id);
   }
 
   function handleUpdate(id: number) {
-
-  }
-
-  function handleDelete(id: number, callback: () => void) {
-
+    props.update?.(id);
   }
 
   const columns: GridColDef<CustomerCard>[] = [
@@ -77,17 +71,15 @@ export default function CustomerCardList(props: CustomerCardListProps): React.Re
   // TODO: Handle filters
 
   return (
-    <Box>
-      <ListComponent
-        columns={columns}
-        fetch={fetch}
-        create={handleCreate}
-        view={handleView}
-        update={handleUpdate}
-        delete={handleDelete}
-        criteria={criteria}
-        setCriteria={setCriteria}
-      />
-    </Box>
+    <ListComponent
+      columns={columns}
+      fetch={fetch}
+      create={handleCreate}
+      view={handleView}
+      update={handleUpdate}
+      delete={handleDelete}
+      criteria={criteria}
+      setCriteria={setCriteria}
+    />
   );
 }

@@ -12,7 +12,9 @@ import {createIdsCriteria, findEntity} from "@/app/components/common/utils/Objec
 import {ServicesContext} from "@/app/services/ServiceProvider";
 
 type ProductArchetypeListProps = {
-
+  create?: (callback: () => void) => void,
+  update?: (id: number) => void,
+  view?: (id: number) => void
 };
 
 export default function ProductArchetypeList(props: ProductArchetypeListProps): React.ReactNode {
@@ -35,31 +37,23 @@ export default function ProductArchetypeList(props: ProductArchetypeListProps): 
   }, [items]);
 
   async function fetch(): Promise<ProductArchetypeListResponse> {
-    return {
-      totalCount: 2,
-      items: [
-        { id: 0, name: "Щось", category: 0, manufacturer: "Київський Завод ЛХБЧ", description: "asfasf" },
-        { id: 1, name: "Бла бла", category: 4, manufacturer: "Харківський КМСБ", description: "dgkdkgkd" }
-      ]
-    };
+    return await productArchetypeService.getProductArchetypeList({ productArchetypeCriteria: criteria });
+  }
 
-    // return await productArchetypeService.getProductArchetypeList({ productArchetypeCriteria: criteria });
+  async function handleDelete(id: number) {
+    return await productArchetypeService.deleteProductArchetype({ id });
   }
 
   function handleCreate(callback: () => void) {
-
+    props.create?.(callback);
   }
 
   function handleView(id: number) {
-
+    props.view?.(id);
   }
 
   function handleUpdate(id: number) {
-
-  }
-
-  function handleDelete(id: number, callback: () => void) {
-
+    props.update?.(id);
   }
 
   const columns: GridColDef<ProductArchetype>[] = [
@@ -85,20 +79,18 @@ export default function ProductArchetypeList(props: ProductArchetypeListProps): 
   // TODO: Handle filters
 
   return (
-    <Box>
-      <ListComponent
-        columns={columns}
-        fetch={fetch}
-        create={handleCreate}
-        view={handleView}
-        update={handleUpdate}
-        delete={handleDelete}
-        criteria={criteria}
-        setCriteria={setCriteria}
+    <ListComponent
+      columns={columns}
+      fetch={fetch}
+      create={handleCreate}
+      view={handleView}
+      update={handleUpdate}
+      delete={handleDelete}
+      criteria={criteria}
+      setCriteria={setCriteria}
 
-        items={items}
-        setItems={setItems}
-      />
-    </Box>
+      items={items}
+      setItems={setItems}
+    />
   );
 }

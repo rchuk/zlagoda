@@ -15,7 +15,8 @@ import {formatDateTime, getEntityPersonFullName} from "@/app/components/common/u
 import {ServicesContext} from "@/app/services/ServiceProvider";
 
 type ReceiptListProps = {
-
+  create?: (callback: () => void) => void,
+  view?: (id: number) => void
 };
 
 export default function ReceiptList(props: ReceiptListProps): React.ReactNode {
@@ -54,29 +55,21 @@ export default function ReceiptList(props: ReceiptListProps): React.ReactNode {
   }, [items]);
 
   async function fetch(): Promise<ReceiptListResponse> {
-    return {
-      totalCount: 2,
-      items: [
-        { id: 0, cashierId: 0, customerCardId: 66, dateTime: new Date(), vat: 100, totalPrice: 1500, items: []},
-        { id: 55, cashierId: 2, dateTime: new Date(), vat: 5, totalPrice: 250, items: []},
-      ]
-    };
+    return await receiptService.getReceiptList({ receiptCriteria: criteria });
+  }
 
-    // return await receiptService.getReceiptList({ receiptCriteria: criteria });
+  async function handleDelete(id: number) {
+    return await receiptService.deleteReceipt({ id });
   }
 
   function handleCreate(callback: () => void) {
-
+    props.create?.(callback);
   }
 
   function handleView(id: number) {
+    props.view?.(id);
   }
 
-  function handleDelete(id: number, callback: () => void) {
-
-  }
-
-  // TODO: Create function for canonical name joining
   const columns: GridColDef<Receipt>[] = [
     { field: "id", headerName: "ID", width: 80 },
     {
@@ -86,7 +79,7 @@ export default function ReceiptList(props: ReceiptListProps): React.ReactNode {
       width: 350
     },
     {
-      field: "customCardId",
+      field: "customerCardId",
       headerName: "Клієнт",
       valueGetter: value => value ? getEntityPersonFullName(findEntity(customerCards, value)) : "",
       width: 350
@@ -112,19 +105,17 @@ export default function ReceiptList(props: ReceiptListProps): React.ReactNode {
   // TODO: Handle filters
 
   return (
-    <Box>
-      <ListComponent
-        columns={columns}
-        fetch={fetch}
-        create={handleCreate}
-        view={handleView}
-        delete={handleDelete}
-        criteria={criteria}
-        setCriteria={setCriteria}
+    <ListComponent
+      columns={columns}
+      fetch={fetch}
+      create={handleCreate}
+      view={handleView}
+      delete={handleDelete}
+      criteria={criteria}
+      setCriteria={setCriteria}
 
-        items={items}
-        setItems={setItems}
-      />
-    </Box>
+      items={items}
+      setItems={setItems}
+    />
   );
 }
