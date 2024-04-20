@@ -23,7 +23,9 @@ export default function ProductArchetypeView(props: ProductArchetypeViewProps): 
 
     // TODO: Add link to category
     return (
-        <ViewComponent id={props.id} fetch={fetch} onError={props.onError} edit={props.edit} cancel={props.cancel}>
+        <ViewComponent id={props.id} fetch={fetch} onError={props.onError} edit={props.edit} cancel={props.cancel}
+                       header="Перегляд типу товару"
+        >
             <div>
                 <b>Товар: </b><span>{productArchetype?.name}</span>
             </div>

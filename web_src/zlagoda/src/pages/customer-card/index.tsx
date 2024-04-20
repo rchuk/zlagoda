@@ -1,5 +1,6 @@
 import {useRouter} from "next/router";
 import CustomerCardList from "@/app/components/customer-card/CustomerCardList";
+import {Box} from "@mui/material";
 
 export default function CustomerCardListPage() {
   const router = useRouter();
@@ -25,10 +26,12 @@ export default function CustomerCardListPage() {
   }
 
   return (
-    <CustomerCardList
-      create={create}
-      view={view}
-      update={update}
-    />
+    <Box>
+      <CustomerCardList
+        create={create}
+        view={view}
+        update={update}
+      />
+    </Box>
   );
 }

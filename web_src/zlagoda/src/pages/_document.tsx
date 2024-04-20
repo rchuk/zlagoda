@@ -5,7 +5,7 @@ export default function Document() {
   return (
     <Html lang="uk">
       <Head />
-      <body style={{ margin: 0 }}>
+      <body>
         <Main />
         <NextScript />
       </body>

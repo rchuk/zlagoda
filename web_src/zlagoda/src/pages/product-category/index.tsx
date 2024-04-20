@@ -1,5 +1,5 @@
 import ProductCategoryList from "@/app/components/product-category/ProductCategoryList";
-import {Dialog} from "@mui/material";
+import {Box, Dialog} from "@mui/material";
 import {ReactElement, useState} from "react";
 import ProductCategoryUpsert from "@/app/components/product-category/ProductCategoryUpsert";
 
@@ -23,7 +23,7 @@ export default function ProductCategoryListPage() {
   }
 
   return (
-    <div>
+    <Box>
       <ProductCategoryList
         create={create}
         update={update}
@@ -34,6 +34,6 @@ export default function ProductCategoryListPage() {
       >
         {modalContent ?? <div></div>}
       </Dialog>
-    </div>
+    </Box>
   );
 }

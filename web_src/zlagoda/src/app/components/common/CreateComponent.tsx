@@ -5,7 +5,7 @@ import {AlertContext} from "@/app/services/AlertService";
 type CreateComponentProps = {
     create: () => Promise<number>,
     onSave?: () => void,
-    cancel: () => void
+    cancel?: () => void
 };
 
 export default function CreateComponent(props: PropsWithChildren<CreateComponentProps>): React.ReactNode {
@@ -27,7 +27,7 @@ export default function CreateComponent(props: PropsWithChildren<CreateComponent
     }
 
     function cancel() {
-        props.cancel();
+        props.cancel?.();
     }
 
     return (

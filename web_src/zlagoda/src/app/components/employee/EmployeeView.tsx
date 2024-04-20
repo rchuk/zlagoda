@@ -22,7 +22,9 @@ export default function EmployeeView(props: EmployeeViewProps): React.ReactNode 
     }
 
     return (
-        <ViewComponent id={props.id} fetch={fetch} onError={props.onError} edit={props.edit} cancel={props.cancel}>
+        <ViewComponent id={props.id} fetch={fetch} onError={props.onError} edit={props.edit} cancel={props.cancel}
+                       header="Перегляд інформації про працівника"
+        >
             <div>
                 <b>Прізвище: </b><span>{employee?.firstName}</span>
             </div>

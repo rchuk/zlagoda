@@ -5,6 +5,8 @@ import ProgressSpinner from "@/app/components/common/ProgressSpinner";
 
 type UpsertComponentProps = {
     initialId: number | null,
+    header: string,
+
     resetView: () => void,
     fetch: (id: number) => Promise<void>,
     create: () => Promise<number>,
@@ -80,7 +82,7 @@ export default function UpsertComponent(props: PropsWithChildren<UpsertComponent
         return <ProgressSpinner />;
 
     return (
-        <UpsertContainer submit={submit} cancel={cancel}>
+        <UpsertContainer submit={submit} cancel={cancel} header={props.header}>
             {props.children}
         </UpsertContainer>
     );

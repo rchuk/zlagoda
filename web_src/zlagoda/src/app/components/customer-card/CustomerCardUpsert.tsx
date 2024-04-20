@@ -50,6 +50,7 @@ export default function CustomerCardUpsert(props: CustomerCardUpsertProps): Reac
             update={update}
             cancel={props.cancel}
             onError={props.onError}
+            header={props.initialId != null ? "Редагування картки клієнта" : "Створення картки клієнта"}
         >
             <Grid xs={6}>
                 <TextField label="Прізвище"

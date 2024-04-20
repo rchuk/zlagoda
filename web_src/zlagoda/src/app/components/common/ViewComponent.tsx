@@ -5,6 +5,7 @@ import ProgressSpinner from "@/app/components/common/ProgressSpinner";
 
 type ViewComponentProps = {
     id: number,
+    header: string,
     fetch: (id: number) => Promise<void>,
     edit?: (id: number) => void,
     onError?: (reason: any) => void,
@@ -31,6 +32,7 @@ export default function ViewComponent(props: PropsWithChildren<ViewComponentProp
     return (
         <Box display="flex" flexDirection="column" rowGap={1}
              sx={{ width: 500, margin: 2 }}>
+            <h2 style={{ textAlign: "center" }}>{props.header}</h2>
             {props.children}
             <Box display="flex" justifyContent="flex-end" columnGap={1}>
                 {props.edit &&

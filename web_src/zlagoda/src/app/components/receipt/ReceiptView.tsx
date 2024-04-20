@@ -56,7 +56,10 @@ export default function ReceiptView(props: ReceiptViewProps): React.ReactNode {
 
     // TODO: Add links to archetype, client card and cashier
     return (
-        <ViewComponent id={props.id} fetch={fetch} onError={props.onError} edit={props.edit} cancel={props.cancel}>
+        <ViewComponent id={props.id} fetch={fetch} onError={props.onError} edit={props.edit} cancel={props.cancel}
+                       header="Перегляд чеку"
+        >
+            <h2 style={{ textAlign: "center" }}>Перегляд чеку</h2>
             <div>
                 <b>Касир: </b>
                 <Link href={`/employee/${employee?.id}`}>

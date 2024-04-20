@@ -1,5 +1,5 @@
 import React, {useContext, useState} from "react";
-import {FormControl, InputLabel, MenuItem, Select, TextField} from "@mui/material";
+import {Box, FormControl, InputLabel, MenuItem, Select, TextField} from "@mui/material";
 import {DatePicker} from "@mui/x-date-pickers";
 import {EmployeeRole, EmployeeView} from "../../../../generated";
 import dayjs from "dayjs";
@@ -56,6 +56,7 @@ export default function EmployeeUpsert(props: EmployeeUpsertProps): React.ReactN
             update={update}
             cancel={props.cancel}
             onError={props.onError}
+            header={props.initialId != null ? "Редагування інформації про працівника" : "Створення інформації про працівника"}
         >
             <Grid xs={6}>
                 <TextField label="Прізвище"

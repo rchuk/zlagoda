@@ -178,6 +178,7 @@ export default function ListComponent<ItemT extends GridValidRowModel, CriteriaT
   return (
     <DataGrid
       sx={{ margin: 2 }}
+
       columns={columns}
       rows={items ?? []}
       paginationMode="server"

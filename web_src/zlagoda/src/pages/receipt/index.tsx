@@ -1,5 +1,6 @@
 import {useRouter} from "next/router";
 import ReceiptList from "@/app/components/receipt/ReceiptList";
+import {Box} from "@mui/material";
 
 export default function ReceiptListPage() {
   const router = useRouter();
@@ -25,9 +26,11 @@ export default function ReceiptListPage() {
   }
 
   return (
-    <ReceiptList
-      create={create}
-      view={view}
-    />
+    <Box>
+      <ReceiptList
+        create={create}
+        view={view}
+      />
+    </Box>
   );
 }

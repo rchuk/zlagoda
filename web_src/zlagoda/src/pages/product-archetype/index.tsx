@@ -1,5 +1,6 @@
 import ProductArchetypeList from "@/app/components/product-archetype/ProductArchetypeList";
 import {useRouter} from "next/router";
+import {Box} from "@mui/material";
 
 export default function ProductArchetypeListPage() {
   const router = useRouter();
@@ -25,10 +26,12 @@ export default function ProductArchetypeListPage() {
   }
 
   return (
-    <ProductArchetypeList
-      create={create}
-      view={view}
-      update={update}
-    />
+    <Box>
+      <ProductArchetypeList
+        create={create}
+        view={view}
+        update={update}
+      />
+    </Box>
   );
 }

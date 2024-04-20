@@ -17,6 +17,8 @@ import {
 } from "../../generated";
 import { Inter } from "next/font/google";
 import ConfirmationDialogProvider from "@/app/services/ConfirmationDialogService";
+import BasicLayout from "@/app/layout/BasicLayout";
+import "./globals.css";
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode
@@ -48,7 +50,9 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
         <ServicesProvider services={services}>
           <AlertProvider>
             <ConfirmationDialogProvider>
-              {getLayout(<Component {...pageProps} />)}
+              <BasicLayout>
+                {getLayout(<Component {...pageProps} />)}
+              </BasicLayout>
             </ConfirmationDialogProvider>
           </AlertProvider>
         </ServicesProvider>

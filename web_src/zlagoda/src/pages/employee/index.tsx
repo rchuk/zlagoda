@@ -1,4 +1,5 @@
 import EmployeeList from "@/app/components/employee/EmployeeList";
+import { Box } from "@mui/material";
 import {useRouter} from "next/router";
 
 export default function EmployeeListPage() {
@@ -25,10 +26,12 @@ export default function EmployeeListPage() {
   }
 
   return (
-    <EmployeeList
-      create={create}
-      view={view}
-      update={update}
-    />
+    <Box>
+      <EmployeeList
+        create={create}
+        view={view}
+        update={update}
+      />
+    </Box>
   );
 }

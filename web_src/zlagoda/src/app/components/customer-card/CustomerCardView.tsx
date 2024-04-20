@@ -19,7 +19,9 @@ export default function CustomerCardView(props: CustomerCardViewProps): React.Re
     }
 
     return (
-        <ViewComponent id={props.id} fetch={fetch} onError={props.onError} edit={props.edit} cancel={props.cancel}>
+        <ViewComponent id={props.id} fetch={fetch} onError={props.onError} edit={props.edit} cancel={props.cancel}
+                       header="Перегляд картки клієнта"
+        >
             <div>
                 <b>Прізвище: </b><span>{customerCard?.firstName}</span>
             </div>
