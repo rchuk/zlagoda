@@ -12,7 +12,9 @@ function getDefaultProductCategoryView(): ProductCategoryView {
 }
 
 type ProductCategoryUpsertProps = {
-    initialId?: number
+    initialId: number | null,
+    cancel?: () => void,
+    onError?: () => void
 };
 
 export default function ProductCategoryUpsert(props: ProductCategoryUpsertProps): React.ReactNode {
@@ -32,17 +34,15 @@ export default function ProductCategoryUpsert(props: ProductCategoryUpsertProps)
         return await productCategoryService.createProductCategory({productCategoryView: view});
     }
 
-    function cancel() {
-
-    }
-
     return (
         <UpsertComponent
+            initialId={props.initialId}
             resetView={() => setView(getDefaultProductCategoryView)}
             fetch={fetch}
             create={create}
             update={update}
-            cancel={cancel}
+            cancel={props.cancel}
+            onError={props.onError}
         >
             <Grid xs={12}>
                 <TextField label="Назва"

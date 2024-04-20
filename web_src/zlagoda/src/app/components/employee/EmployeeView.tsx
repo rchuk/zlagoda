@@ -7,7 +7,10 @@ import {ServicesContext} from "@/app/services/ServiceProvider";
 
 
 type EmployeeViewProps = {
-    id: number
+    id: number,
+    onError?: (reason: any) => void,
+    edit?: (id: number) => void,
+    cancel?: () => void
 };
 
 export default function EmployeeView(props: EmployeeViewProps): React.ReactNode {
@@ -19,7 +22,7 @@ export default function EmployeeView(props: EmployeeViewProps): React.ReactNode 
     }
 
     return (
-        <ViewComponent id={props.id} fetch={fetch}>
+        <ViewComponent id={props.id} fetch={fetch} onError={props.onError} edit={props.edit} cancel={props.cancel}>
             <div>
                 <b>Прізвище: </b><span>{employee?.firstName}</span>
             </div>

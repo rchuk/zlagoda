@@ -6,7 +6,10 @@ import {ServicesContext} from "@/app/services/ServiceProvider";
 
 
 type ProductViewProps = {
-    id: number
+    id: number,
+    onError?: (reason: any) => void,
+    edit?: (id: number) => void,
+    cancel?: () => void
 };
 
 export default function ProductView(props: ProductViewProps): React.ReactNode {
@@ -15,14 +18,14 @@ export default function ProductView(props: ProductViewProps): React.ReactNode {
     const [productArchetype, setProductArchetype] = useState<ProductArchetype | null>(null);
 
     async function fetch(id: number) {
-        setProduct(await productService.getProductById({ id }));
-        // TODO: Test
-        setProductArchetype(await productArchetypeService.getProductArchetypeById({ id: product!.id }));
+        const newProduct = await productService.getProductById({ id });
+        setProduct(newProduct);
+        setProductArchetype(await productArchetypeService.getProductArchetypeById({ id: newProduct.id }));
     }
 
     // TODO: Add link to archetype
     return (
-        <ViewComponent id={props.id} fetch={fetch}>
+        <ViewComponent id={props.id} fetch={fetch} onError={props.onError} edit={props.edit} cancel={props.cancel}>
             <div>
                 <b>Назва: </b><span>{productArchetype?.name}</span>
             </div>

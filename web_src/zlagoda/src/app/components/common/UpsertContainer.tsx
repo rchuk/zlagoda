@@ -11,7 +11,7 @@ type UpsertContainerProps = {
 export default function UpsertContainer(props: PropsWithChildren<UpsertContainerProps>): React.ReactNode {
     return (
         <Box component="form" onSubmit={e => {e.preventDefault(); props.submit()}}
-             sx={{ width: 500 }}>
+             sx={{ width: 500, margin: 2 }}>
             <Grid container columnSpacing={1} rowSpacing={2}>
                 {props.children}
 

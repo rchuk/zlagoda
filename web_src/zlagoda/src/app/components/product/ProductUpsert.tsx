@@ -17,7 +17,9 @@ function getDefaultProductView(): ProductView {
 }
 
 type ProductUpsertProps = {
-    initialId?: number
+    initialId: number | null,
+    cancel?: () => void,
+    onError?: () => void
 };
 
 export default function ProductUpsert(props: ProductUpsertProps): React.ReactNode {
@@ -53,10 +55,6 @@ export default function ProductUpsert(props: ProductUpsertProps): React.ReactNod
         await productService.updateProdact({id, productView: view});
     }
 
-    function cancel() {
-
-    }
-
     return (
         <UpsertComponent
             initialId={props.initialId}
@@ -64,7 +62,8 @@ export default function ProductUpsert(props: ProductUpsertProps): React.ReactNod
             fetch={fetch}
             create={create}
             update={update}
-            cancel={cancel}
+            cancel={props.cancel}
+            onError={props.onError}
         >
             <Grid xs={6}>
                 <Autocomplete

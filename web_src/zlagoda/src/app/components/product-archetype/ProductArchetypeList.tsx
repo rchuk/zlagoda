@@ -12,7 +12,9 @@ import {createIdsCriteria, findEntity} from "@/app/components/common/utils/Objec
 import {ServicesContext} from "@/app/services/ServiceProvider";
 
 type ProductArchetypeListProps = {
-
+  create?: (callback: () => void) => void,
+  update?: (id: number) => void,
+  view?: (id: number) => void
 };
 
 export default function ProductArchetypeList(props: ProductArchetypeListProps): React.ReactNode {
@@ -38,20 +40,20 @@ export default function ProductArchetypeList(props: ProductArchetypeListProps): 
     return await productArchetypeService.getProductArchetypeList({ productArchetypeCriteria: criteria });
   }
 
-  function handleCreate(callback: () => void) {
+  async function handleDelete(id: number) {
+    return await productArchetypeService.deleteProductArchetype({ id });
+  }
 
+  function handleCreate(callback: () => void) {
+    props.create?.(callback);
   }
 
   function handleView(id: number) {
-
+    props.view?.(id);
   }
 
   function handleUpdate(id: number) {
-
-  }
-
-  function handleDelete(id: number, callback: () => void) {
-
+    props.update?.(id);
   }
 
   const columns: GridColDef<ProductArchetype>[] = [

@@ -10,7 +10,9 @@ import ListComponent, {getDefaultBaseCriteria} from "@/app/components/common/Lis
 import {ServicesContext} from "@/app/services/ServiceProvider";
 
 type CustomerCardListProps = {
-
+    create?: (callback: () => void) => void,
+    update?: (id: number) => void,
+    view?: (id: number) => void
 };
 
 export default function CustomerCardList(props: CustomerCardListProps): React.ReactNode {
@@ -21,20 +23,20 @@ export default function CustomerCardList(props: CustomerCardListProps): React.Re
     return await customerCardService.getCustomerCardList({ customerCardCriteria: criteria });
   }
 
-  function handleCreate(callback: () => void) {
+  async function handleDelete(id: number) {
+    return await customerCardService.deleteCustomerCard({ id });
+  }
 
+  function handleCreate(callback: () => void) {
+    props.create?.(callback);
   }
 
   function handleView(id: number) {
-
+    props.view?.(id);
   }
 
   function handleUpdate(id: number) {
-
-  }
-
-  function handleDelete(id: number, callback: () => void) {
-
+    props.update?.(id);
   }
 
   const columns: GridColDef<CustomerCard>[] = [

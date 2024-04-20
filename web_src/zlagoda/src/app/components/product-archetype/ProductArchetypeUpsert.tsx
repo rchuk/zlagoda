@@ -20,7 +20,9 @@ function getDefaultProductArchetypeView(): ProductArchetypeView {
 }
 
 type ProductArchetypeUpsertProps = {
-    initialId?: number
+    initialId: number | null,
+    cancel?: () => void,
+    onError?: () => void
 };
 
 export default function ProductArchetypeUpsert(props: ProductArchetypeUpsertProps): React.ReactNode {
@@ -57,10 +59,6 @@ export default function ProductArchetypeUpsert(props: ProductArchetypeUpsertProp
         await productArchetypeService.updateProductArchetype({id, productArchetypeView: view});
     }
 
-    function cancel() {
-
-    }
-
     return (
         <UpsertComponent
             initialId={props.initialId}
@@ -68,7 +66,8 @@ export default function ProductArchetypeUpsert(props: ProductArchetypeUpsertProp
             fetch={fetch}
             create={create}
             update={update}
-            cancel={cancel}
+            cancel={props.cancel}
+            onError={props.onError}
         >
             <Grid xs={6}>
                 <TextField label="Назва"

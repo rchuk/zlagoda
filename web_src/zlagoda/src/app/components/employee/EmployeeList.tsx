@@ -9,10 +9,11 @@ import {GridColDef} from '@mui/x-data-grid';
 import ListComponent, {getDefaultBaseCriteria} from "@/app/components/common/ListComponent";
 import {EmployeeRole_i18} from "@/app/i18/EmployeeRole_i18";
 import {ServicesContext} from "@/app/services/ServiceProvider";
-import {useRouter} from "next/router";
 
 type EmployeeListProps = {
-
+  create?: (callback: () => void) => void,
+  update?: (id: number) => void,
+  view?: (id: number) => void
 };
 
 export default function EmployeeList(props: EmployeeListProps): React.ReactNode {
@@ -23,20 +24,20 @@ export default function EmployeeList(props: EmployeeListProps): React.ReactNode 
     return await employeeService.getEmployeeList({ employeeCriteria: criteria });
   }
 
-  function handleCreate(callback: () => void) {
+  async function handleDelete(id: number) {
+    return await employeeService.deleteEmployee({ id });
+  }
 
+  function handleCreate(callback: () => void) {
+    props.create?.(callback);
   }
 
   function handleView(id: number) {
-
+    props.view?.(id);
   }
 
   function handleUpdate(id: number) {
-
-  }
-
-  function handleDelete(id: number, callback: () => void) {
-
+    props.update?.(id);
   }
 
   const columns: GridColDef<Employee>[] = [

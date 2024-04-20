@@ -15,6 +15,7 @@ import AddIcon from "@mui/icons-material/Add";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import {ConfirmationDialogContext} from "@/app/services/ConfirmationDialogService";
 
 type ListToolbarProps = {
   createItem?: () => void
@@ -36,11 +37,14 @@ function ListToolbar(props: ListToolbarProps) {
 // NOTE: Callback is only needed for create if it's implemented with modal
 type ListComponentProps<ItemT extends GridValidRowModel, CriteriaT extends BaseCriteria> = {
   columns: GridColDef<ItemT>[],
+
   fetch: () => Promise<ListResponse & { items: ItemT[] }>,
   create?: (callback: () => void) => void,
   update?: (id: number) => void,
   view?: (id: number) => void,
-  delete?: (id: number, callback: () => void) => void,
+
+  delete?: (id: number) => Promise<boolean>,
+
   criteria: CriteriaT,
   setCriteria: (criteria: CriteriaT) => void,
   setFilter?: (filter: GridFilterModel) => void,
@@ -60,6 +64,7 @@ export default function ListComponent<ItemT extends GridValidRowModel, CriteriaT
   const [itemsInternal, setItemsInternal] = useState<ItemT[] | null>(null);
   const [itemCount, setItemCount] = useState<number | null>(null);
   const showAlert = useContext(AlertContext);
+  const showConfirmation = useContext(ConfirmationDialogContext);
 
   const items = props.items || itemsInternal;
   const setItems = props.setItems || setItemsInternal;
@@ -108,7 +113,17 @@ export default function ListComponent<ItemT extends GridValidRowModel, CriteriaT
   }
 
   function handleDelete(id: number) {
-    props.delete?.(id, fetchItems);
+    const confirm = () => {
+      const impl = async() => {
+        const isSuccess = await props.delete?.(id);
+        if (isSuccess)
+          fetchItems();
+      };
+
+      impl().catch(e => showAlert(e.toString(), "error"));
+    };
+
+    showConfirmation({ confirm });
   }
 
   const columns: GridColDef<ItemT>[] = [
@@ -161,7 +176,7 @@ export default function ListComponent<ItemT extends GridValidRowModel, CriteriaT
   ];
 
   return (
-    <Box>
+    <Box sx={{ margin: 2 }}>
       <DataGrid
         columns={columns}
         rows={items ?? []}

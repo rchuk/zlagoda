@@ -15,7 +15,7 @@ class ProductCategoryApi(BaseProductCategoryApi):
                 id=0,
                 name="Харчові продукти"
             ),
-            1: ProductCategory(
+            3: ProductCategory(
                 id=3,
                 name="Косметика та парфумерія"
             )

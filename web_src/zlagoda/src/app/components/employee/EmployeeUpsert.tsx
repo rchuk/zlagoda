@@ -9,7 +9,9 @@ import UpsertComponent from "@/app/components/common/UpsertComponent";
 import {ServicesContext} from "@/app/services/ServiceProvider";
 
 type EmployeeUpsertProps = {
-    initialId?: number
+    initialId: number | null,
+    onError?: (reason: any) => void,
+    cancel?: () => void
 };
 
 function getDefaultEmployeeView(): EmployeeView {
@@ -45,10 +47,6 @@ export default function EmployeeUpsert(props: EmployeeUpsertProps): React.ReactN
         return await employeeService.createEmployee({employeeView: view});
     }
 
-    function cancel() {
-
-    }
-
     return (
         <UpsertComponent
             initialId={props.initialId}
@@ -56,7 +54,9 @@ export default function EmployeeUpsert(props: EmployeeUpsertProps): React.ReactN
             fetch={fetch}
             create={create}
             update={update}
-            cancel={cancel}>
+            cancel={props.cancel}
+            onError={props.onError}
+        >
             <Grid xs={6}>
                 <TextField label="Прізвище"
                            required

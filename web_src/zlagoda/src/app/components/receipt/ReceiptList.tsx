@@ -15,7 +15,8 @@ import {formatDateTime, getEntityPersonFullName} from "@/app/components/common/u
 import {ServicesContext} from "@/app/services/ServiceProvider";
 
 type ReceiptListProps = {
-
+  create?: (callback: () => void) => void,
+  view?: (id: number) => void
 };
 
 export default function ReceiptList(props: ReceiptListProps): React.ReactNode {
@@ -57,18 +58,18 @@ export default function ReceiptList(props: ReceiptListProps): React.ReactNode {
     return await receiptService.getReceiptList({ receiptCriteria: criteria });
   }
 
-  function handleCreate(callback: () => void) {
+  async function handleDelete(id: number) {
+    return await receiptService.deleteReceipt({ id });
+  }
 
+  function handleCreate(callback: () => void) {
+    props.create?.(callback);
   }
 
   function handleView(id: number) {
+    props.view?.(id);
   }
 
-  function handleDelete(id: number, callback: () => void) {
-
-  }
-
-  // TODO: Create function for canonical name joining
   const columns: GridColDef<Receipt>[] = [
     { field: "id", headerName: "ID", width: 80 },
     {

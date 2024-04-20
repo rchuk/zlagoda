@@ -10,7 +10,8 @@ import ListComponent, {getDefaultBaseCriteria} from "@/app/components/common/Lis
 import {ServicesContext} from "@/app/services/ServiceProvider";
 
 type ProductCategoryListProps = {
-
+  create?: (callback: () => void) => void,
+  update?: (id: number) => void
 };
 
 export default function ProductCategoryList(props: ProductCategoryListProps): React.ReactNode {
@@ -21,16 +22,16 @@ export default function ProductCategoryList(props: ProductCategoryListProps): Re
     return await productCategoryService.getProductCategoryList({ productCategoryCriteria: criteria });
   }
 
-  function handleCreate(callback: () => void) {
+  async function handleDelete(id: number) {
+    return await productCategoryService.deleteProductCategory({ id });
+  }
 
+  function handleCreate(callback: () => void) {
+    props.create?.(callback);
   }
 
   function handleUpdate(id: number) {
-
-  }
-
-  function handleDelete(id: number, callback: () => void) {
-
+    props.update?.(id);
   }
 
   const columns: GridColDef<ProductCategory>[] = [

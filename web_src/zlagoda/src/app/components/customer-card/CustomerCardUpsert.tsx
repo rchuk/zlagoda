@@ -19,7 +19,9 @@ function getDefaultCustomerCardView(): CustomerCardView {
 }
 
 type CustomerCardUpsertProps = {
-    initialId?: number
+    initialId: number | null,
+    cancel?: () => void,
+    onError?: () => void
 };
 
 export default function CustomerCardUpsert(props: CustomerCardUpsertProps): React.ReactNode {
@@ -39,10 +41,6 @@ export default function CustomerCardUpsert(props: CustomerCardUpsertProps): Reac
         return await customerCardService.createCustomerCard({customerCardView: view});
     }
 
-    function cancel() {
-
-    }
-
     return (
         <UpsertComponent
             initialId={props.initialId}
@@ -50,7 +48,8 @@ export default function CustomerCardUpsert(props: CustomerCardUpsertProps): Reac
             fetch={fetch}
             create={create}
             update={update}
-            cancel={cancel}
+            cancel={props.cancel}
+            onError={props.onError}
         >
             <Grid xs={6}>
                 <TextField label="Прізвище"
