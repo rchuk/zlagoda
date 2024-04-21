@@ -14,8 +14,6 @@ from openapi_server.apis.product_category_api import router as ProductCategoryAp
 from openapi_server.apis.receipt_api import router as ReceiptApiRouter
 from openapi_server.exceptions.app_exception_public import AppExceptionPublic
 
-from openapi_server.repositories.product_category_repository import ProductCategoryRepository
-
 import openapi_server
 
 

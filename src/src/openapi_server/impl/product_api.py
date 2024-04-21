@@ -37,7 +37,7 @@ class ProductApi(BaseProductApi):
             ),
             18: Product(
                 id=18,
-                archetype=4,
+                archetype=2,
                 upc="000000242401",
                 price=666,
                 quantity=228,

@@ -1,15 +1,15 @@
+from openapi_server.entities.product_category_entity import ProductCategoryEntity
 from openapi_server.exceptions.validation_error import ValidationError
-from openapi_server.models.product_category import ProductCategory
-from openapi_server.services.base.validator_base import ValidatorBase, EntityT
+from openapi_server.services.base.validator_base import ValidatorBase
 
 
-class ProductCategoryValidator(ValidatorBase[ProductCategory]):
-    def validate_create(self, entity: EntityT):
+class ProductCategoryValidator(ValidatorBase[ProductCategoryEntity]):
+    def validate_create(self, entity: ProductCategoryEntity):
         self.validate_fields(entity)
 
-    def validate_update(self, entity: EntityT):
+    def validate_update(self, entity: ProductCategoryEntity):
         self.validate_fields(entity)
 
-    def validate_fields(self, entity: ProductCategory):
-        if len(entity.name.strip()) == 0:
+    def validate_fields(self, entity: ProductCategoryEntity):
+        if len(entity.name) == 0:
             raise ValidationError("Назва категорії продукту не може бути порожньою")

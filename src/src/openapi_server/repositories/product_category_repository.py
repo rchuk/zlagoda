@@ -1,3 +1,4 @@
+'''
 from typing import Optional, List, Dict
 
 from openapi_server.entities.product_category_entity import ProductCategoryEntity
@@ -45,3 +46,4 @@ class ProductCategoryRepository(CrudRepositoryBase[int, ProductCategoryEntity]):
     def count(self, criteria: Optional[ProductCategoryCriteria] = None) -> int:
         # TODO: Filter
         return len(self._items)
+'''
