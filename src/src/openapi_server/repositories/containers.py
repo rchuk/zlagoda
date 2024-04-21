@@ -1,11 +1,15 @@
+from datetime import datetime
+
 from dependency_injector import containers, providers
 
 # from openapi_server.repositories.product_category_repository import ProductCategoryRepository
-
 from openapi_server.repositories.in_memory_repository import InMemoryRepository
+
 from openapi_server.entities.product_category_entity import ProductCategoryEntity
 from openapi_server.entities.product_archetype_entity import ProductArchetypeEntity
 from openapi_server.entities.customer_card_entity import CustomerCardEntity
+from openapi_server.entities.employee_entity import EmployeeEntity
+from openapi_server.entities.employee_role_entity_enum import EmployeeRoleEntityEnum
 
 
 class RepositoryContainer(containers.DeclarativeContainer):
@@ -75,6 +79,40 @@ class RepositoryContainer(containers.DeclarativeContainer):
                 city="Київ",
                 street="Вулиція Гетьмана Данила",
                 zip_code="04555"
+            )
+        ]
+    )
+
+    employee_repository = providers.Singleton(
+        InMemoryRepository,
+        test_data=[
+            EmployeeEntity(
+                id=0,
+                first_name="Дмитро",
+                last_name="Запорожець",
+                patronymic="Олександрович",
+                role=EmployeeRoleEntityEnum.Manager,
+                salary=25000,
+                work_start_date=datetime(2020, 5, 1).date(),
+                birth_date=datetime(2004, 12, 16).date(),
+                phone_number="+380674400000",
+                city="Київ",
+                street="Якась вулиця",
+                zip_code="01001"
+            ),
+            EmployeeEntity(
+                id=2,
+                first_name="Руслан",
+                last_name="Омельчук",
+                patronymic="Ігорович",
+                role=EmployeeRoleEntityEnum.Cashier,
+                salary=17000,
+                work_start_date=datetime(2020, 11, 3).date(),
+                birth_date=datetime(2004, 11, 24).date(),
+                phone_number="+380664000000",
+                city="Київ",
+                street="Інша вулиця",
+                zip_code="04210"
             )
         ]
     )

@@ -5,12 +5,12 @@ from openapi_server.services.base.merger_base import MergerBase
 
 class ProductArchetypeMerger(MergerBase[ProductArchetypeEntity, ProductArchetypeView]):
     def merge_create(self, entity: ProductArchetypeEntity, view: ProductArchetypeView):
-        self.merge_main_fields(entity, view)
+        self._merge_main_fields(entity, view)
 
     def merge_edit(self, entity: ProductArchetypeEntity, view: ProductArchetypeView):
-        self.merge_main_fields(entity, view)
+        self._merge_main_fields(entity, view)
 
-    def merge_main_fields(self, entity: ProductArchetypeEntity, view: ProductArchetypeView):
+    def _merge_main_fields(self, entity: ProductArchetypeEntity, view: ProductArchetypeView):
         entity.name = view.name.strip()
         entity.category = view.category
         entity.manufacturer = view.manufacturer.strip()

@@ -1,6 +1,6 @@
-from openapi_server.exceptions.app_exception_base import AppExceptionBase
+from openapi_server.exceptions.app_exception import AppException
 
 
-class AppExceptionPublic(AppExceptionBase):
+class AppExceptionPublic(AppException):
     def __init__(self, message: str):
         super().__init__(message)

@@ -5,12 +5,12 @@ from openapi_server.services.base.merger_base import MergerBase
 
 class CustomerCardMerger(MergerBase[CustomerCardEntity, CustomerCardView]):
     def merge_create(self, entity: CustomerCardEntity, view: CustomerCardView):
-        self.merge_main_fields(entity, view)
+        self._merge_main_fields(entity, view)
 
     def merge_edit(self, entity: CustomerCardEntity, view: CustomerCardView):
-        self.merge_main_fields(entity, view)
+        self._merge_main_fields(entity, view)
 
-    def merge_main_fields(self, entity: CustomerCardEntity, view: CustomerCardView):
+    def _merge_main_fields(self, entity: CustomerCardEntity, view: CustomerCardView):
         entity.first_name = view.first_name.strip()
         entity.last_name = view.last_name.strip()
         entity.patronymic = self._strip_optional(view.patronymic)

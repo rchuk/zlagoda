@@ -23,3 +23,6 @@ class CustomerCardValidator(ValidatorBase[CustomerCardEntity]):
             raise ValidationError("Знижка не може бути від'ємною")
         if entity.discount_percent > 100:
             raise ValidationError("Знижка не може бути більшою за 100%")
+        # TODO: Use regex
+        if entity.zip_code is not None and len(entity.zip_code) > 9:
+            raise ValidationError("Неправильний поштовий індекс")

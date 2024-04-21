@@ -5,10 +5,10 @@ from openapi_server.services.base.merger_base import MergerBase
 
 class ProductCategoryMerger(MergerBase[ProductCategoryEntity, ProductCategoryView]):
     def merge_create(self, entity: ProductCategoryEntity, view: ProductCategoryView):
-        self.merge_main_fields(entity, view)
+        self._merge_main_fields(entity, view)
 
     def merge_edit(self, entity: ProductCategoryEntity, view: ProductCategoryView):
-        self.merge_main_fields(entity, view)
+        self._merge_main_fields(entity, view)
 
-    def merge_main_fields(self, entity: ProductCategoryEntity, view: ProductCategoryView):
+    def _merge_main_fields(self, entity: ProductCategoryEntity, view: ProductCategoryView):
         entity.name = view.name
