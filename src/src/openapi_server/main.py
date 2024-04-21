@@ -1,7 +1,9 @@
 from fastapi import FastAPI
+from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
+from starlette.responses import PlainTextResponse
+from starlette.exceptions import HTTPException as StarletteHTTPException
 
-from dependency_injector import providers
 from openapi_server.containers import ApplicationContainer
 
 from openapi_server.apis.customer_card_api import router as CustomerCardApiRouter
@@ -10,6 +12,7 @@ from openapi_server.apis.product_api import router as ProductApiRouter
 from openapi_server.apis.product_archetype_api import router as ProductArchetypeApiRouter
 from openapi_server.apis.product_category_api import router as ProductCategoryApiRouter
 from openapi_server.apis.receipt_api import router as ReceiptApiRouter
+from openapi_server.exceptions.app_exception_public import AppExceptionPublic
 
 from openapi_server.repositories.product_category_repository import ProductCategoryRepository
 
@@ -48,6 +51,18 @@ def create_app() -> FastAPI:
         allow_methods=["*"],
         allow_headers=["*"],
     )
+
+    @app.exception_handler(StarletteHTTPException)
+    async def http_exception_handler(request, exc):
+        return PlainTextResponse(str(exc.detail), status_code=exc.status_code)
+
+    @app.exception_handler(RequestValidationError)
+    async def validation_exception_handler(request, exc):
+        return PlainTextResponse(str(exc), status_code=400)
+
+    @app.exception_handler(AppExceptionPublic)
+    async def public_exception_handler(request, exc: AppExceptionPublic):
+        return PlainTextResponse(str(exc), status_code=400)
 
     return app
 

@@ -1,11 +1,14 @@
 import React, {PropsWithChildren, useContext} from "react";
 import UpsertContainer from "@/app/components/common/UpsertContainer";
 import {AlertContext} from "@/app/services/AlertService";
+import {getRequestError} from "@/app/components/common/utils/RequestUtils";
 
 type CreateComponentProps = {
     create: () => Promise<number>,
     onSave?: () => void,
-    cancel?: () => void
+    cancel?: () => void,
+
+    header: string
 };
 
 export default function CreateComponent(props: PropsWithChildren<CreateComponentProps>): React.ReactNode {
@@ -19,7 +22,7 @@ export default function CreateComponent(props: PropsWithChildren<CreateComponent
         create()
             .then(_ => showAlert("Інформацію створено", "success"))
             .then(_ => props.onSave?.())
-            .catch(e => showAlert(e.toString(), "error"));
+            .catch(e => getRequestError(e).then(m => showAlert(m, "error")));
     }
 
     function submit() {
@@ -31,7 +34,7 @@ export default function CreateComponent(props: PropsWithChildren<CreateComponent
     }
 
     return (
-        <UpsertContainer submit={submit} cancel={cancel}>
+        <UpsertContainer submit={submit} cancel={cancel} header={props.header}>
             {props.children}
         </UpsertContainer>
     );

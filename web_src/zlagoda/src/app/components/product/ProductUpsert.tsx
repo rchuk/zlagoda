@@ -6,6 +6,7 @@ import Grid from "@mui/material/Unstable_Grid2";
 import {Autocomplete, TextField} from "@mui/material";
 import {findEntity} from "@/app/components/common/utils/ObjectUtils";
 import {ServicesContext} from "@/app/services/ServiceProvider";
+import {getRequestError} from "@/app/components/common/utils/RequestUtils";
 
 function getDefaultProductView(): ProductView {
     return {
@@ -41,7 +42,7 @@ export default function ProductUpsert(props: ProductUpsertProps): React.ReactNod
             setProductArchetypes(response.items);
         };
 
-        fetch().catch(e => showAlert(e.toString(), "error"));
+        fetch().catch(e => getRequestError(e).then(m => showAlert(m, "error")));
     }, []);
 
     async function fetch(id: number) {

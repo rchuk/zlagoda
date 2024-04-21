@@ -6,13 +6,13 @@ import {
   ReceiptListResponse
 } from "../../../../generated";
 import React, {useContext, useEffect, useState} from "react";
-import {Box} from "@mui/material";
 import {GridColDef} from '@mui/x-data-grid';
 import ListComponent, {getDefaultBaseCriteria} from "@/app/components/common/ListComponent";
 import {AlertContext} from "@/app/services/AlertService";
 import {createIdsCriteria, findEntity} from "@/app/components/common/utils/ObjectUtils";
 import {formatDateTime, getEntityPersonFullName} from "@/app/components/common/utils/BusinessUtils";
 import {ServicesContext} from "@/app/services/ServiceProvider";
+import {getRequestError} from "@/app/components/common/utils/RequestUtils";
 
 type ReceiptListProps = {
   create?: (callback: () => void) => void,
@@ -40,7 +40,7 @@ export default function ReceiptList(props: ReceiptListProps): React.ReactNode {
       setEmployees(response.items);
     };
 
-    fetch().catch(e => showAlert(e.toString(), "error"));
+    fetch().catch(e => getRequestError(e).then(m => showAlert(m, "error")));
   }, [items]);
   useEffect(() => {
     const fetch = async() => {
@@ -51,7 +51,7 @@ export default function ReceiptList(props: ReceiptListProps): React.ReactNode {
       setCustomerCards(response.items);
     };
 
-    fetch().catch(e => showAlert(e.toString(), "error"));
+    fetch().catch(e => getRequestError(e).then(m => showAlert(m, "error")));
   }, [items]);
 
   async function fetch(): Promise<ReceiptListResponse> {

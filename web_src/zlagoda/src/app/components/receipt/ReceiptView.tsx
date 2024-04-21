@@ -14,6 +14,7 @@ import {
 } from "@/app/components/common/utils/BusinessUtils";
 import {ServicesContext} from "@/app/services/ServiceProvider";
 import Link from "next/link";
+import {getRequestError} from "@/app/components/common/utils/RequestUtils";
 
 type ReceiptViewProps = {
     id: number,
@@ -41,7 +42,7 @@ export default function ReceiptView(props: ReceiptViewProps): React.ReactNode {
             setProductArchetypes(response.items);
         };
 
-        fetch().catch(e => showAlert(e.toString(), "error"));
+        fetch().catch(e => getRequestError(e).then(m => showAlert(m, "error")));
     }, []);
 
     async function fetch(id: number) {
@@ -59,7 +60,6 @@ export default function ReceiptView(props: ReceiptViewProps): React.ReactNode {
         <ViewComponent id={props.id} fetch={fetch} onError={props.onError} edit={props.edit} cancel={props.cancel}
                        header="Перегляд чеку"
         >
-            <h2 style={{ textAlign: "center" }}>Перегляд чеку</h2>
             <div>
                 <b>Касир: </b>
                 <Link href={`/employee/${employee?.id}`}>

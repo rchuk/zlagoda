@@ -16,6 +16,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {ConfirmationDialogContext} from "@/app/services/ConfirmationDialogService";
+import {getRequestError} from "@/app/components/common/utils/RequestUtils";
 
 type ListToolbarProps = {
   createItem?: () => void
@@ -76,7 +77,7 @@ export default function ListComponent<ItemT extends GridValidRowModel, CriteriaT
       setItems(response.items);
     }
 
-    fetch().catch(e => showAlert(e.toString(), "error"));
+    fetch().catch(e => getRequestError(e).then(m => showAlert(m, "error")));
   }
 
   useEffect(() => {
@@ -122,7 +123,7 @@ export default function ListComponent<ItemT extends GridValidRowModel, CriteriaT
 
       impl()
         .then(() => showAlert("Інформацію успішно видалено", "success"))
-        .catch(e => showAlert(e.toString(), "error"));
+        .catch(e => getRequestError(e).then(m => showAlert(m, "error")));
     };
 
     showConfirmation({ confirm });

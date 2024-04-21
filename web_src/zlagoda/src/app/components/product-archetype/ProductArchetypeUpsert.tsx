@@ -9,6 +9,7 @@ import {Autocomplete, TextField} from "@mui/material";
 import UpsertComponent from "@/app/components/common/UpsertComponent";
 import {findEntity} from "@/app/components/common/utils/ObjectUtils";
 import {ServicesContext} from "@/app/services/ServiceProvider";
+import {getRequestError} from "@/app/components/common/utils/RequestUtils";
 
 function getDefaultProductArchetypeView(): ProductArchetypeView {
     return {
@@ -45,7 +46,7 @@ export default function ProductArchetypeUpsert(props: ProductArchetypeUpsertProp
             setProductCategories(newProductCategories.items);
         };
 
-        fetch().catch(e => showAlert(e.toString(), "error"));
+        fetch().catch(e => getRequestError(e).then(m => showAlert(m, "error")));
     }, []);
 
     async function fetch(id: number) {
@@ -72,9 +73,6 @@ export default function ProductArchetypeUpsert(props: ProductArchetypeUpsertProp
             onSave={props.onSave}
             header={props.initialId != null ? "Редагування типу товару" : "Створення типу товару"}
         >
-            <Grid xs={12} textAlign="center">
-                <h2>Редагування типу товару</h2>
-            </Grid>
             <Grid xs={6}>
                 <TextField label="Назва"
                            required

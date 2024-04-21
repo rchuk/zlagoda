@@ -2,6 +2,7 @@ import React, {PropsWithChildren, useContext, useEffect, useState} from "react";
 import UpsertContainer from "@/app/components/common/UpsertContainer";
 import {AlertContext} from "@/app/services/AlertService";
 import ProgressSpinner from "@/app/components/common/ProgressSpinner";
+import {getRequestError} from "@/app/components/common/utils/RequestUtils";
 
 type UpsertComponentProps = {
     initialId: number | null,
@@ -38,7 +39,7 @@ export default function UpsertComponent(props: PropsWithChildren<UpsertComponent
         fetch()
           .then(_ => setIsReady(true))
           .catch(e => {
-              showAlert(`Помилка при отриманні інформації.\n${e.toString()}`, "error");
+              getRequestError(e).then(m => showAlert(m, "error"))
 
               props.onError?.(e);
           });
@@ -52,7 +53,7 @@ export default function UpsertComponent(props: PropsWithChildren<UpsertComponent
         update()
             .then(_ => showAlert("Інформацію оновлено", "success"))
             .then(_ => props.onSave?.())
-            .catch(e => showAlert(e.toString(), "error"));
+            .catch(e => getRequestError(e).then(m => showAlert(m, "error")));
     }
 
     function create() {
@@ -64,7 +65,7 @@ export default function UpsertComponent(props: PropsWithChildren<UpsertComponent
         create()
             .then(_ => showAlert("Інформацію створено", "success"))
             .then(_ => props.onSave?.())
-            .catch(e => showAlert(e.toString(), "error"));
+            .catch(e => getRequestError(e).then(m => showAlert(m, "error")));
     }
 
     function submit() {

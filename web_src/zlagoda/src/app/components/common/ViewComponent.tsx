@@ -2,6 +2,7 @@ import React, {PropsWithChildren, useContext, useEffect, useState} from "react";
 import {AlertContext} from "@/app/services/AlertService";
 import {Box, Button} from "@mui/material";
 import ProgressSpinner from "@/app/components/common/ProgressSpinner";
+import {getRequestError} from "@/app/components/common/utils/RequestUtils";
 
 type ViewComponentProps = {
     id: number,
@@ -20,7 +21,7 @@ export default function ViewComponent(props: PropsWithChildren<ViewComponentProp
         props.fetch(props.id)
           .then(_ => setIsReady(true))
           .catch(e => {
-              showAlert(e.toString(), "error");
+              getRequestError(e).then(m => showAlert(m, "error"))
 
               props.onError?.(e);
           });
