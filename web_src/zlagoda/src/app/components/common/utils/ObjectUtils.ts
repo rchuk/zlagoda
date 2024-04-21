@@ -1,16 +1,20 @@
 import {BaseCriteria} from "../../../../../generated";
 
-interface BaseEntity {
-  id: number
+export type EntityId = number | string;
+
+export interface BaseEntity<IdT extends EntityId> {
+  id: IdT
 }
 
-export function createIdsCriteria<EntityT extends BaseEntity>(list: EntityT[] | null): BaseCriteria {
+export function createIdsCriteria<EntityT extends BaseEntity<IdT>, IdT extends EntityId>
+  (list: EntityT[] | null): BaseCriteria {
   return {
     ids: list?.map(item => item.id) ?? []
   };
 }
 
-export function findEntity<EntityT extends BaseEntity>(list: EntityT[] | null, id: number): EntityT | null {
+export function findEntity<EntityT extends BaseEntity<IdT>, IdT extends EntityId>
+  (list: EntityT[] | null, id: IdT): EntityT | null {
   return list?.find(entity => entity.id == id) ?? null;
 }
 

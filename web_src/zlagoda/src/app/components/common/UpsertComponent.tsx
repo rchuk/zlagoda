@@ -3,24 +3,25 @@ import UpsertContainer from "@/app/components/common/UpsertContainer";
 import {AlertContext} from "@/app/services/AlertService";
 import ProgressSpinner from "@/app/components/common/ProgressSpinner";
 import {getRequestError} from "@/app/components/common/utils/RequestUtils";
+import {EntityId} from "@/app/components/common/utils/ObjectUtils";
 
-type UpsertComponentProps = {
-    initialId: number | null,
+type UpsertComponentProps<IdT extends EntityId> = {
+    initialId: IdT | null,
     createHeader: string,
     updateHeader: string,
 
     resetView: () => void,
-    fetch: (id: number) => Promise<void>,
-    create: () => Promise<number>,
-    update: (id: number) => Promise<void>,
+    fetch: (id: IdT) => Promise<void>,
+    create: () => Promise<IdT>,
+    update: (id: IdT) => Promise<void>,
     onSave?: () => void,
     cancel?: () => void,
 
     onError?: (reason: any) => void
 };
 
-export default function UpsertComponent(props: PropsWithChildren<UpsertComponentProps>): React.ReactNode {
-    const [id, setId] = useState<number | null>(null);
+export default function UpsertComponent<IdT extends EntityId>(props: PropsWithChildren<UpsertComponentProps<IdT>>): React.ReactNode {
+    const [id, setId] = useState<IdT | null>(null);
     const [isReady, setIsReady] = useState<boolean>(false);
     const showAlert = useContext(AlertContext);
 

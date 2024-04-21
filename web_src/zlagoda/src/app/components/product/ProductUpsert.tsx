@@ -30,7 +30,6 @@ export default function ProductUpsert(props: ProductUpsertProps): React.ReactNod
     const [productArchetypes, setProductArchetypes] = useState<ProductArchetype[] | null>(null);
     const showAlert = useContext(AlertContext);
 
-    // TODO: Test
     const selectedArchetype = useMemo(
         () => findEntity(productArchetypes, view.archetype),
         [productArchetypes]

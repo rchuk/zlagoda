@@ -33,12 +33,10 @@ export default function ProductArchetypeUpsert(props: ProductArchetypeUpsertProp
     const [productCategories, setProductCategories] = useState<Array<ProductCategory> | null>(null);
     const showAlert = useContext(AlertContext);
 
-    // TODO: Deps might be wrong
     const selectedCategory = useMemo(
         () => findEntity(productCategories, view.category),
         [productCategories]
     );
-    //
 
     useEffect(() => {
         const fetch = async() => {

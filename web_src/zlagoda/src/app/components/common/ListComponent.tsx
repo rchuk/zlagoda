@@ -17,6 +17,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {ConfirmationDialogContext} from "@/app/services/ConfirmationDialogService";
 import {getRequestError} from "@/app/components/common/utils/RequestUtils";
+import {BaseEntity, EntityId} from "@/app/components/common/utils/ObjectUtils";
 
 type ListToolbarProps = {
   createItem?: () => void
@@ -36,15 +37,15 @@ function ListToolbar(props: ListToolbarProps) {
 }
 
 // NOTE: Callback is only needed for create if it's implemented with modal
-type ListComponentProps<ItemT extends GridValidRowModel, CriteriaT extends BaseCriteria> = {
+type ListComponentProps<ItemT extends GridValidRowModel & BaseEntity<IdT>, CriteriaT extends BaseCriteria, IdT extends EntityId> = {
   columns: GridColDef<ItemT>[],
 
   fetch: () => Promise<ListResponse & { items: ItemT[] }>,
   create?: (callback: () => void) => void,
-  update?: (id: number, callback: () => void) => void,
-  view?: (id: number) => void,
+  update?: (id: IdT, callback: () => void) => void,
+  view?: (id: IdT) => void,
 
-  delete?: (id: number) => Promise<boolean>,
+  delete?: (id: IdT) => Promise<boolean>,
 
   criteria: CriteriaT,
   setCriteria: (criteria: CriteriaT) => void,
@@ -61,7 +62,8 @@ export function getDefaultBaseCriteria(): BaseCriteria {
   };
 }
 
-export default function ListComponent<ItemT extends GridValidRowModel, CriteriaT extends BaseCriteria>(props: ListComponentProps<ItemT, CriteriaT>): React.ReactNode {
+export default function ListComponent<ItemT extends GridValidRowModel & BaseEntity<IdT>, CriteriaT extends BaseCriteria, IdT extends EntityId>
+  (props: ListComponentProps<ItemT, CriteriaT, IdT>): React.ReactNode {
   const [itemsInternal, setItemsInternal] = useState<ItemT[] | null>(null);
   const [itemCount, setItemCount] = useState<number | null>(null);
   const showAlert = useContext(AlertContext);
@@ -105,15 +107,15 @@ export default function ListComponent<ItemT extends GridValidRowModel, CriteriaT
     props.create?.(fetchItems);
   }
 
-  function handleView(id: number) {
+  function handleView(id: IdT) {
     props.view?.(id);
   }
 
-  function handleUpdate(id: number, callback: () => void) {
+  function handleUpdate(id: IdT, callback: () => void) {
     props.update?.(id, callback);
   }
 
-  function handleDelete(id: number) {
+  function handleDelete(id: IdT) {
     const confirm = () => {
       const impl = async() => {
         const isSuccess = await props.delete?.(id);
@@ -146,7 +148,7 @@ export default function ListComponent<ItemT extends GridValidRowModel, CriteriaT
               icon={<VisibilityIcon/>}
               label="Переглянути"
               className="textPrimary"
-              onClick={() => handleView(id as number)}
+              onClick={() => handleView(id as IdT)}
               color="inherit"
             />
           ));
@@ -157,7 +159,7 @@ export default function ListComponent<ItemT extends GridValidRowModel, CriteriaT
               icon={<EditIcon/>}
               label="Редагувати"
               className="textPrimary"
-              onClick={() => handleUpdate(id as number, fetchItems)}
+              onClick={() => handleUpdate(id as IdT, fetchItems)}
               color="inherit"
             />
           ));
@@ -167,7 +169,7 @@ export default function ListComponent<ItemT extends GridValidRowModel, CriteriaT
             <GridActionsCellItem
               icon={<DeleteIcon/>}
               label="Видалити"
-              onClick={() => handleDelete(id as number)}
+              onClick={() => handleDelete(id as IdT)}
               color="inherit"
             />
           ));
