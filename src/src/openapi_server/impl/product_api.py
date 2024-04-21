@@ -10,35 +10,31 @@ from openapi_server.models.product_view import ProductView
 
 class ProductApi(BaseProductApi):
     def __init__(self):
-        self._products: Dict[int, Product] = {
-            0: Product(
-                id=0,
+        self._products: Dict[str, Product] = {
+            "000000000001": Product(
+                id="000000000001",
                 archetype=0,
-                upc="000000000001",
                 price=100,
                 quantity=50,
                 has_discount=False
             ),
-            1: Product(
-                id=1,
+            "000000000002": Product(
+                id="000000000002",
                 archetype=0,
-                upc="000000000002",
                 price=80,
                 quantity=20,
                 has_discount=True
             ),
-            3: Product(
-                id=3,
+            "000000000013": Product(
+                id="000000000013",
                 archetype=1,
-                upc="000000000013",
                 price=150,
                 quantity=330,
                 has_discount=False
             ),
-            18: Product(
-                id=18,
+            "000000242401": Product(
+                id="000000242401",
                 archetype=2,
-                upc="000000242401",
                 price=666,
                 quantity=228,
                 has_discount=False

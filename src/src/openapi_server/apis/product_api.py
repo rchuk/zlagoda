@@ -38,7 +38,7 @@ for _, name, _ in pkgutil.iter_modules(ns_pkg.__path__, ns_pkg.__name__ + "."):
 @router.put(
     "/api/product",
     responses={
-        200: {"model": int, "description": "Id of new product"},
+        200: {"model": str, "description": "Id of new product"},
     },
     tags=["product"],
     summary="Create a new product",
@@ -46,7 +46,7 @@ for _, name, _ in pkgutil.iter_modules(ns_pkg.__path__, ns_pkg.__name__ + "."):
 )
 async def create_product(
     product_view: ProductView = Body(None, description=""),
-) -> int:
+) -> str:
     """Create a new product"""
     return BaseProductApi.subclasses[0]().create_product(product_view)
 
@@ -61,7 +61,7 @@ async def create_product(
     response_model_by_alias=True,
 )
 async def delete_product(
-    id: int = Path(..., description=""),
+    id: str = Path(..., description=""),
 ) -> bool:
     """Delete a product by id"""
     return BaseProductApi.subclasses[0]().delete_product(id)
@@ -77,7 +77,7 @@ async def delete_product(
     response_model_by_alias=True,
 )
 async def get_product_by_id(
-    id: int = Path(..., description=""),
+    id: str = Path(..., description=""),
 ) -> Product:
     """Get product by id"""
     return BaseProductApi.subclasses[0]().get_product_by_id(id)
@@ -109,7 +109,7 @@ async def get_product_list(
     response_model_by_alias=True,
 )
 async def update_prodact(
-    id: int = Path(..., description=""),
+    id: str = Path(..., description=""),
     product_view: ProductView = Body(None, description=""),
 ) -> bool:
     """Update existing product"""
