@@ -6,7 +6,8 @@ import {getRequestError} from "@/app/components/common/utils/RequestUtils";
 
 type UpsertComponentProps = {
     initialId: number | null,
-    header: string,
+    createHeader: string,
+    updateHeader: string,
 
     resetView: () => void,
     fetch: (id: number) => Promise<void>,
@@ -83,7 +84,7 @@ export default function UpsertComponent(props: PropsWithChildren<UpsertComponent
         return <ProgressSpinner />;
 
     return (
-        <UpsertContainer submit={submit} cancel={cancel} header={props.header}>
+        <UpsertContainer submit={submit} cancel={cancel} header={id != null ? props.updateHeader : props.createHeader}>
             {props.children}
         </UpsertContainer>
     );

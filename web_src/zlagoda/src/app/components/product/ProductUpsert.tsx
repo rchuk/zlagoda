@@ -67,7 +67,8 @@ export default function ProductUpsert(props: ProductUpsertProps): React.ReactNod
             cancel={props.cancel}
             onError={props.onError}
             onSave={props.onSave}
-            header={props.initialId != null ? "Редагування товару" : "Створення товару"}
+            createHeader="Створення товару"
+            updateHeader="Редагування товару"
         >
             <Grid xs={6}>
                 <Autocomplete

@@ -45,7 +45,8 @@ export default function ProductCategoryUpsert(props: ProductCategoryUpsertProps)
             cancel={props.cancel}
             onError={props.onError}
             onSave={props.onSave}
-            header={props.initialId != null ? "Редагування категорії товару" : "Створення категорії товару"}
+            createHeader="Створення категорії товару"
+            updateHeader="Редагування категорії товару"
         >
             <Grid xs={12}>
                 <TextField label="Назва"

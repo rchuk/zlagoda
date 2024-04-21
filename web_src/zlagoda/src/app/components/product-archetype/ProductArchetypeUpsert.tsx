@@ -71,7 +71,8 @@ export default function ProductArchetypeUpsert(props: ProductArchetypeUpsertProp
             cancel={props.cancel}
             onError={props.onError}
             onSave={props.onSave}
-            header={props.initialId != null ? "Редагування типу товару" : "Створення типу товару"}
+            createHeader="Створення типу товару"
+            updateHeader="Редагування типу товару"
         >
             <Grid xs={6}>
                 <TextField label="Назва"
