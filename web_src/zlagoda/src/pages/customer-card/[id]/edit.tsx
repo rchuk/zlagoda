@@ -9,7 +9,7 @@ export default function CustomerCardEditPage() {
 
   return (
     <BaseIdPage id={id} setId={setId}>
-      <CustomerCardUpsert initialId={id} onError={router.back} cancel={router.back}/>
+      <CustomerCardUpsert initialId={id} onError={router.back} cancel={router.back} onSave={router.back} />
     </BaseIdPage>
   );
 }

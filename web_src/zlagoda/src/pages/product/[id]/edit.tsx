@@ -7,18 +7,9 @@ export default function ProductEditPage() {
   const [id, setId] = useState<string | null>(null);
   const router = useRouter();
 
-  function onSave(id?: string) {
-    if (id) {
-      router.replace({
-        pathname: "/product/[id]",
-        query: id
-      })
-    }
-  }
-
   return (
     <BaseStringIdPage id={id} setId={setId}>
-      <ProductUpsert initialId={id} onError={router.back} cancel={router.back} onSave={onSave}/>
+      <ProductUpsert initialId={id} onError={router.back} cancel={router.back} onSave={router.back}/>
     </BaseStringIdPage>
   );
 }

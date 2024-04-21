@@ -14,7 +14,7 @@ type UpsertComponentProps<IdT extends EntityId> = {
     fetch: (id: IdT) => Promise<void>,
     create: () => Promise<IdT>,
     update: (id: IdT) => Promise<void>,
-    onSave?: (id?: IdT) => void,
+    onSave?: () => void,
     cancel?: () => void,
 
     onError?: (reason: any) => void
@@ -54,7 +54,7 @@ export default function UpsertComponent<IdT extends EntityId>(props: PropsWithCh
 
         update()
             .then(_ => showAlert("Інформацію оновлено", "success"))
-            .then(_ => props.onSave?.(id!))
+            .then(_ => props.onSave?.())
             .catch(e => getRequestError(e).then(m => showAlert(m, "error")));
     }
 
@@ -67,8 +67,8 @@ export default function UpsertComponent<IdT extends EntityId>(props: PropsWithCh
         }
 
         create()
-            .then(id => props.onSave?.(id))
             .then(_ => showAlert("Інформацію створено", "success"))
+            .then(id => props.onSave?.())
             .catch(e => getRequestError(e).then(m => showAlert(m, "error")));
     }
 
