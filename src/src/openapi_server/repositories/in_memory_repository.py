@@ -9,17 +9,25 @@ EntityT = TypeVar("EntityT")
 class InMemoryRepository(CrudRepositoryBase[IdT, EntityT]):
     def __init__(self, test_data: Optional[List[EntityT]] = None):
         self._items: Dict[IdT, EntityT] = dict(map(lambda x: (x.id, x), test_data))
-        self._counter = max(self._items.keys()) + 1
+        if len(self._items) == 0:
+            self._counter = 0
+        elif any(map(lambda id: isinstance(id, int), self._items.keys())):
+            self._counter = max(self._items.keys()) + 1
 
     def create(self, entity: EntityT) -> IdT:
-        entity.id = self._counter
-        self._items[self._counter] = entity.copy(deep=True)
-        self._counter += 1
+        if isinstance(entity.id, int):
+            entity.id = self._counter
+        self._items[entity.id] = entity.copy(deep=True)
+        if isinstance(entity.id, int):
+            self._counter += 1
 
         return entity.id
 
     def get(self, id: IdT) -> EntityT:
-        return self._items[id].copy(deep=True)
+        try:
+            return self._items[id].copy(deep=True)
+        except KeyError:
+            return None
 
     def update(self, entity: EntityT) -> bool:
         self._items[entity.id] = entity.copy(deep=True)

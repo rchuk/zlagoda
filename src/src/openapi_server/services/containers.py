@@ -6,6 +6,9 @@ from openapi_server.services.customer_card.customer_card_validator import Custom
 from openapi_server.services.employee.employee_merger import EmployeeMerger
 from openapi_server.services.employee.employee_service import EmployeeService
 from openapi_server.services.employee.employee_validator import EmployeeValidator
+from openapi_server.services.product.product_merger import ProductMerger
+from openapi_server.services.product.product_service import ProductService
+from openapi_server.services.product.product_validator import ProductValidator
 from openapi_server.services.product_archetype.product_archetype_merger import ProductArchetypeMerger
 from openapi_server.services.product_archetype.product_archetype_service import ProductArchetypeService
 from openapi_server.services.product_archetype.product_archetype_validator import ProductArchetypeValidator
@@ -54,4 +57,17 @@ class ServicesContainer(containers.DeclarativeContainer):
         repository=repositories.employee_repository,
         merger=employee_merger,
         validator=employee_validator
+    )
+
+    product_merger = providers.Factory(ProductMerger)
+    product_validator = providers.Factory(
+        ProductValidator,
+        product_repository=repositories.product_repository,
+        product_archetype_repository=repositories.product_archetype_repository
+    )
+    product_service = providers.Factory(
+        ProductService,
+        repository=repositories.product_repository,
+        merger=product_merger,
+        validator=product_validator
     )

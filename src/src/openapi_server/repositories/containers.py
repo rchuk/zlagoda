@@ -10,6 +10,7 @@ from openapi_server.entities.product_archetype_entity import ProductArchetypeEnt
 from openapi_server.entities.customer_card_entity import CustomerCardEntity
 from openapi_server.entities.employee_entity import EmployeeEntity
 from openapi_server.entities.employee_role_entity_enum import EmployeeRoleEntityEnum
+from openapi_server.entities.product_entity import ProductEntity
 
 
 class RepositoryContainer(containers.DeclarativeContainer):
@@ -116,3 +117,42 @@ class RepositoryContainer(containers.DeclarativeContainer):
             )
         ]
     )
+
+    product_repository = providers.Singleton(
+        InMemoryRepository,
+        test_data=[
+            ProductEntity(
+                id="000000000001",
+                archetype=0,
+                price=100,
+                quantity=50,
+                discount_id="000000000002",
+                has_discount=False
+            ),
+            ProductEntity(
+                id="000000000002",
+                archetype=0,
+                price=80,
+                quantity=20,
+                discount_id=None,
+                has_discount=True
+            ),
+            ProductEntity(
+                id="000000000013",
+                archetype=1,
+                price=150,
+                quantity=330,
+                discount_id=None,
+                has_discount=False
+            ),
+            ProductEntity(
+                id="000000242401",
+                archetype=2,
+                price=666,
+                quantity=228,
+                discount_id=None,
+                has_discount=False
+            )
+        ]
+    )
+
