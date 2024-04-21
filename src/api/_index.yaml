@@ -388,7 +388,7 @@ paths:
           content:
             application/json:
               schema:
-                type: integer
+                type: string
 
   /api/product/{id}:
     get:
@@ -402,7 +402,7 @@ paths:
           required: true
           name: id
           schema:
-            type: integer
+            type: string
       responses:
         200:
           description: product by id
@@ -421,7 +421,7 @@ paths:
           required: true
           name: id
           schema:
-            type: integer
+            type: string
       requestBody:
         required: true
         content:
@@ -446,7 +446,7 @@ paths:
           required: true
           name: id
           schema:
-            type: integer
+            type: string
       responses:
         200:
           description: Boolean whether product was deleted
@@ -745,17 +745,17 @@ components:
     ProductView:
       type: object
       properties:
+        id:
+          type: string
         archetype:
           type: integer
-        upc:
-          type: string
         price:
           type: integer
         quantity:
           type: integer
       required:
+        - id
         - archetype
-        - upc
         - price
         - quantity
 
@@ -763,12 +763,11 @@ components:
       allOf:
         - type: object
           properties:
-            id:
-              type: integer
+            discountId:
+              type: string
             hasDiscount:
               type: boolean
           required:
-            - id
             - hasDiscount
         - $ref: '#/components/schemas/ProductView'
 
@@ -776,7 +775,7 @@ components:
       type: object
       properties:
         product:
-          type: integer
+          type: string
         quantity:
           type: integer
       required:
@@ -954,9 +953,11 @@ components:
 
     EmployeeCriteria:
       allOf:
-        - $ref: '#/components/schemas/BaseCriteria'
+        - $ref: '#/components/schemas/BaseIntIdCriteria'
         - type: object
           properties:
+            query:
+              type: string
             role:
               $ref: '#/components/schemas/EmployeeRole'
             lastName:
@@ -964,17 +965,27 @@ components:
 
     ProductCategoryCriteria:
       allOf:
-        - $ref: '#/components/schemas/BaseCriteria'
+        - $ref: '#/components/schemas/BaseIntIdCriteria'
+        - type: object
+          properties:
+            query:
+              type: string
 
     ProductArchetypeCriteria:
       allOf:
-        - $ref: '#/components/schemas/BaseCriteria'
+        - $ref: '#/components/schemas/BaseIntIdCriteria'
+        - type: object
+          properties:
+            query:
+              type: string
 
     ProductCriteria:
       allOf:
-        - $ref: '#/components/schemas/BaseCriteria'
+        - $ref: '#/components/schemas/BaseStringIdCriteria'
         - type: object
           properties:
+            query:
+              type: string
             categoryIds:
               type: array
               items:
@@ -985,14 +996,14 @@ components:
               type: string
             hasDiscount:
               type: boolean
-            query:
-              type: string
 
     ReceiptCriteria:
       allOf:
-        - $ref: '#/components/schemas/BaseCriteria'
+        - $ref: '#/components/schemas/BaseIntIdCriteria'
         - type: object
           properties:
+            query:
+              type: string
             cashierIds:
               type: array
               items:
@@ -1006,15 +1017,35 @@ components:
 
     CustomerCardCriteria:
       allOf:
-        - $ref: '#/components/schemas/BaseCriteria'
+        - $ref: '#/components/schemas/BaseIntIdCriteria'
         - type: object
           properties:
+            query:
+              type: string
             lastName:
               type: string
             phoneNumber:
               type: string
-            query:
-              type: string
+
+    BaseStringIdCriteria:
+      allOf:
+        - $ref: '#/components/schemas/BaseCriteria'
+        - type: object
+          properties:
+            ids:
+              type: array
+              items:
+                type: string
+
+    BaseIntIdCriteria:
+      allOf:
+        - $ref: '#/components/schemas/BaseCriteria'
+        - type: object
+          properties:
+            ids:
+              type: array
+              items:
+                type: integer
 
     BaseCriteria:
       allOf:
@@ -1024,10 +1055,6 @@ components:
               type: integer
             limit:
               type: integer
-            ids:
-              type: array
-              items:
-                type: integer
         - $ref: '#/components/schemas/SortCriteria'
 
     SortCriteria:

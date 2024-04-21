@@ -33,15 +33,15 @@ class ProductCriteria(BaseModel):
     """ # noqa: E501
     offset: Optional[StrictInt] = None
     limit: Optional[StrictInt] = None
-    ids: Optional[List[StrictInt]] = None
     sort_field: Optional[StrictStr] = Field(default=None, alias="sortField")
     sort_ascending: Optional[StrictBool] = Field(default=None, alias="sortAscending")
+    ids: Optional[List[StrictStr]] = None
+    query: Optional[StrictStr] = None
     category_ids: Optional[List[StrictInt]] = Field(default=None, alias="categoryIds")
     upc: Optional[StrictStr] = None
     name: Optional[StrictStr] = None
     has_discount: Optional[StrictBool] = Field(default=None, alias="hasDiscount")
-    query: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["offset", "limit", "ids", "sortField", "sortAscending", "categoryIds", "upc", "name", "hasDiscount", "query"]
+    __properties: ClassVar[List[str]] = ["offset", "limit", "sortField", "sortAscending", "ids", "query", "categoryIds", "upc", "name", "hasDiscount"]
 
     model_config = {
         "populate_by_name": True,
@@ -94,14 +94,14 @@ class ProductCriteria(BaseModel):
         _obj = cls.model_validate({
             "offset": obj.get("offset"),
             "limit": obj.get("limit"),
-            "ids": obj.get("ids"),
             "sortField": obj.get("sortField"),
             "sortAscending": obj.get("sortAscending"),
+            "ids": obj.get("ids"),
+            "query": obj.get("query"),
             "categoryIds": obj.get("categoryIds"),
             "upc": obj.get("upc"),
             "name": obj.get("name"),
-            "hasDiscount": obj.get("hasDiscount"),
-            "query": obj.get("query")
+            "hasDiscount": obj.get("hasDiscount")
         })
         return _obj
 

@@ -20,7 +20,7 @@ import json
 
 
 
-from pydantic import BaseModel, ConfigDict, StrictInt
+from pydantic import BaseModel, ConfigDict, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List
 try:
     from typing import Self
@@ -31,7 +31,7 @@ class ReceiptItemView(BaseModel):
     """
     ReceiptItemView
     """ # noqa: E501
-    product: StrictInt
+    product: StrictStr
     quantity: StrictInt
     __properties: ClassVar[List[str]] = ["product", "quantity"]
 

@@ -1,4 +1,4 @@
-import {BaseCriteria} from "../../../../../generated";
+import {BaseIntIdCriteria, BaseStringIdCriteria} from "../../../../../generated";
 
 export type EntityId = number | string;
 
@@ -6,8 +6,15 @@ export interface BaseEntity<IdT extends EntityId> {
   id: IdT
 }
 
-export function createIdsCriteria<EntityT extends BaseEntity<IdT>, IdT extends EntityId>
-  (list: EntityT[] | null): BaseCriteria {
+export function createIdsCriteria<EntityT extends BaseEntity<number>>(list: EntityT[] | null): BaseIntIdCriteria {
+  return extractIds(list);
+}
+
+export function createStringIdsCriteria<EntityT extends BaseEntity<string>>(list: EntityT[] | null): BaseStringIdCriteria {
+  return extractIds(list);
+}
+
+function extractIds<EntityT extends BaseEntity<IdT>, IdT extends EntityId>(list: EntityT[] | null): { ids: IdT[] } {
   return {
     ids: list?.map(item => item.id) ?? []
   };

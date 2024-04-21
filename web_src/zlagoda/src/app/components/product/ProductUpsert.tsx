@@ -10,15 +10,15 @@ import {getRequestError} from "@/app/components/common/utils/RequestUtils";
 
 function getDefaultProductView(): ProductView {
     return {
+        id: "",
         archetype: 0,
-        upc: "",
         price: 0,
         quantity: 0
     };
 }
 
 type ProductUpsertProps = {
-    initialId: number | null,
+    initialId: string | null,
     cancel?: () => void,
     onError?: () => void,
     onSave?: () => void
@@ -44,15 +44,15 @@ export default function ProductUpsert(props: ProductUpsertProps): React.ReactNod
         fetch().catch(e => getRequestError(e).then(m => showAlert(m, "error")));
     }, []);
 
-    async function fetch(id: number) {
+    async function fetch(id: string) {
         setView(await productService.getProductById({id}));
     }
 
-    async function create(): Promise<number> {
+    async function create(): Promise<string> {
         return await productService.createProduct({productView: view});
     }
 
-    async function update(id: number) {
+    async function update(id: string) {
         await productService.updateProdact({id, productView: view});
     }
 
@@ -70,22 +70,22 @@ export default function ProductUpsert(props: ProductUpsertProps): React.ReactNod
             updateHeader="Редагування товару"
         >
             <Grid xs={6}>
-                <Autocomplete
-                    disablePortal
-                    options={productArchetypes ?? []}
-                    getOptionLabel={archetype => archetype.name}
-                    fullWidth
-                    renderInput={(params) => <TextField {...params} label="Товар" />}
-                    value={selectedArchetype}
-                    onChange={(_, v) => setView({...view, archetype: v?.id ?? 0})}
-                />
-            </Grid>
-            <Grid xs={6}>
                 <TextField label="UPC"
                            required
                            fullWidth
-                           value={view.upc}
-                           onChange={e => setView({...view, upc: e.target.value})}
+                           value={view.id}
+                           onChange={e => setView({...view, id: e.target.value})}
+                />
+            </Grid>
+            <Grid xs={6}>
+                <Autocomplete
+                  disablePortal
+                  options={productArchetypes ?? []}
+                  getOptionLabel={archetype => archetype.name}
+                  fullWidth
+                  renderInput={(params) => <TextField {...params} label="Товар" />}
+                  value={selectedArchetype}
+                  onChange={(_, v) => setView({...view, archetype: v?.id ?? 0})}
                 />
             </Grid>
             <Grid xs={6}>
