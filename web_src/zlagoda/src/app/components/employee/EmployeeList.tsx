@@ -12,7 +12,7 @@ import {ServicesContext} from "@/app/services/ServiceProvider";
 
 type EmployeeListProps = {
   create?: (callback: () => void) => void,
-  update?: (id: number) => void,
+  update?: (id: number, callback: () => void) => void,
   view?: (id: number) => void
 };
 
@@ -36,8 +36,8 @@ export default function EmployeeList(props: EmployeeListProps): React.ReactNode 
     props.view?.(id);
   }
 
-  function handleUpdate(id: number) {
-    props.update?.(id);
+  function handleUpdate(id: number, callback: () => void) {
+    props.update?.(id, callback);
   }
 
   const columns: GridColDef<Employee>[] = [

@@ -11,7 +11,7 @@ import {ServicesContext} from "@/app/services/ServiceProvider";
 
 type CustomerCardListProps = {
     create?: (callback: () => void) => void,
-    update?: (id: number) => void,
+    update?: (id: number, callback: () => void) => void
     view?: (id: number) => void
 };
 
@@ -35,8 +35,8 @@ export default function CustomerCardList(props: CustomerCardListProps): React.Re
     props.view?.(id);
   }
 
-  function handleUpdate(id: number) {
-    props.update?.(id);
+  function handleUpdate(id: number, callback: () => void) {
+    props.update?.(id, callback);
   }
 
   const columns: GridColDef<CustomerCard>[] = [

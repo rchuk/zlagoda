@@ -4,14 +4,13 @@ import {
   ProductCategoryListResponse
 } from "../../../../generated";
 import React, {useContext, useState} from "react";
-import {Box} from "@mui/material";
 import {GridColDef} from '@mui/x-data-grid';
 import ListComponent, {getDefaultBaseCriteria} from "@/app/components/common/ListComponent";
 import {ServicesContext} from "@/app/services/ServiceProvider";
 
 type ProductCategoryListProps = {
   create?: (callback: () => void) => void,
-  update?: (id: number) => void
+  update?: (id: number, callback: () => void) => void
 };
 
 export default function ProductCategoryList(props: ProductCategoryListProps): React.ReactNode {
@@ -30,8 +29,8 @@ export default function ProductCategoryList(props: ProductCategoryListProps): Re
     props.create?.(callback);
   }
 
-  function handleUpdate(id: number) {
-    props.update?.(id);
+  function handleUpdate(id: number, callback: () => void) {
+    props.update?.(id, callback);
   }
 
   const columns: GridColDef<ProductCategory>[] = [

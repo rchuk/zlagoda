@@ -15,11 +15,11 @@ export default function ProductCategoryListPage() {
   }
 
   function create(callback: () => void) {
-    openModal(<ProductCategoryUpsert initialId={null} onError={closeModal} cancel={closeModal} />);
+    openModal(<ProductCategoryUpsert initialId={null} onError={closeModal} cancel={closeModal} onSave={callback} />);
   }
 
-  function update(id: number) {
-    openModal(<ProductCategoryUpsert initialId={id} onError={closeModal} cancel={closeModal} />);
+  function update(id: number, callback: () => void) {
+    openModal(<ProductCategoryUpsert initialId={id} onError={closeModal} cancel={closeModal} onSave={callback} />);
   }
 
   return (

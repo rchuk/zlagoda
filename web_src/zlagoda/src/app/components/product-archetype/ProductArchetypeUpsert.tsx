@@ -22,7 +22,8 @@ function getDefaultProductArchetypeView(): ProductArchetypeView {
 type ProductArchetypeUpsertProps = {
     initialId: number | null,
     cancel?: () => void,
-    onError?: () => void
+    onError?: () => void,
+    onSave?: () => void
 };
 
 export default function ProductArchetypeUpsert(props: ProductArchetypeUpsertProps): React.ReactNode {
@@ -68,6 +69,7 @@ export default function ProductArchetypeUpsert(props: ProductArchetypeUpsertProp
             update={update}
             cancel={props.cancel}
             onError={props.onError}
+            onSave={props.onSave}
             header={props.initialId != null ? "Редагування типу товару" : "Створення типу товару"}
         >
             <Grid xs={12} textAlign="center">

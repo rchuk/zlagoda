@@ -21,7 +21,8 @@ function getDefaultCustomerCardView(): CustomerCardView {
 type CustomerCardUpsertProps = {
     initialId: number | null,
     cancel?: () => void,
-    onError?: () => void
+    onError?: () => void,
+    onSave?: () => void
 };
 
 export default function CustomerCardUpsert(props: CustomerCardUpsertProps): React.ReactNode {
@@ -50,6 +51,7 @@ export default function CustomerCardUpsert(props: CustomerCardUpsertProps): Reac
             update={update}
             cancel={props.cancel}
             onError={props.onError}
+            onSave={props.onSave}
             header={props.initialId != null ? "Редагування картки клієнта" : "Створення картки клієнта"}
         >
             <Grid xs={6}>

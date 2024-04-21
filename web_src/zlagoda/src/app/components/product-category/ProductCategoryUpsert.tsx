@@ -14,7 +14,8 @@ function getDefaultProductCategoryView(): ProductCategoryView {
 type ProductCategoryUpsertProps = {
     initialId: number | null,
     cancel?: () => void,
-    onError?: () => void
+    onError?: () => void,
+    onSave?: () => void
 };
 
 export default function ProductCategoryUpsert(props: ProductCategoryUpsertProps): React.ReactNode {
@@ -43,6 +44,7 @@ export default function ProductCategoryUpsert(props: ProductCategoryUpsertProps)
             update={update}
             cancel={props.cancel}
             onError={props.onError}
+            onSave={props.onSave}
             header={props.initialId != null ? "Редагування категорії товару" : "Створення категорії товару"}
         >
             <Grid xs={12}>

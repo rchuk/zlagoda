@@ -11,7 +11,8 @@ import {ServicesContext} from "@/app/services/ServiceProvider";
 type EmployeeUpsertProps = {
     initialId: number | null,
     onError?: (reason: any) => void,
-    cancel?: () => void
+    cancel?: () => void,
+    onSave?: () => void
 };
 
 function getDefaultEmployeeView(): EmployeeView {
@@ -56,6 +57,7 @@ export default function EmployeeUpsert(props: EmployeeUpsertProps): React.ReactN
             update={update}
             cancel={props.cancel}
             onError={props.onError}
+            onSave={props.onSave}
             header={props.initialId != null ? "Редагування інформації про працівника" : "Створення інформації про працівника"}
         >
             <Grid xs={6}>

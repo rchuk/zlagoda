@@ -40,7 +40,7 @@ type ListComponentProps<ItemT extends GridValidRowModel, CriteriaT extends BaseC
 
   fetch: () => Promise<ListResponse & { items: ItemT[] }>,
   create?: (callback: () => void) => void,
-  update?: (id: number) => void,
+  update?: (id: number, callback: () => void) => void,
   view?: (id: number) => void,
 
   delete?: (id: number) => Promise<boolean>,
@@ -108,8 +108,8 @@ export default function ListComponent<ItemT extends GridValidRowModel, CriteriaT
     props.view?.(id);
   }
 
-  function handleUpdate(id: number) {
-    props.update?.(id);
+  function handleUpdate(id: number, callback: () => void) {
+    props.update?.(id, callback);
   }
 
   function handleDelete(id: number) {
@@ -120,7 +120,9 @@ export default function ListComponent<ItemT extends GridValidRowModel, CriteriaT
           fetchItems();
       };
 
-      impl().catch(e => showAlert(e.toString(), "error"));
+      impl()
+        .then(() => showAlert("Інформацію успішно видалено", "success"))
+        .catch(e => showAlert(e.toString(), "error"));
     };
 
     showConfirmation({ confirm });
@@ -154,7 +156,7 @@ export default function ListComponent<ItemT extends GridValidRowModel, CriteriaT
               icon={<EditIcon/>}
               label="Редагувати"
               className="textPrimary"
-              onClick={() => handleUpdate(id as number)}
+              onClick={() => handleUpdate(id as number, fetchItems)}
               color="inherit"
             />
           ));

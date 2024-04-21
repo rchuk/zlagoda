@@ -19,7 +19,8 @@ function getDefaultProductView(): ProductView {
 type ProductUpsertProps = {
     initialId: number | null,
     cancel?: () => void,
-    onError?: () => void
+    onError?: () => void,
+    onSave?: () => void
 };
 
 export default function ProductUpsert(props: ProductUpsertProps): React.ReactNode {
@@ -64,6 +65,7 @@ export default function ProductUpsert(props: ProductUpsertProps): React.ReactNod
             update={update}
             cancel={props.cancel}
             onError={props.onError}
+            onSave={props.onSave}
             header={props.initialId != null ? "Редагування товару" : "Створення товару"}
         >
             <Grid xs={6}>
