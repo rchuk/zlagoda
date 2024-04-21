@@ -21,7 +21,7 @@ type ProductUpsertProps = {
     initialId: string | null,
     cancel?: () => void,
     onError?: () => void,
-    onSave?: () => void
+    onSave?: (id?: string) => void
 };
 
 export default function ProductUpsert(props: ProductUpsertProps): React.ReactNode {
