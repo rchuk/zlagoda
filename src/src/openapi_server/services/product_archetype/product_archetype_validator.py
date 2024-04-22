@@ -11,7 +11,7 @@ class ProductArchetypeValidator(ValidatorBase[ProductArchetypeEntity]):
     def validate_create(self, entity: ProductArchetypeEntity):
         self.validate_fields(entity)
 
-    def validate_update(self, entity: ProductArchetypeEntity):
+    def validate_update(self, entity: ProductArchetypeEntity, id):
         self.validate_fields(entity)
 
     def validate_fields(self, entity: ProductArchetypeEntity):

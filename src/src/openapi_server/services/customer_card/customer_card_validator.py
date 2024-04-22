@@ -9,7 +9,7 @@ class CustomerCardValidator(ValidatorBase[CustomerCardEntity]):
     def validate_create(self, entity: CustomerCardEntity):
         self.validate_fields(entity)
 
-    def validate_update(self, entity: CustomerCardEntity):
+    def validate_update(self, entity: CustomerCardEntity, id):
         self.validate_fields(entity)
 
     def validate_fields(self, entity: CustomerCardEntity):

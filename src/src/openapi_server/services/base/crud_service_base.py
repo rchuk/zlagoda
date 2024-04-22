@@ -40,7 +40,7 @@ class CrudServiceBase(ABC, Generic[IdT, EntityT, ViewT, DtoT]):
     def update(self, id: IdT, view: ViewT) -> bool:
         entity = self._repository.get(id)
         self._merger.merge_edit(entity, view)
-        self._validator.validate_update(entity)
+        self._validator.validate_update(entity, id)
 
         return self._repository.update(entity)
 

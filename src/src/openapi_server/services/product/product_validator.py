@@ -20,8 +20,10 @@ class ProductValidator(ValidatorBase[ProductEntity]):
 
         self.validate_fields(entity)
 
-    def validate_update(self, entity: ProductEntity):
-        # TODO: Fix possible overwrite of UPC code
+    def validate_update(self, entity: ProductEntity, id: str):
+        if entity.id != id and self._product_repository.get(id):
+            raise ValidationError("Продукт з даним UPC кодом вже існує")
+
         self.validate_fields(entity)
 
     def validate_fields(self, entity: ProductEntity):

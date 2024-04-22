@@ -10,7 +10,7 @@ class EmployeeValidator(ValidatorBase[EmployeeEntity]):
     def validate_create(self, entity: EmployeeEntity):
         self.validate_fields(entity)
 
-    def validate_update(self, entity: EmployeeEntity):
+    def validate_update(self, entity: EmployeeEntity, id):
         self.validate_fields(entity)
 
     def validate_fields(self, entity: EmployeeEntity):
