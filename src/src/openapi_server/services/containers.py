@@ -15,6 +15,12 @@ from openapi_server.services.product_archetype.product_archetype_validator impor
 from openapi_server.services.product_category.product_category_merger import ProductCategoryMerger
 from openapi_server.services.product_category.product_category_service import ProductCategoryService
 from openapi_server.services.product_category.product_category_validator import ProductCategoryValidator
+from openapi_server.services.receipt.receipt_merger import ReceiptMerger
+from openapi_server.services.receipt.receipt_service import ReceiptService
+from openapi_server.services.receipt.receipt_validator import ReceiptValidator
+from openapi_server.services.receipt_item.receipt_item_merger import ReceiptItemMerger
+from openapi_server.services.receipt_item.receipt_item_service import ReceiptItemService
+from openapi_server.services.receipt_item.receipt_item_validator import ReceiptItemValidator
 
 
 class ServicesContainer(containers.DeclarativeContainer):
@@ -70,4 +76,41 @@ class ServicesContainer(containers.DeclarativeContainer):
         repository=repositories.product_repository,
         merger=product_merger,
         validator=product_validator
+    )
+
+    receipt_item_merger = providers.Factory(
+        ReceiptItemMerger,
+        product_repository=repositories.product_repository,
+        receipt_repository=repositories.receipt_repository
+    )
+    receipt_item_validator = providers.Factory(
+        ReceiptItemValidator,
+        product_repository=repositories.product_repository,
+        receipt_repository=repositories.receipt_repository
+    )
+    receipt_item_service = providers.Factory(
+        ReceiptItemService,
+        repository=repositories.receipt_item_repository,
+        merger=receipt_item_merger,
+        validator=receipt_item_validator,
+        product_repository=repositories.product_repository
+    )
+
+    receipt_merger = providers.Factory(
+        ReceiptMerger,
+        product_repository=repositories.product_repository,
+        receipt_repository=repositories.receipt_repository
+    )
+    receipt_validator = providers.Factory(
+        ReceiptValidator,
+        receipt_repository=repositories.receipt_repository,
+        employee_repository=repositories.employee_repository,
+        customer_card_repository=repositories.customer_card_repository
+    )
+    receipt_service = providers.Factory(
+        ReceiptService,
+        repository=repositories.receipt_repository,
+        merger=receipt_merger,
+        validator=receipt_validator,
+        receipt_item_service=receipt_item_service
     )

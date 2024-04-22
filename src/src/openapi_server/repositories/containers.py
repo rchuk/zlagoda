@@ -11,6 +11,8 @@ from openapi_server.entities.customer_card_entity import CustomerCardEntity
 from openapi_server.entities.employee_entity import EmployeeEntity
 from openapi_server.entities.employee_role_entity_enum import EmployeeRoleEntityEnum
 from openapi_server.entities.product_entity import ProductEntity
+from openapi_server.entities.receipt_entity import ReceiptEntity
+from openapi_server.entities.receipt_item_entity import ReceiptItemEntity
 
 
 class RepositoryContainer(containers.DeclarativeContainer):
@@ -102,7 +104,7 @@ class RepositoryContainer(containers.DeclarativeContainer):
                 zip_code="01001"
             ),
             EmployeeEntity(
-                id=2,
+                id=1,
                 first_name="Руслан",
                 last_name="Омельчук",
                 patronymic="Ігорович",
@@ -156,3 +158,56 @@ class RepositoryContainer(containers.DeclarativeContainer):
         ]
     )
 
+    receipt_item_repository = providers.Singleton(
+        InMemoryRepository,
+        test_data=[
+            ReceiptItemEntity(
+                receipt=0,
+                product="000000000001",
+                quantity=100,
+                price=300
+            ),
+            ReceiptItemEntity(
+                receipt=0,
+                product="000000242401",
+                quantity=1,
+                price=666
+            ),
+            ReceiptItemEntity(
+                receipt=1,
+                product="000000000001",
+                quantity=10,
+                price=100
+            ),
+            ReceiptItemEntity(
+                receipt=1,
+                product="000000000002",
+                quantity=1,
+                price=100
+            )
+        ],
+        id_getter=lambda item: (item.receipt, item.product),
+        id_setter=lambda item, key: (setattr(item, "receipt", key[0]), setattr(item, "product", key[1]))
+    )
+
+    receipt_repository = providers.Singleton(
+        InMemoryRepository,
+        test_data=[
+            ReceiptEntity(
+                id=0,
+                cashier_id=1,
+                customer_card_id=1,
+                date_time=datetime(2024, 4, 19, 12, 15, 33).date().isoformat(),
+                total_price=1000,
+                vat=34
+            ),
+            ReceiptEntity(
+                id=1,
+                cashier_id=1,
+                customer_card_id=None,
+                date_time=datetime(2024, 4, 19, 10, 00, 00).date().isoformat(),
+                total_price=205,
+                vat=5
+            )
+        ]
+    )

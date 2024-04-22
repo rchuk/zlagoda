@@ -53,7 +53,7 @@ class CrudServiceBase(ABC, Generic[IdT, EntityT, ViewT, DtoT]):
     def list(self, criteria: Optional) -> List[DtoT]:
         return list(map(self._converter, self.list_entity(criteria)))
 
-    def count(self, criteria) -> int:
+    def count(self, criteria: Optional) -> int:
         return self._repository.count(criteria)
 
     def get_entity(self, id: IdT) -> EntityT:

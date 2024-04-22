@@ -1,4 +1,4 @@
-from typing import TypeVar, List, Optional, Dict
+from typing import TypeVar, List, Optional, Dict, Callable
 
 from openapi_server.repositories.base.crud_repository_base import CrudRepositoryBase
 
@@ -7,21 +7,36 @@ EntityT = TypeVar("EntityT")
 
 
 class InMemoryRepository(CrudRepositoryBase[IdT, EntityT]):
-    def __init__(self, test_data: Optional[List[EntityT]] = None):
-        self._items: Dict[IdT, EntityT] = dict(map(lambda x: (x.id, x), test_data))
+    def __init__(
+        self,
+        test_data: Optional[List[EntityT]] = None,
+        id_getter: Optional[Callable[[EntityT], IdT]] = None,
+        id_setter: Optional[Callable[[EntityT, IdT], None]] = None,
+    ) -> None:
+        self._id_getter = id_getter or (lambda entity: entity.id)
+        self._id_setter = id_setter or (lambda entity, id: setattr(entity, "id", id))
+        self._items: Dict[IdT, EntityT] = dict(map(lambda x: (self._id_getter(x), x), test_data))
+
         if len(self._items) == 0:
             self._counter = 0
         elif any(map(lambda id: isinstance(id, int), self._items.keys())):
             self._counter = max(self._items.keys()) + 1
 
     def create(self, entity: EntityT) -> IdT:
-        if isinstance(entity.id, int):
-            entity.id = self._counter
-        self._items[entity.id] = entity.copy(deep=True)
-        if isinstance(entity.id, int):
+        id = self._id_getter(entity)
+        copy = entity.copy(deep=True)
+        if isinstance(id, int):
+            self._id_setter(copy, self._counter)
+            self._items[self._counter] = copy
+            res = self._counter
             self._counter += 1
 
-        return entity.id
+            return res
+
+        else:
+            self._items[id] = copy
+
+            return id
 
     def get(self, id: IdT) -> EntityT:
         try:
@@ -30,7 +45,7 @@ class InMemoryRepository(CrudRepositoryBase[IdT, EntityT]):
             return None
 
     def update(self, entity: EntityT) -> bool:
-        self._items[entity.id] = entity.copy(deep=True)
+        self._items[self._id_getter(entity)] = entity.copy(deep=True)
 
         return True
 
