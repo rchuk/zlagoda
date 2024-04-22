@@ -16,6 +16,8 @@ from openapi_server.entities.receipt_item_entity import ReceiptItemEntity
 
 
 class RepositoryContainer(containers.DeclarativeContainer):
+    db_pool = providers.AbstractSingleton()
+
     product_category_repository = providers.Singleton(
         # ProductCategoryRepository,
         InMemoryRepository,
