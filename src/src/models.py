@@ -18,3 +18,11 @@ class BaseCriteria(SortCriteria):
     offset: int | None = None
     limit: int | None = None
     ids: list
+
+
+class ListResponse(BaseModel):
+    """
+    List Response
+    """
+    total_count: Annotated[int, Field(alias="totalCount")]
+    items: list
