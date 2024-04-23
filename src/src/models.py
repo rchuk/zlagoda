@@ -1,3 +1,5 @@
+from typing import Annotated
+
 from pydantic import BaseModel, Field
 
 
@@ -5,8 +7,8 @@ class SortCriteria(BaseModel):
     """
     Sort Criteria
     """
-    sort_field: str | None = Field(default=None, alias="sortField")
-    sort_ascending: bool | None = Field(default=None, alias="sortAscending")
+    sort_field: Annotated[str | None, Field(alias="sortField")] = None
+    sort_ascending: Annotated[bool | None, Field(alias="sortAscending")] = None
 
 
 class BaseCriteria(SortCriteria):
