@@ -1,8 +1,13 @@
+import os
+
+from dependency_injector import providers
+from dependency_injector.wiring import inject, Provide
 from fastapi import FastAPI
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.responses import PlainTextResponse
 from starlette.exceptions import HTTPException as StarletteHTTPException
+from psycopg_pool import ConnectionPool
 
 from openapi_server.containers import ApplicationContainer
 
@@ -14,17 +19,32 @@ from openapi_server.apis.product_category_api import router as ProductCategoryAp
 from openapi_server.apis.receipt_api import router as ReceiptApiRouter
 from openapi_server.exceptions.app_exception_public import AppExceptionPublic
 
-from openapi_server.repositories.product_category_repository import ProductCategoryRepository
-
 import openapi_server
+
+
+def get_db_url() -> str:
+    user = os.environ["POSTGRES_USER"]
+    password = os.environ["POSTGRES_PASSWORD"]
+    host = os.environ["POSTGRES_HOST"]
+    port = os.environ["POSTGRES_PORT"]
+    name = os.environ["POSTGRES_NAME"]
+
+    return f"postgresql://{user}:{password}@{host}:{port}/{name}"
 
 
 def create_app() -> FastAPI:
     container = ApplicationContainer()
-    # container.repositories.product_category_repository.override(
-    #    providers.Singleton(ProductCategoryRepository)
-    # )
-    container.wire(packages=[openapi_server.impl, openapi_server.services, openapi_server.repositories])
+    container.repositories.db_pool.override(
+        providers.Singleton(
+            ConnectionPool,
+            conninfo=get_db_url(),
+            open=True
+        )
+    )
+    container.wire(
+        packages=[openapi_server.impl, openapi_server.services, openapi_server.repositories],
+        modules=[__name__]
+    )
 
     app = FastAPI(
         title="Zlagoda",
@@ -63,6 +83,11 @@ def create_app() -> FastAPI:
     @app.exception_handler(AppExceptionPublic)
     async def public_exception_handler(request, exc: AppExceptionPublic):
         return PlainTextResponse(str(exc), status_code=400)
+
+    @inject
+    @app.on_event("shutdown")
+    async def close_pool(pool: ConnectionPool = Provide[ApplicationContainer.repositories.db_pool]):
+        pool.close()
 
     return app
 

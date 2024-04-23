@@ -30,7 +30,7 @@ class CrudServiceBase(ABC, Generic[IdT, EntityT, ViewT, DtoT]):
     def create(self, view: ViewT) -> IdT:
         entity = self._entity_factory()
         self._merger.merge_create(entity, view)
-        self._validator.validate(entity)
+        self._validator.validate_create(entity)
 
         return self._repository.create(entity)
 
@@ -40,21 +40,31 @@ class CrudServiceBase(ABC, Generic[IdT, EntityT, ViewT, DtoT]):
     def update(self, id: IdT, view: ViewT) -> bool:
         entity = self._repository.get(id)
         self._merger.merge_edit(entity, view)
-        self._validator.validate(entity)
+        self._validator.validate_update(entity, id)
 
         return self._repository.update(entity)
 
     def delete(self, id: IdT) -> bool:
+        entity = self._repository.get(id)
+        self._validator.validate_delete(entity)
+
         return self._repository.delete(id)
 
     def list(self, criteria: Optional) -> List[DtoT]:
         return list(map(self._converter, self.list_entity(criteria)))
 
-    def count(self, criteria) -> int:
+    def count(self, criteria: Optional) -> int:
         return self._repository.count(criteria)
 
     def get_entity(self, id: IdT) -> EntityT:
-        return self._repository.get(id)
+        entity = self._repository.get(id)
+        self._validator.validate_view(entity)
+
+        return entity
 
     def list_entity(self, criteria: Optional) -> List[EntityT]:
-        return self._repository.list(criteria)
+        entities = self._repository.list(criteria)
+        for entity in entities:
+            self._validator.validate_view(entity)
+
+        return entities

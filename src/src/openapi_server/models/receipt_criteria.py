@@ -34,13 +34,14 @@ class ReceiptCriteria(BaseModel):
     """ # noqa: E501
     offset: Optional[StrictInt] = None
     limit: Optional[StrictInt] = None
-    ids: Optional[List[StrictInt]] = None
     sort_field: Optional[StrictStr] = Field(default=None, alias="sortField")
     sort_ascending: Optional[StrictBool] = Field(default=None, alias="sortAscending")
+    ids: Optional[List[StrictInt]] = None
+    query: Optional[StrictStr] = None
     cashier_ids: Optional[List[StrictInt]] = Field(default=None, alias="cashierIds")
     start_date: Optional[datetime] = Field(default=None, alias="startDate")
     end_date: Optional[datetime] = Field(default=None, alias="endDate")
-    __properties: ClassVar[List[str]] = ["offset", "limit", "ids", "sortField", "sortAscending", "cashierIds", "startDate", "endDate"]
+    __properties: ClassVar[List[str]] = ["offset", "limit", "sortField", "sortAscending", "ids", "query", "cashierIds", "startDate", "endDate"]
 
     model_config = {
         "populate_by_name": True,
@@ -93,9 +94,10 @@ class ReceiptCriteria(BaseModel):
         _obj = cls.model_validate({
             "offset": obj.get("offset"),
             "limit": obj.get("limit"),
-            "ids": obj.get("ids"),
             "sortField": obj.get("sortField"),
             "sortAscending": obj.get("sortAscending"),
+            "ids": obj.get("ids"),
+            "query": obj.get("query"),
             "cashierIds": obj.get("cashierIds"),
             "startDate": obj.get("startDate"),
             "endDate": obj.get("endDate")

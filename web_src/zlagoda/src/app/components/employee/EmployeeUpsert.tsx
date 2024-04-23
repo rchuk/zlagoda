@@ -58,7 +58,8 @@ export default function EmployeeUpsert(props: EmployeeUpsertProps): React.ReactN
             cancel={props.cancel}
             onError={props.onError}
             onSave={props.onSave}
-            header={props.initialId != null ? "Редагування інформації про працівника" : "Створення інформації про працівника"}
+            createHeader="Створення інформації про працівника"
+            updateHeader="Редагування інформації про працівника"
         >
             <Grid xs={6}>
                 <TextField label="Прізвище"

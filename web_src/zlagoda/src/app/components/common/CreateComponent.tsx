@@ -2,16 +2,17 @@ import React, {PropsWithChildren, useContext} from "react";
 import UpsertContainer from "@/app/components/common/UpsertContainer";
 import {AlertContext} from "@/app/services/AlertService";
 import {getRequestError} from "@/app/components/common/utils/RequestUtils";
+import {EntityId} from "@/app/components/common/utils/ObjectUtils";
 
-type CreateComponentProps = {
-    create: () => Promise<number>,
+type CreateComponentProps<IdT extends EntityId> = {
+    create: () => Promise<IdT>,
     onSave?: () => void,
     cancel?: () => void,
 
     header: string
 };
 
-export default function CreateComponent(props: PropsWithChildren<CreateComponentProps>): React.ReactNode {
+export default function CreateComponent<IdT extends EntityId>(props: PropsWithChildren<CreateComponentProps<IdT>>): React.ReactNode {
     const showAlert = useContext(AlertContext);
 
     function create() {

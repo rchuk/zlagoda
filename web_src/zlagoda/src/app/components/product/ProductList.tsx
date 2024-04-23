@@ -9,14 +9,14 @@ import {Checkbox} from "@mui/material";
 import {GridColDef} from '@mui/x-data-grid';
 import ListComponent, {getDefaultBaseCriteria} from "@/app/components/common/ListComponent";
  import {AlertContext} from "@/app/services/AlertService";
- import {createIdsCriteria, findEntity} from "@/app/components/common/utils/ObjectUtils";
+ import {findEntity} from "@/app/components/common/utils/ObjectUtils";
  import {ServicesContext} from "@/app/services/ServiceProvider";
  import {getRequestError} from "@/app/components/common/utils/RequestUtils";
 
 type ProductListProps = {
   create?: (callback: () => void) => void,
-  update?: (id: number, callback: () => void) => void,
-  view?: (id: number) => void
+  update?: (id: string, callback: () => void) => void,
+  view?: (id: string) => void
 };
 
 export default function ProductList(props: ProductListProps): React.ReactNode {
@@ -29,7 +29,9 @@ export default function ProductList(props: ProductListProps): React.ReactNode {
   useEffect(() => {
     const fetch = async() => {
       const response = await productArchetypeService.getProductArchetypeList({
-        productArchetypeCriteria: createIdsCriteria(items)
+        productArchetypeCriteria: {
+          ids: items?.map(item => item.archetype) ?? []
+        }
       });
 
       setProductArchetypes(response.items);
@@ -42,7 +44,7 @@ export default function ProductList(props: ProductListProps): React.ReactNode {
     return await productService.getProductList({ productCriteria: criteria });
   }
 
-  async function handleDelete(id: number) {
+  async function handleDelete(id: string) {
     return await productService.deleteProduct({ id });
   }
 
@@ -50,26 +52,21 @@ export default function ProductList(props: ProductListProps): React.ReactNode {
     props.create?.(callback);
   }
 
-  function handleView(id: number) {
+  function handleView(id: string) {
     props.view?.(id);
   }
 
-  function handleUpdate(id: number, callback: () => void) {
+  function handleUpdate(id: string, callback: () => void) {
     props.update?.(id, callback);
   }
 
   const columns: GridColDef<Product>[] = [
-    { field: "id", headerName: "ID", width: 80 },
+    { field: "id", headerName: "UPC", width: 150 },
     {
       field: "archetype",
       headerName: "Назва",
-      valueGetter: value => findEntity(productArchetypes, value)?. name ?? "",
+      valueGetter: (value: number) => findEntity(productArchetypes, value)?.name ?? "",
       width: 300
-    },
-    {
-      field: "upc",
-      headerName: "UPC",
-      width: 200
     },
     {
       field: "hasDiscount",

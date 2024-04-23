@@ -9,7 +9,7 @@ export default function ReceiptViewPage() {
 
   return (
     <BaseIdPage id={id} setId={setId}>
-      <ReceiptView id={id!} onError={router.back} cancel={router.back}/>
+      <ReceiptView id={id!} onError={router.back} cancel={router.back} />
     </BaseIdPage>
   );
 }

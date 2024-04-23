@@ -6,9 +6,9 @@ import {ServicesContext} from "@/app/services/ServiceProvider";
 
 
 type ProductViewProps = {
-    id: number,
+    id: string,
     onError?: (reason: any) => void,
-    edit?: (id: number) => void,
+    edit?: (id: string) => void,
     cancel?: () => void
 };
 
@@ -17,10 +17,10 @@ export default function ProductView(props: ProductViewProps): React.ReactNode {
     const [product, setProduct] = useState<Product | null>(null);
     const [productArchetype, setProductArchetype] = useState<ProductArchetype | null>(null);
 
-    async function fetch(id: number) {
+    async function fetch(id: string) {
         const newProduct = await productService.getProductById({ id });
         setProduct(newProduct);
-        setProductArchetype(await productArchetypeService.getProductArchetypeById({ id: newProduct.id }));
+        setProductArchetype(await productArchetypeService.getProductArchetypeById({ id: newProduct.archetype }));
     }
 
     // TODO: Add link to archetype
@@ -29,10 +29,10 @@ export default function ProductView(props: ProductViewProps): React.ReactNode {
                        header="Перегляд товару"
         >
             <div>
-                <b>Назва: </b><span>{productArchetype?.name}</span>
+                <b>UPC: </b><span>{product?.id}</span>
             </div>
             <div>
-                <b>UPC: </b><span>{product?.upc}</span>
+                <b>Назва: </b><span>{productArchetype?.name}</span>
             </div>
             <div>
                 <b>Ціна: </b><span>{product?.price}</span>

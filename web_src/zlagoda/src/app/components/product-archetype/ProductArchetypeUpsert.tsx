@@ -33,12 +33,10 @@ export default function ProductArchetypeUpsert(props: ProductArchetypeUpsertProp
     const [productCategories, setProductCategories] = useState<Array<ProductCategory> | null>(null);
     const showAlert = useContext(AlertContext);
 
-    // TODO: Deps might be wrong
     const selectedCategory = useMemo(
         () => findEntity(productCategories, view.category),
         [productCategories]
     );
-    //
 
     useEffect(() => {
         const fetch = async() => {
@@ -71,7 +69,8 @@ export default function ProductArchetypeUpsert(props: ProductArchetypeUpsertProp
             cancel={props.cancel}
             onError={props.onError}
             onSave={props.onSave}
-            header={props.initialId != null ? "Редагування типу товару" : "Створення типу товару"}
+            createHeader="Створення типу товару"
+            updateHeader="Редагування типу товару"
         >
             <Grid xs={6}>
                 <TextField label="Назва"

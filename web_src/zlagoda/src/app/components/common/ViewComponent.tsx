@@ -3,17 +3,18 @@ import {AlertContext} from "@/app/services/AlertService";
 import {Box, Button} from "@mui/material";
 import ProgressSpinner from "@/app/components/common/ProgressSpinner";
 import {getRequestError} from "@/app/components/common/utils/RequestUtils";
+import {EntityId} from "@/app/components/common/utils/ObjectUtils";
 
-type ViewComponentProps = {
-    id: number,
+type ViewComponentProps<IdT extends EntityId> = {
+    id: IdT,
     header: string,
-    fetch: (id: number) => Promise<void>,
-    edit?: (id: number) => void,
+    fetch: (id: IdT) => Promise<void>,
+    edit?: (id: IdT) => void,
     onError?: (reason: any) => void,
     cancel?: () => void
 };
 
-export default function ViewComponent(props: PropsWithChildren<ViewComponentProps>): React.ReactNode {
+export default function ViewComponent<IdT extends EntityId>(props: PropsWithChildren<ViewComponentProps<IdT>>): React.ReactNode {
     const [isReady, setIsReady] = useState<boolean>(false);
     const showAlert = useContext(AlertContext);
 

@@ -21,7 +21,7 @@ import json
 
 
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
-from typing import Any, ClassVar, Dict, List
+from typing import Any, ClassVar, Dict, List, Optional
 try:
     from typing import Self
 except ImportError:
@@ -31,13 +31,13 @@ class Product(BaseModel):
     """
     Product
     """ # noqa: E501
+    id: StrictStr
     archetype: StrictInt
-    upc: StrictStr
     price: StrictInt
     quantity: StrictInt
-    id: StrictInt
+    discount_id: Optional[StrictStr] = Field(default=None, alias="discountId")
     has_discount: StrictBool = Field(alias="hasDiscount")
-    __properties: ClassVar[List[str]] = ["archetype", "upc", "price", "quantity", "id", "hasDiscount"]
+    __properties: ClassVar[List[str]] = ["id", "archetype", "price", "quantity", "discountId", "hasDiscount"]
 
     model_config = {
         "populate_by_name": True,
@@ -88,11 +88,11 @@ class Product(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
+            "id": obj.get("id"),
             "archetype": obj.get("archetype"),
-            "upc": obj.get("upc"),
             "price": obj.get("price"),
             "quantity": obj.get("quantity"),
-            "id": obj.get("id"),
+            "discountId": obj.get("discountId"),
             "hasDiscount": obj.get("hasDiscount")
         })
         return _obj

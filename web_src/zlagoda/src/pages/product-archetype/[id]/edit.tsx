@@ -9,7 +9,7 @@ export default function ProductArchetypeEditPage() {
 
   return (
     <BaseIdPage id={id} setId={setId}>
-      <ProductArchetypeUpsert initialId={id} onError={router.back} cancel={router.back}/>
+      <ProductArchetypeUpsert initialId={id} onError={router.back} cancel={router.back} onSave={router.back}/>
     </BaseIdPage>
   );
 }

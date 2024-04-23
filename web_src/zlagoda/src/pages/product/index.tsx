@@ -11,14 +11,14 @@ export default function ProductListPage() {
     });
   }
 
-  function view(id: number) {
+  function view(id: string) {
     router.push({
       pathname: "/product/[id]",
       query: { id }
     });
   }
 
-  function update(id: number) {
+  function update(id: string) {
     router.push({
       pathname: "/product/[id]/edit",
       query: { id }

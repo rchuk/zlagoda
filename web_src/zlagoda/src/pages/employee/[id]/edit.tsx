@@ -9,7 +9,7 @@ export default function EmployeeEditPage() {
 
   return (
     <BaseIdPage id={id} setId={setId}>
-      <EmployeeUpsert initialId={id} onError={router.back} cancel={router.back}/>
+      <EmployeeUpsert initialId={id} onError={router.back} cancel={router.back} onSave={router.back}/>
     </BaseIdPage>
   );
 }

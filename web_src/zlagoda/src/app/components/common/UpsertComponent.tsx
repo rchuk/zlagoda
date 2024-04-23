@@ -3,23 +3,25 @@ import UpsertContainer from "@/app/components/common/UpsertContainer";
 import {AlertContext} from "@/app/services/AlertService";
 import ProgressSpinner from "@/app/components/common/ProgressSpinner";
 import {getRequestError} from "@/app/components/common/utils/RequestUtils";
+import {EntityId} from "@/app/components/common/utils/ObjectUtils";
 
-type UpsertComponentProps = {
-    initialId: number | null,
-    header: string,
+type UpsertComponentProps<IdT extends EntityId> = {
+    initialId: IdT | null,
+    createHeader: string,
+    updateHeader: string,
 
     resetView: () => void,
-    fetch: (id: number) => Promise<void>,
-    create: () => Promise<number>,
-    update: (id: number) => Promise<void>,
+    fetch: (id: IdT) => Promise<void>,
+    create: () => Promise<IdT>,
+    update: (id: IdT) => Promise<void>,
     onSave?: () => void,
     cancel?: () => void,
 
     onError?: (reason: any) => void
 };
 
-export default function UpsertComponent(props: PropsWithChildren<UpsertComponentProps>): React.ReactNode {
-    const [id, setId] = useState<number | null>(null);
+export default function UpsertComponent<IdT extends EntityId>(props: PropsWithChildren<UpsertComponentProps<IdT>>): React.ReactNode {
+    const [id, setId] = useState<IdT | null>(null);
     const [isReady, setIsReady] = useState<boolean>(false);
     const showAlert = useContext(AlertContext);
 
@@ -60,11 +62,13 @@ export default function UpsertComponent(props: PropsWithChildren<UpsertComponent
         const create = async() => {
             const id = await props.create();
             setId(id);
+
+            return id;
         }
 
         create()
             .then(_ => showAlert("Інформацію створено", "success"))
-            .then(_ => props.onSave?.())
+            .then(id => props.onSave?.())
             .catch(e => getRequestError(e).then(m => showAlert(m, "error")));
     }
 
@@ -83,7 +87,7 @@ export default function UpsertComponent(props: PropsWithChildren<UpsertComponent
         return <ProgressSpinner />;
 
     return (
-        <UpsertContainer submit={submit} cancel={cancel} header={props.header}>
+        <UpsertContainer submit={submit} cancel={cancel} header={id != null ? props.updateHeader : props.createHeader}>
             {props.children}
         </UpsertContainer>
     );

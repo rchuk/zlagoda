@@ -31,11 +31,11 @@ class ProductView(BaseModel):
     """
     ProductView
     """ # noqa: E501
+    id: StrictStr
     archetype: StrictInt
-    upc: StrictStr
     price: StrictInt
     quantity: StrictInt
-    __properties: ClassVar[List[str]] = ["archetype", "upc", "price", "quantity"]
+    __properties: ClassVar[List[str]] = ["id", "archetype", "price", "quantity"]
 
     model_config = {
         "populate_by_name": True,
@@ -86,8 +86,8 @@ class ProductView(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
+            "id": obj.get("id"),
             "archetype": obj.get("archetype"),
-            "upc": obj.get("upc"),
             "price": obj.get("price"),
             "quantity": obj.get("quantity")
         })

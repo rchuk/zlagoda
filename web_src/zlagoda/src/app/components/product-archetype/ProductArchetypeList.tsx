@@ -66,7 +66,7 @@ export default function ProductArchetypeList(props: ProductArchetypeListProps): 
     {
       field: "category",
       headerName: "Категорія",
-      valueGetter: value => findEntity(productCategories, value)?.name ?? "",
+      valueGetter: (value: number) => findEntity(productCategories, value)?.name ?? "",
       width: 200
     },
     {

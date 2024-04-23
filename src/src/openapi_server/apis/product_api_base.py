@@ -17,14 +17,14 @@ class BaseProductApi:
     def create_product(
         self,
         product_view: ProductView,
-    ) -> int:
+    ) -> str:
         """Create a new product"""
         ...
 
 
     def delete_product(
         self,
-        id: int,
+        id: str,
     ) -> bool:
         """Delete a product by id"""
         ...
@@ -32,7 +32,7 @@ class BaseProductApi:
 
     def get_product_by_id(
         self,
-        id: int,
+        id: str,
     ) -> Product:
         """Get product by id"""
         ...
@@ -48,7 +48,7 @@ class BaseProductApi:
 
     def update_prodact(
         self,
-        id: int,
+        id: str,
         product_view: ProductView,
     ) -> bool:
         """Update existing product"""

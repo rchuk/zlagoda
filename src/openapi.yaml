@@ -394,7 +394,7 @@ paths:
           content:
             application/json:
               schema:
-                type: integer
+                type: string
           description: Id of new product
       summary: Create a new product
       tags:
@@ -409,7 +409,7 @@ paths:
         name: id
         required: true
         schema:
-          type: integer
+          type: string
         style: simple
       responses:
         "200":
@@ -430,7 +430,7 @@ paths:
         name: id
         required: true
         schema:
-          type: integer
+          type: string
         style: simple
       responses:
         "200":
@@ -451,7 +451,7 @@ paths:
         name: id
         required: true
         schema:
-          type: integer
+          type: string
         style: simple
       requestBody:
         content:
@@ -823,14 +823,14 @@ components:
         archetype: 0
         quantity: 1
         price: 6
-        upc: upc
+        id: id
       properties:
+        id:
+          title: id
+          type: string
         archetype:
           title: archetype
           type: integer
-        upc:
-          title: upc
-          type: string
         price:
           title: price
           type: integer
@@ -839,39 +839,38 @@ components:
           type: integer
       required:
       - archetype
+      - id
       - price
       - quantity
-      - upc
       title: ProductView
       type: object
     Product:
       allOf:
       - properties:
-          id:
-            type: integer
+          discountId:
+            type: string
           hasDiscount:
             type: boolean
         required:
         - hasDiscount
-        - id
         type: object
       - $ref: '#/components/schemas/ProductView'
       example:
-        archetype: 1
+        archetype: 6
         quantity: 5
         hasDiscount: true
-        price: 5
-        upc: upc
-        id: 6
+        price: 1
+        id: id
+        discountId: discountId
       title: Product
     ReceiptItemView:
       example:
-        product: 6
-        quantity: 1
+        product: product
+        quantity: 6
       properties:
         product:
           title: product
-          type: integer
+          type: string
         quantity:
           title: quantity
           type: integer
@@ -905,10 +904,10 @@ components:
       example:
         customerCardId: 0
         items:
-        - product: 6
-          quantity: 1
-        - product: 6
-          quantity: 1
+        - product: product
+          quantity: 6
+        - product: product
+          quantity: 6
       properties:
         customerCardId:
           title: customerCardId
@@ -1130,18 +1129,18 @@ components:
       example:
         totalCount: 0
         items:
-        - archetype: 1
+        - archetype: 6
           quantity: 5
           hasDiscount: true
-          price: 5
-          upc: upc
-          id: 6
-        - archetype: 1
+          price: 1
+          id: id
+          discountId: discountId
+        - archetype: 6
           quantity: 5
           hasDiscount: true
-          price: 5
-          upc: upc
-          id: 6
+          price: 1
+          id: id
+          discountId: discountId
       title: ProductListResponse
     ReceiptListResponse:
       allOf:
@@ -1228,8 +1227,10 @@ components:
       type: object
     EmployeeCriteria:
       allOf:
-      - $ref: '#/components/schemas/BaseCriteria'
+      - $ref: '#/components/schemas/BaseIntIdCriteria'
       - properties:
+          query:
+            type: string
           role:
             $ref: '#/components/schemas/EmployeeRole'
           lastName:
@@ -1238,21 +1239,34 @@ components:
       example:
         lastName: lastName
         role: null
+        query: query
       title: EmployeeCriteria
     ProductCategoryCriteria:
       allOf:
-      - $ref: '#/components/schemas/BaseCriteria'
-      example: {}
+      - $ref: '#/components/schemas/BaseIntIdCriteria'
+      - properties:
+          query:
+            type: string
+        type: object
+      example:
+        query: query
       title: ProductCategoryCriteria
     ProductArchetypeCriteria:
       allOf:
-      - $ref: '#/components/schemas/BaseCriteria'
-      example: {}
+      - $ref: '#/components/schemas/BaseIntIdCriteria'
+      - properties:
+          query:
+            type: string
+        type: object
+      example:
+        query: query
       title: ProductArchetypeCriteria
     ProductCriteria:
       allOf:
-      - $ref: '#/components/schemas/BaseCriteria'
+      - $ref: '#/components/schemas/BaseStringIdCriteria'
       - properties:
+          query:
+            type: string
           categoryIds:
             items:
               type: integer
@@ -1263,8 +1277,6 @@ components:
             type: string
           hasDiscount:
             type: boolean
-          query:
-            type: string
         type: object
       example:
         categoryIds:
@@ -1277,8 +1289,10 @@ components:
       title: ProductCriteria
     ReceiptCriteria:
       allOf:
-      - $ref: '#/components/schemas/BaseCriteria'
+      - $ref: '#/components/schemas/BaseIntIdCriteria'
       - properties:
+          query:
+            type: string
           cashierIds:
             items:
               type: integer
@@ -1295,17 +1309,18 @@ components:
         - 0
         - 0
         endDate: 2000-01-23T04:56:07.000+00:00
+        query: query
         startDate: 2000-01-23T04:56:07.000+00:00
       title: ReceiptCriteria
     CustomerCardCriteria:
       allOf:
-      - $ref: '#/components/schemas/BaseCriteria'
+      - $ref: '#/components/schemas/BaseIntIdCriteria'
       - properties:
+          query:
+            type: string
           lastName:
             type: string
           phoneNumber:
-            type: string
-          query:
             type: string
         type: object
       example:
@@ -1313,6 +1328,26 @@ components:
         phoneNumber: phoneNumber
         query: query
       title: CustomerCardCriteria
+    BaseStringIdCriteria:
+      allOf:
+      - $ref: '#/components/schemas/BaseCriteria'
+      - properties:
+          ids:
+            items:
+              type: string
+            type: array
+        type: object
+      title: BaseStringIdCriteria
+    BaseIntIdCriteria:
+      allOf:
+      - $ref: '#/components/schemas/BaseCriteria'
+      - properties:
+          ids:
+            items:
+              type: integer
+            type: array
+        type: object
+      title: BaseIntIdCriteria
     BaseCriteria:
       allOf:
       - properties:
@@ -1320,10 +1355,6 @@ components:
             type: integer
           limit:
             type: integer
-          ids:
-            items:
-              type: integer
-            type: array
         type: object
       - $ref: '#/components/schemas/SortCriteria'
       title: BaseCriteria
