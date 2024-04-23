@@ -7,7 +7,7 @@ from models import BaseCriteria, ListResponse
 
 class CustomerCardBase(BaseModel):
     """
-    Customer Card
+    Customer Card Base
     """
     last_name: Annotated[str, Field(alias="lastName")]
     first_name: Annotated[str, Field(alias="firstName")]
@@ -31,7 +31,7 @@ class CustomerCardCriteria(BaseCriteria):
 
 class CustomerCardUpsertRequest(CustomerCardBase):
     """
-    Customer Card Request
+    Customer Card Upsert Request
     """
     pass
 
