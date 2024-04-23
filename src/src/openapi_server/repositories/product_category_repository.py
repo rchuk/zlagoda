@@ -8,17 +8,17 @@ from openapi_server.repositories.base.crud_repository_base import CrudRepository
 
 class ProductCategoryRepository(CrudRepositoryBase[int, ProductCategoryEntity]):
     def __init__(self):
+        self._counter: int = 4
         self._items: Dict[int, ProductCategoryEntity] = {
             0: ProductCategoryEntity(
                 id=0,
                 name="Харчові продукти"
             ),
-            1: ProductCategoryEntity(
-                id=1,
+            3: ProductCategoryEntity(
+                id=3,
                 name="Косметика та парфумерія"
             )
         }
-        self._counter: int = len(self._items)
 
     def create(self, entity: ProductCategoryEntity) -> int:
         entity.id = self._counter

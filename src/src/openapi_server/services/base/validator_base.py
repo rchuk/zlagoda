@@ -5,14 +5,6 @@ EntityT = TypeVar("EntityT")
 
 
 class ValidatorBase(ABC, Generic[EntityT]):
-    def validate_create(self, entity: EntityT):
-        pass
-
-    def validate_view(self, entity: EntityT):
-        pass
-
-    def validate_update(self, entity: EntityT):
-        pass
-
-    def validate_delete(self, entity: EntityT):
-        pass
+    @abstractmethod
+    def validate(self, entity: EntityT):
+        ...
