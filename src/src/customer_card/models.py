@@ -6,9 +6,6 @@ from models import BaseCriteria, ListResponse
 
 
 class CustomerCardBase(BaseModel):
-    """
-    Customer Card Base
-    """
     last_name: Annotated[str, Field(alias="lastName")]
     first_name: Annotated[str, Field(alias="firstName")]
     patronymic: str | None = None
@@ -20,9 +17,6 @@ class CustomerCardBase(BaseModel):
 
 
 class CustomerCardCriteria(BaseCriteria):
-    """
-    Customer Card Criteria
-    """
     ids: list[int] | None = None
     query: str | None = None
     last_name: Annotated[str | None, Field(alias="lastName")] = None
@@ -30,21 +24,12 @@ class CustomerCardCriteria(BaseCriteria):
 
 
 class CustomerCardUpsertRequest(CustomerCardBase):
-    """
-    Customer Card Upsert Request
-    """
     pass
 
 
 class CustomerCardResponse(CustomerCardBase):
-    """
-    Customer Card Response
-    """
     id: int
 
 
 class CustomerCardListResponse(ListResponse):
-    """
-    Customer Card List Response
-    """
     items: list[CustomerCardResponse]

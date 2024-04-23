@@ -8,17 +8,11 @@ from models import BaseCriteria, ListResponse
 
 
 class EmployeeRole(str, Enum):
-    """
-    Employee Role
-    """
     CASHIER = "CASHIER"
     MANAGER = "MANAGER"
 
 
 class EmployeeBase(BaseModel):
-    """
-    Employee Base
-    """
     last_name: Annotated[str, Field(alias="lastName")]
     first_name: Annotated[str, Field(alias="firstName")]
     patronymic: str | None = None
@@ -33,9 +27,6 @@ class EmployeeBase(BaseModel):
 
 
 class EmployeeCriteria(BaseCriteria):
-    """
-    Employee Criteria
-    """
     ids: list[int] | None = None
     query: str | None = None
     role: EmployeeRole | None = None
@@ -43,21 +34,12 @@ class EmployeeCriteria(BaseCriteria):
 
 
 class EmployeeUpsertRequest(EmployeeBase):
-    """
-    Employee Upsert Request
-    """
     pass
 
 
 class EmployeeResponse(EmployeeBase):
-    """
-    Employee Response
-    """
     id: int
 
 
 class EmployeeListResponse(ListResponse):
-    """
-    Employee List Response
-    """
     items: list[EmployeeResponse]
