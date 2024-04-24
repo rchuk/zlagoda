@@ -32,7 +32,6 @@ export default function ProductView(props: ProductViewProps): React.ReactNode {
         setProductArchetype(await productArchetypeService.getProductArchetypeById({ id: newProduct.archetype }));
     }
 
-    // TODO: Add link to archetype
     return (
         <ViewComponent id={props.id} fetch={fetch} onError={props.onError} edit={props.edit} cancel={props.cancel}
                        header="Перегляд товару" getBreadcrumb={getBreadcrumb}

@@ -10,7 +10,7 @@ type ReceiptItemProps = {
   productName: string,
 };
 
-export default function ReceiptItem(props: ReceiptItemProps) {
+export default function ReceiptItemCreate(props: ReceiptItemProps) {
   function getItem(): ReceiptItemView {
     return props.view.items.find(item => item.product == props.product)!;
   }
