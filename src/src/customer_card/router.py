@@ -6,7 +6,7 @@ from fastapi import (
     Path,
 )
 
-from customer_card.models import (
+from customer_card.schemas import (
     CustomerCardCriteria,
     CustomerCardUpsertRequest,
     CustomerCardResponse,

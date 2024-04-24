@@ -6,7 +6,7 @@ from fastapi import (
     Path,
 )
 
-from product.models import (
+from product.schemas import (
     ProductCriteria,
     ProductUpsertRequest,
     ProductResponse,

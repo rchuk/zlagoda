@@ -6,7 +6,7 @@ from fastapi import (
     Path,
 )
 
-from receipt.models import (
+from receipt.schemas import (
     ReceiptCriteria,
     ReceiptUpsertRequest,
     ReceiptResponse,

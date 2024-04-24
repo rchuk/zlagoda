@@ -6,7 +6,7 @@ from fastapi import (
     Path,
 )
 
-from product_archetype.models import (
+from product_archetype.schemas import (
     ProductArchetypeCriteria,
     ProductArchetypeUpsertRequest,
     ProductArchetypeResponse,

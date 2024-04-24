@@ -6,7 +6,7 @@ from fastapi import (
     Path,
 )
 
-from employee.models import (
+from employee.schemas import (
     EmployeeCriteria,
     EmployeeUpsertRequest,
     EmployeeResponse,
