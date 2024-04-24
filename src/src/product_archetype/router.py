@@ -1,107 +1,52 @@
-from typing import Dict, List  # noqa: F401
+from typing import Annotated
 
-from openapi_server.apis.product_archetype_api_base import BaseProductArchetypeApi
-
-from fastapi import (  # noqa: F401
+from fastapi import (
     APIRouter,
     Body,
-    Cookie,
-    Depends,
-    Form,
-    Header,
     Path,
-    Query,
-    Response,
-    Security,
-    status,
 )
 
-from openapi_server.models.extra_models import TokenModel  # noqa: F401
-from openapi_server.models.product_archetype import ProductArchetype
-from openapi_server.models.product_archetype_criteria import ProductArchetypeCriteria
-from openapi_server.models.product_archetype_list_response import ProductArchetypeListResponse
-from openapi_server.models.product_archetype_view import ProductArchetypeView
-
+from product_archetype.models import (
+    ProductArchetypeCriteria,
+    ProductArchetypeUpsertRequest,
+    ProductArchetypeResponse,
+    ProductArchetypeListResponse
+)
 
 router = APIRouter()
 
 
-@router.put(
-    "/api/product-archetype",
-    responses={
-        200: {"model": int, "description": "Id of new product archetype"},
-    },
-    tags=["product-archetype"],
-    summary="Create a new product archetype",
-    response_model_by_alias=True,
-)
+@router.post("/api/product-archetype")
 async def create_product_archetype(
-    product_archetype_view: ProductArchetypeView = Body(None, description=""),
+    product_archetype_upsert_request: Annotated[ProductArchetypeUpsertRequest | None, Body()] = None
 ) -> int:
-    """Create a new product archetype"""
-    return BaseProductArchetypeApi.subclasses[0]().create_product_archetype(product_archetype_view)
+    pass
 
 
-@router.delete(
-    "/api/product-archetype/{id}",
-    responses={
-        200: {"model": bool, "description": "Boolean whether product archetype was deleted"},
-    },
-    tags=["product-archetype"],
-    summary="Delete a product archetype by id",
-    response_model_by_alias=True,
-)
+@router.delete("/api/product-archetype/{id}")
 async def delete_product_archetype(
-    id: int = Path(..., description=""),
+    id: Annotated[int, Path()]
 ) -> bool:
-    """Delete a product archetype by id"""
-    return BaseProductArchetypeApi.subclasses[0]().delete_product_archetype(id)
+    pass
 
 
-@router.get(
-    "/api/product-archetype/{id}",
-    responses={
-        200: {"model": ProductArchetype, "description": "Product archetype by id"},
-    },
-    tags=["product-archetype"],
-    summary="Get product archetype by id",
-    response_model_by_alias=True,
-)
+@router.get("/api/product-archetype/{id}", response_model=ProductArchetypeResponse)
 async def get_product_archetype_by_id(
-    id: int = Path(..., description=""),
-) -> ProductArchetype:
-    """Get product archetype by id"""
-    return BaseProductArchetypeApi.subclasses[0]().get_product_archetype_by_id(id)
+    id: Annotated[int, Path()]
+) -> ProductArchetypeResponse:
+    pass
 
 
-@router.post(
-    "/api/product-archetype",
-    responses={
-        200: {"model": ProductArchetypeListResponse, "description": "List of product archetypes"},
-    },
-    tags=["product-archetype"],
-    summary="Get list of product archetypes",
-    response_model_by_alias=True,
-)
+@router.post("/api/product-archetype/list", response_model=ProductArchetypeListResponse)
 async def get_product_archetype_list(
-    product_archetype_criteria: ProductArchetypeCriteria = Body(None, description=""),
+    product_archetype_criteria: Annotated[ProductArchetypeCriteria | None, Body()] = None
 ) -> ProductArchetypeListResponse:
-    """Get list of product archetypes"""
-    return BaseProductArchetypeApi.subclasses[0]().get_product_archetype_list(product_archetype_criteria)
+    pass
 
 
-@router.post(
-    "/api/product-archetype/{id}",
-    responses={
-        200: {"model": bool, "description": "Boolean whether product archetype was updated"},
-    },
-    tags=["product-archetype"],
-    summary="Update existing product archetype",
-    response_model_by_alias=True,
-)
+@router.put("/api/product-archetype/{id}")
 async def update_product_archetype(
-    id: int = Path(..., description=""),
-    product_archetype_view: ProductArchetypeView = Body(None, description=""),
+    id: Annotated[int, Path()],
+    product_archetype_upsert_request: Annotated[ProductArchetypeUpsertRequest | None, Body()] = None
 ) -> bool:
-    """Update existing product archetype"""
-    return BaseProductArchetypeApi.subclasses[0]().update_product_archetype(id, product_archetype_view)
+    pass

@@ -1,107 +1,52 @@
-from typing import Dict, List  # noqa: F401
+from typing import Annotated
 
-from openapi_server.apis.customer_card_api_base import BaseCustomerCardApi
-
-from fastapi import (  # noqa: F401
+from fastapi import (
     APIRouter,
     Body,
-    Cookie,
-    Depends,
-    Form,
-    Header,
     Path,
-    Query,
-    Response,
-    Security,
-    status,
 )
 
-from openapi_server.models.extra_models import TokenModel  # noqa: F401
-from openapi_server.models.customer_card import CustomerCard
-from openapi_server.models.customer_card_criteria import CustomerCardCriteria
-from openapi_server.models.customer_card_list_response import CustomerCardListResponse
-from openapi_server.models.customer_card_view import CustomerCardView
-
+from customer_card.models import (
+    CustomerCardCriteria,
+    CustomerCardUpsertRequest,
+    CustomerCardResponse,
+    CustomerCardListResponse
+)
 
 router = APIRouter()
 
 
-@router.put(
-    "/api/customer-card",
-    responses={
-        200: {"model": int, "description": "Id of new customer card"},
-    },
-    tags=["customer-card"],
-    summary="Create a new customer card",
-    response_model_by_alias=True,
-)
+@router.post("/api/customer-card")
 async def create_customer_card(
-    customer_card_view: CustomerCardView = Body(None, description=""),
+    customer_card_upsert_request: Annotated[CustomerCardUpsertRequest | None, Body()] = None
 ) -> int:
-    """Create a new customer card"""
-    return BaseCustomerCardApi.subclasses[0]().create_customer_card(customer_card_view)
+    pass
 
 
-@router.delete(
-    "/api/customer-card/{id}",
-    responses={
-        200: {"model": bool, "description": "Boolean whether customer card was deleted"},
-    },
-    tags=["customer-card"],
-    summary="Delete a customer card by id",
-    response_model_by_alias=True,
-)
+@router.delete("/api/customer-card/{id}")
 async def delete_customer_card(
-    id: int = Path(..., description=""),
+    id: Annotated[int, Path()]
 ) -> bool:
-    """Delete a customer card by id"""
-    return BaseCustomerCardApi.subclasses[0]().delete_customer_card(id)
+    pass
 
 
-@router.get(
-    "/api/customer-card/{id}",
-    responses={
-        200: {"model": CustomerCard, "description": "Customer card by id"},
-    },
-    tags=["customer-card"],
-    summary="Get customer card by id",
-    response_model_by_alias=True,
-)
+@router.get("/api/customer-card/{id}", response_model=CustomerCardResponse)
 async def get_customer_card_by_id(
-    id: int = Path(..., description=""),
-) -> CustomerCard:
-    """Get customer card by id"""
-    return BaseCustomerCardApi.subclasses[0]().get_customer_card_by_id(id)
+    id: Annotated[int, Path()]
+) -> CustomerCardResponse:
+    pass
 
 
-@router.post(
-    "/api/customer-card",
-    responses={
-        200: {"model": CustomerCardListResponse, "description": "List of customer cards"},
-    },
-    tags=["customer-card"],
-    summary="Get list of customer cards",
-    response_model_by_alias=True,
-)
+@router.post("/api/customer-card/list", response_model=CustomerCardListResponse)
 async def get_customer_card_list(
-    customer_card_criteria: CustomerCardCriteria = Body(None, description=""),
+    customer_card_criteria: Annotated[CustomerCardCriteria | None,  Body()] = None
 ) -> CustomerCardListResponse:
-    """Get list of customer cards"""
-    return BaseCustomerCardApi.subclasses[0]().get_customer_card_list(customer_card_criteria)
+    pass
 
 
-@router.post(
-    "/api/customer-card/{id}",
-    responses={
-        200: {"model": bool, "description": "Boolean whether customer card was updated"},
-    },
-    tags=["customer-card"],
-    summary="Update existing customer card",
-    response_model_by_alias=True,
-)
+@router.put("/api/customer-card/{id}")
 async def update_customer_card(
-    id: int = Path(..., description=""),
-    customer_card_view: CustomerCardView = Body(None, description=""),
+    id: Annotated[int, Path()],
+    customer_card_upsert_request: Annotated[CustomerCardUpsertRequest | None, Body()] = None
 ) -> bool:
-    """Update existing customer card"""
-    return BaseCustomerCardApi.subclasses[0]().update_customer_card(id, customer_card_view)
+    pass

@@ -1,90 +1,44 @@
-from typing import Dict, List  # noqa: F401
+from typing import Annotated
 
-from openapi_server.apis.receipt_api_base import BaseReceiptApi
-
-from fastapi import (  # noqa: F401
+from fastapi import (
     APIRouter,
     Body,
-    Cookie,
-    Depends,
-    Form,
-    Header,
     Path,
-    Query,
-    Response,
-    Security,
-    status,
 )
 
-from openapi_server.models.extra_models import TokenModel  # noqa: F401
-from openapi_server.models.receipt import Receipt
-from openapi_server.models.receipt_criteria import ReceiptCriteria
-from openapi_server.models.receipt_list_response import ReceiptListResponse
-from openapi_server.models.receipt_view import ReceiptView
-
+from receipt.models import (
+    ReceiptCriteria,
+    ReceiptUpsertRequest,
+    ReceiptResponse,
+    ReceiptListResponse
+)
 
 router = APIRouter()
 
 
-@router.put(
-    "/api/receipt",
-    responses={
-        200: {"model": int, "description": "Id of new receipt"},
-    },
-    tags=["receipt"],
-    summary="Create a new receipt",
-    response_model_by_alias=True,
-)
+@router.post("/api/receipt")
 async def create_receipt(
-    receipt_view: ReceiptView = Body(None, description=""),
+    receipt_upsert_request: Annotated[ReceiptUpsertRequest | None, Body()] = None
 ) -> int:
-    """Create a new receipt"""
-    return BaseReceiptApi.subclasses[0]().create_receipt(receipt_view)
+    pass
 
 
-@router.delete(
-    "/api/receipt/{id}",
-    responses={
-        200: {"model": bool, "description": "Boolean whether receipt was deleted"},
-    },
-    tags=["receipt"],
-    summary="Delete a receipt by id",
-    response_model_by_alias=True,
-)
+@router.delete("/api/receipt/{id}")
 async def delete_receipt(
-    id: int = Path(..., description=""),
+    id: Annotated[int, Path()]
 ) -> bool:
-    """Delete a receipt by id"""
-    return BaseReceiptApi.subclasses[0]().delete_receipt(id)
+    pass
 
 
-@router.get(
-    "/api/receipt/{id}",
-    responses={
-        200: {"model": Receipt, "description": "Receipt by id"},
-    },
-    tags=["receipt"],
-    summary="Get receipt by id",
-    response_model_by_alias=True,
-)
+@router.get("/api/receipt/{id}", response_model=ReceiptResponse)
 async def get_receipt_by_id(
-    id: int = Path(..., description=""),
-) -> Receipt:
-    """Get receipt by id"""
-    return BaseReceiptApi.subclasses[0]().get_receipt_by_id(id)
+    id: Annotated[int, Path()]
+) -> ReceiptResponse:
+    pass
 
 
-@router.post(
-    "/api/receipt",
-    responses={
-        200: {"model": ReceiptListResponse, "description": "List of receipts"},
-    },
-    tags=["receipt"],
-    summary="Get list of receipts",
-    response_model_by_alias=True,
-)
+@router.post("/api/receipt/list", response_model=ReceiptListResponse)
 async def get_receipt_list(
-    receipt_criteria: ReceiptCriteria = Body(None, description=""),
+    receipt_criteria: Annotated[ReceiptCriteria | None, Body()] = None
 ) -> ReceiptListResponse:
-    """Get list of receipts"""
-    return BaseReceiptApi.subclasses[0]().get_receipt_list(receipt_criteria)
+    pass
