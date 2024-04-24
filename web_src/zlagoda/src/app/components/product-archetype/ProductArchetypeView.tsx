@@ -1,5 +1,5 @@
 import {ProductArchetype, ProductCategory} from "../../../../generated";
-import React, {useContext, useState} from "react";
+import React, {useCallback, useContext, useState} from "react";
 import ViewComponent from "@/app/components/common/ViewComponent";
 import {ServicesContext} from "@/app/services/ServiceProvider";
 
@@ -15,6 +15,15 @@ export default function ProductArchetypeView(props: ProductArchetypeViewProps): 
     const [productArchetype, setProductArchetype] = useState<ProductArchetype | null>(null);
     const [productCategory, setProductCategory] = useState<ProductCategory | null>(null);
 
+    const getBreadcrumb = useCallback(
+      () => {
+          return {
+              title: productArchetype?.name ?? ""
+          };
+      },
+      [productArchetype]
+    );
+
     async function fetch(id: number) {
         const newProductArchetype = await productArchetypeService.getProductArchetypeById({ id });
         setProductArchetype(newProductArchetype);
@@ -24,7 +33,7 @@ export default function ProductArchetypeView(props: ProductArchetypeViewProps): 
     // TODO: Add link to category
     return (
         <ViewComponent id={props.id} fetch={fetch} onError={props.onError} edit={props.edit} cancel={props.cancel}
-                       header="Перегляд типу товару"
+                       header="Перегляд типу товару" getBreadcrumb={getBreadcrumb}
         >
             <div>
                 <b>Товар: </b><span>{productArchetype?.name}</span>

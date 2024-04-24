@@ -1,5 +1,5 @@
-import React, {useContext, useState} from "react";
-import {Box, FormControl, InputLabel, MenuItem, Select, TextField} from "@mui/material";
+import React, {useCallback, useContext, useState} from "react";
+import {FormControl, InputLabel, MenuItem, Select, TextField} from "@mui/material";
 import {DatePicker} from "@mui/x-date-pickers";
 import {EmployeeRole, EmployeeView} from "../../../../generated";
 import dayjs from "dayjs";
@@ -7,6 +7,7 @@ import Grid from "@mui/material/Unstable_Grid2";
 import {EmployeeRole_i18} from "@/app/i18/EmployeeRole_i18";
 import UpsertComponent from "@/app/components/common/UpsertComponent";
 import {ServicesContext} from "@/app/services/ServiceProvider";
+import {getEntityPersonFullName} from "@/app/components/common/utils/BusinessUtils";
 
 type EmployeeUpsertProps = {
     initialId: number | null,
@@ -35,6 +36,15 @@ export default function EmployeeUpsert(props: EmployeeUpsertProps): React.ReactN
     const { employeeService } = useContext(ServicesContext);
     const [view, setView] = useState<EmployeeView>(getDefaultEmployeeView);
 
+    const getBreadcrumb = useCallback(
+      () => {
+          return {
+              title: getEntityPersonFullName(view)
+          };
+      },
+      [view]
+    );
+
     async function fetch(id: number) {
         const {id: _, ...newView} = await employeeService.getEmployeeById({ id });
         setView(newView);
@@ -60,6 +70,7 @@ export default function EmployeeUpsert(props: EmployeeUpsertProps): React.ReactN
             onSave={props.onSave}
             createHeader="Створення інформації про працівника"
             updateHeader="Редагування інформації про працівника"
+            getBreadcrumb={getBreadcrumb}
         >
             <Grid xs={6}>
                 <TextField label="Прізвище"

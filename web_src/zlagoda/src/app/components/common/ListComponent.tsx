@@ -25,10 +25,10 @@ type ListToolbarProps = {
 
 function ListToolbar(props: ListToolbarProps) {
   return (
-    <GridToolbarContainer sx={{display: "flex", justifyContent: "space-between"}}>
+    <GridToolbarContainer sx={{ display: "flex", justifyContent: "space-between", padding: 2 }}>
       <GridToolbarQuickFilter />
       {props.createItem &&
-        <Button color="primary" startIcon={<AddIcon />} onClick={props.createItem}>
+        <Button variant="outlined" startIcon={<AddIcon />} onClick={props.createItem}>
           Створити
         </Button>
       }

@@ -4,7 +4,7 @@ import {
   ProductArchetype,
   Receipt
 } from "../../../../generated";
-import React, {useContext, useEffect, useState} from "react";
+import React, {useCallback, useContext, useEffect, useState} from "react";
 import ViewComponent from "@/app/components/common/ViewComponent";
 import {AlertContext} from "@/app/services/AlertService";
 import {findEntity} from "@/app/components/common/utils/ObjectUtils";
@@ -18,9 +18,9 @@ import {getRequestError} from "@/app/components/common/utils/RequestUtils";
 
 type ReceiptViewProps = {
     id: number,
-    onError?: (reason: any) => void,
     edit?: (id: number) => void,
-    cancel?: () => void
+    cancel?: () => void,
+    onError?: (reason: any) => void
 };
 
 export default function ReceiptView(props: ReceiptViewProps): React.ReactNode {
@@ -35,6 +35,15 @@ export default function ReceiptView(props: ReceiptViewProps): React.ReactNode {
     const [employee, setEmployee] = useState<Employee | null>(null);
     const [customerCard, setCustomerCard] = useState<CustomerCard | null>(null);
     const showAlert = useContext(AlertContext);
+
+    const getBreadcrumb = useCallback(
+      () => {
+          return {
+              title: receipt?.id.toString() ?? ""
+          };
+      },
+      [receipt]
+    );
 
     useEffect(() => {
         const fetch = async() => {
@@ -58,7 +67,7 @@ export default function ReceiptView(props: ReceiptViewProps): React.ReactNode {
     // TODO: Add links to archetype, client card and cashier
     return (
         <ViewComponent id={props.id} fetch={fetch} onError={props.onError} edit={props.edit} cancel={props.cancel}
-                       header="Перегляд чеку"
+                       header="Перегляд чеку" getBreadcrumb={getBreadcrumb}
         >
             <div>
                 <b>Касир: </b>

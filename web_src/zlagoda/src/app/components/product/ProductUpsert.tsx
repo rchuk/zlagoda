@@ -1,5 +1,5 @@
 import {ProductArchetype, ProductView} from "../../../../generated";
-import React, {useContext, useEffect, useMemo, useState} from "react";
+import React, {useCallback, useContext, useEffect, useMemo, useState} from "react";
 import {AlertContext} from "@/app/services/AlertService";
 import UpsertComponent from "@/app/components/common/UpsertComponent";
 import Grid from "@mui/material/Unstable_Grid2";
@@ -35,6 +35,15 @@ export default function ProductUpsert(props: ProductUpsertProps): React.ReactNod
         [productArchetypes]
     );
 
+    const getBreadcrumb = useCallback(
+      () => {
+        return {
+            title: findEntity(productArchetypes, view.archetype)?.name ?? ""
+        };
+      },
+      [productArchetypes, view]
+    );
+
     useEffect(() => {
         const fetch = async() => {
             const response = await productArchetypeService.getProductArchetypeList();
@@ -45,7 +54,7 @@ export default function ProductUpsert(props: ProductUpsertProps): React.ReactNod
     }, []);
 
     async function fetch(id: string) {
-        setView(await productService.getProductById({id}));
+        setView( await productService.getProductById({id}));
     }
 
     async function create(): Promise<string> {
@@ -68,6 +77,7 @@ export default function ProductUpsert(props: ProductUpsertProps): React.ReactNod
             onSave={props.onSave}
             createHeader="Створення товару"
             updateHeader="Редагування товару"
+            getBreadcrumb={getBreadcrumb}
         >
             <Grid xs={6}>
                 <TextField label="UPC"

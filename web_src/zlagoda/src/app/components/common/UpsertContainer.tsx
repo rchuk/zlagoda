@@ -15,7 +15,7 @@ export default function UpsertContainer(props: PropsWithChildren<UpsertContainer
              sx={{ width: 500, margin: 2 }}>
             <Grid container columnSpacing={1} rowSpacing={2}>
                 <Grid xs={12} textAlign="center">
-                    <h2>{props.header}</h2>
+                    <h1>{props.header}</h1>
                 </Grid>
                 {props.children}
                 <Grid xs={12}>

@@ -4,19 +4,32 @@ import {Box, Button} from "@mui/material";
 import ProgressSpinner from "@/app/components/common/ProgressSpinner";
 import {getRequestError} from "@/app/components/common/utils/RequestUtils";
 import {EntityId} from "@/app/components/common/utils/ObjectUtils";
+import {BreadcrumbItem} from "@/app/components/common/BreadcrumbsComponent";
+import {BreadcrumbsServiceContext} from "@/app/services/BreadcrumbsService";
 
 type ViewComponentProps<IdT extends EntityId> = {
     id: IdT,
     header: string,
     fetch: (id: IdT) => Promise<void>,
+
     edit?: (id: IdT) => void,
+    cancel?: () => void,
     onError?: (reason: any) => void,
-    cancel?: () => void
+
+    getBreadcrumb?: () => BreadcrumbItem
 };
 
 export default function ViewComponent<IdT extends EntityId>(props: PropsWithChildren<ViewComponentProps<IdT>>): React.ReactNode {
     const [isReady, setIsReady] = useState<boolean>(false);
     const showAlert = useContext(AlertContext);
+    const breadcrumbsHandle = useContext(BreadcrumbsServiceContext);
+
+  useEffect(() => {
+    if (isReady) {
+      if (props.getBreadcrumb !== undefined)
+        breadcrumbsHandle.modify(props.getBreadcrumb());
+    }
+  }, [isReady]);
 
     useEffect(() => {
         props.fetch(props.id)
@@ -34,7 +47,7 @@ export default function ViewComponent<IdT extends EntityId>(props: PropsWithChil
     return (
         <Box display="flex" flexDirection="column" rowGap={1}
              sx={{ width: 500, margin: 2 }}>
-            <h2 style={{ textAlign: "center" }}>{props.header}</h2>
+            <h1 style={{ textAlign: "center" }}>{props.header}</h1>
             {props.children}
             <Box display="flex" justifyContent="flex-end" columnGap={1}>
                 {props.edit &&
