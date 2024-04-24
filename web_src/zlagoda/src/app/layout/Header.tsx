@@ -1,4 +1,4 @@
-import {Box, IconButton, styled, Toolbar} from "@mui/material";
+import {Box, Button, IconButton, styled, Toolbar} from "@mui/material";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import {useContext} from "react";
 import {FullscreenServiceContext} from "@/app/services/FullscreenService";
@@ -8,6 +8,7 @@ import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Image from "next/image";
 import {SIDEBAR_WIDTH} from "@/app/components/common/utils/Constants";
+import {useRouter} from "next/router";
 
 interface AppBarProps extends MuiAppBarProps {
   isSidebarOpen: boolean
@@ -37,9 +38,14 @@ type HeaderProps = {
 
 export default function Header(props: HeaderProps) {
   const fullscreenHandle = useContext(FullscreenServiceContext);
+  const router = useRouter();
 
   function toggleSidebar() {
     props.setIsSidebarOpen(!props.isSidebarOpen);
+  }
+
+  function handleLogoClick() {
+    router.push("/");
   }
 
   return (
@@ -52,7 +58,9 @@ export default function Header(props: HeaderProps) {
           </IconButton>
         }
         <Box display="flex" flexGrow={1} justifyContent="center">
-          <Image src="zlagoda_logo.svg" width={200} height={80} alt="Злагода" />
+          <Button disableRipple onClick={handleLogoClick} sx={{ padding: 0 }}>
+            <Image src="zlagoda_logo.svg" width={200} height={80} alt="Злагода" />
+          </Button>
         </Box>
         {
           fullscreenHandle.active
