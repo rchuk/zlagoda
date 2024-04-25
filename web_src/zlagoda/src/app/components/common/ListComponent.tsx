@@ -36,7 +36,6 @@ function ListToolbar(props: ListToolbarProps) {
   );
 }
 
-// NOTE: Callback is only needed for create if it's implemented with modal
 type ListComponentProps<ItemT extends GridValidRowModel & BaseEntity<IdT>, CriteriaT extends BaseCriteria, IdT extends EntityId> = {
   columns: GridColDef<ItemT>[],
 
@@ -49,7 +48,6 @@ type ListComponentProps<ItemT extends GridValidRowModel & BaseEntity<IdT>, Crite
 
   criteria: CriteriaT,
   setCriteria: (criteria: CriteriaT) => void,
-  setFilter?: (filter: GridFilterModel) => void,
 
   items?: ItemT[] | null,
   setItems?: (items: ItemT[] | null) => void
@@ -97,10 +95,6 @@ export default function ListComponent<ItemT extends GridValidRowModel & BaseEnti
     const sortAscending = sortData?.sort != "desc";
 
     props.setCriteria({...props.criteria, sortField, sortAscending});
-  }
-
-  function onFilterModelChange(filter: GridFilterModel) {
-    props.setFilter?.(filter);
   }
 
   function handleCreate() {
@@ -192,9 +186,7 @@ export default function ListComponent<ItemT extends GridValidRowModel & BaseEnti
       pageSizeOptions={[10, 25, 50]}
       sortingMode="server"
       onSortModelChange={onSortModelChange}
-      filterMode="server"
-      disableColumnFilter={!props.setFilter}
-      onFilterModelChange={onFilterModelChange}
+      disableColumnFilter
       slots={{
         toolbar: ListToolbar as GridSlots["toolbar"],
       }}

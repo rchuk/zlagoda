@@ -4,7 +4,6 @@ import {
   EmployeeListResponse
 } from "../../../../generated";
 import React, {useContext, useState} from "react";
-import {Box} from "@mui/material";
 import {GridColDef} from '@mui/x-data-grid';
 import ListComponent, {getDefaultBaseCriteria} from "@/app/components/common/ListComponent";
 import {EmployeeRole_i18} from "@/app/i18/EmployeeRole_i18";

@@ -10,16 +10,9 @@ import {
   styled
 } from "@mui/material";
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import {ReactElement} from "react";
 import {useRouter} from "next/router";
 import {SIDEBAR_WIDTH} from "@/app/components/common/utils/Constants";
-import {
-  CustomerCardIcon, EmployeeIcon, ExtraQueryIcon,
-  ProductArchetypeIcon,
-  ProductCategoryIcon,
-  ProductIcon,
-  ReceiptIcon, UserIcon
-} from "@/app/components/common/Icons";
+import {Navigation, NavigationItem} from "@/app/layout/Navigation";
 
 
 const DrawerHeader = styled('div')(({ theme }) => ({
@@ -30,16 +23,9 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   justifyContent: 'flex-end'
 }));
 
-type MenuItem = {
-  name: string,
-  link: string,
-  icon: () => ReactElement,
-  enableIf?: () => boolean
-};
-
 type MenuCategory = {
-  enableIf?: () => boolean,
-  children: MenuItem[]
+  isEnabled?: () => boolean,
+  children: NavigationItem[]
 }
 
 type SidebarProps = {
@@ -53,58 +39,26 @@ export default function Sidebar(props: SidebarProps) {
   const menu: MenuCategory[] = [
     {
       children: [
-        {
-          name: "Картки клієнтів",
-          link: "/customer-card",
-          icon: CustomerCardIcon
-        },
-        {
-          name: "Чеки",
-          link: "/receipt",
-          icon: ReceiptIcon
-        },
-        {
-          name: "Продукти",
-          link: "/product",
-          icon: ProductIcon
-        },
-        {
-          name: "Типи продуктів",
-          link: "/product-archetype",
-          icon: ProductArchetypeIcon
-        },
-        {
-          name: "Категорії продуктів",
-          link: "/product-category",
-          icon: ProductCategoryIcon
-        },
-        {
-          name: "Працівники",
-          link: "/employee",
-          icon: EmployeeIcon
-        }
+        Navigation.customerCard,
+        Navigation.receipt,
+        Navigation.product,
+        Navigation.productArchetype,
+        Navigation.productCategory,
+        Navigation.employee
       ]
     },
     {
       children: [
-        {
-          name: "Користувачі",
-          link: "/user",
-          icon: UserIcon
-        },
-        {
-          name: "Додаткові запити",
-          link: "/extra-query",
-          icon: ExtraQueryIcon
-        }
+        Navigation.users,
+        Navigation.extraQuery
       ]
     }
   ];
 
   const menuEnabled = menu
-    .filter(category => category.enableIf?.() ?? true)
+    .filter(category => category.isEnabled?.() ?? true)
     .map(category => {
-      const children = category.children.filter(item => item.enableIf?.() ?? true);
+      const children = category.children.filter(item => item.isEnabled?.() ?? true);
 
       return {...category, children};
     });
@@ -130,7 +84,7 @@ export default function Sidebar(props: SidebarProps) {
     >
       <DrawerHeader>
         <IconButton onClick={closeSidebar}>
-          <ChevronLeftIcon />
+          <ChevronLeftIcon color="primary" />
         </IconButton>
       </DrawerHeader>
       <List>
@@ -138,11 +92,11 @@ export default function Sidebar(props: SidebarProps) {
           menuEnabled.flatMap((category, categoryIndex) => {
             const entries = category.children.map((item, index) => (
               <ListItem key={categoryIndex * maxCategorySize + index} disablePadding>
-                <ListItemButton onClick={() => router.push(item.link)}>
+                <ListItemButton onClick={() => router.push(item.path)}>
                   <ListItemIcon>
                     {item.icon()}
                   </ListItemIcon>
-                  <ListItemText primary={item.name} />
+                  <ListItemText primary={item.title} />
                 </ListItemButton>
               </ListItem>
             ));

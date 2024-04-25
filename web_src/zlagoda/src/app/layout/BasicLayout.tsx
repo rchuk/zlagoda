@@ -5,14 +5,7 @@ import Sidebar from "@/app/layout/Sidebar";
 import BreadcrumbsComponent, {BreadcrumbServiceHandle} from "@/app/components/common/BreadcrumbsComponent";
 import BreadcrumbsServiceProvider from "@/app/services/BreadcrumbsService";
 import {SIDEBAR_WIDTH} from "@/app/components/common/utils/Constants";
-import HomeIcon from '@mui/icons-material/Home';
-import {
-  CustomerCardIcon,
-  EmployeeIcon, ExtraQueryIcon,
-  ProductArchetypeIcon, ProductCategoryIcon,
-  ProductIcon,
-  ReceiptIcon, UserIcon
-} from "@/app/components/common/Icons";
+import { Navigation } from "./Navigation";
 
 
 const Main = styled('main', {
@@ -42,41 +35,16 @@ export default function BasicLayout(props: PropsWithChildren<BasicLayoutProps>) 
   const [breadcrumbsHandle, setBreadcrumbsHandle] = useState<BreadcrumbServiceHandle | null>(null);
 
   const segmentMap = {
-    title: "Головна",
-    icon: () => (<HomeIcon />),
+    ...Navigation.main,
     children: {
-      "employee": {
-        title: "Працівники",
-        icon: EmployeeIcon
-      },
-      "receipt": {
-        title: "Чеки",
-        icon: ReceiptIcon
-      },
-      "customer-card": {
-        title: "Картки клієнтів",
-        icon: CustomerCardIcon
-      },
-      "product": {
-        title: "Товари",
-        icon: ProductIcon
-      },
-      "product-archetype": {
-        title: "Типи товарів",
-        icon: ProductArchetypeIcon
-      },
-      "product-category": {
-        title: "Категорії товарів",
-        icon: ProductCategoryIcon
-      },
-      "user": {
-        title: "Користувачі",
-        icon: UserIcon
-      },
-      "extra-query": {
-        title: "Додаткові запити",
-        icon: ExtraQueryIcon
-      }
+      "employee": Navigation.employee,
+      "receipt": Navigation.receipt,
+      "customer-card": Navigation.customerCard,
+      "product": Navigation.product,
+      "product-archetype": Navigation.productArchetype,
+      "product-category": Navigation.productCategory,
+      "users": Navigation.users,
+      "extra-query": Navigation.extraQuery
     }
   };
 
