@@ -38,7 +38,7 @@ export default function ProductCategoryList(props: ProductCategoryListProps): Re
     {
       field: "name",
       headerName: 'Назва',
-      width: 300
+      width: 350
     }
   ];
 

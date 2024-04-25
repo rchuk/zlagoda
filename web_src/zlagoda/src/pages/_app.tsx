@@ -58,7 +58,7 @@ const theme = createTheme({
       main: "#eeeeee"
     }
   }
-})
+});
 
 export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page)

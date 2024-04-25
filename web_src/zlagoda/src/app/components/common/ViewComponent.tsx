@@ -1,6 +1,6 @@
 import React, {PropsWithChildren, useContext, useEffect, useState} from "react";
 import {AlertContext} from "@/app/services/AlertService";
-import {Box, Button} from "@mui/material";
+import {Box, Button, Typography} from "@mui/material";
 import ProgressSpinner from "@/app/components/common/ProgressSpinner";
 import {getRequestError} from "@/app/components/common/utils/RequestUtils";
 import {EntityId} from "@/app/components/common/utils/ObjectUtils";
@@ -46,8 +46,10 @@ export default function ViewComponent<IdT extends EntityId>(props: PropsWithChil
 
     return (
         <Box display="flex" flexDirection="column" rowGap={1}
-             sx={{ width: 500, margin: 2 }}>
-            <h1 style={{ textAlign: "center" }}>{props.header}</h1>
+             sx={{ width: 500 }}>
+            <Typography variant="h4" sx={{ marginBottom: 4 }}>
+              {props.header}
+            </Typography>
             {props.children}
             <Box display="flex" justifyContent="flex-end" columnGap={1}>
                 {props.edit &&
@@ -55,7 +57,7 @@ export default function ViewComponent<IdT extends EntityId>(props: PropsWithChil
                         Редагувати
                     </Button>
                 }
-                <Button variant="outlined" onClick={props.cancel}>Відміна</Button>
+                <Button variant="outlined" onClick={props.cancel}>Назад</Button>
             </Box>
         </Box>
     );

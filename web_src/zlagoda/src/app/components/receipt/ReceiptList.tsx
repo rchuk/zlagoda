@@ -76,13 +76,13 @@ export default function ReceiptList(props: ReceiptListProps): React.ReactNode {
       field: "cashierId",
       headerName: "Касир",
       valueGetter: (value: number)=> getEntityPersonFullName(findEntity(employees, value)),
-      width: 350
+      width: 300
     },
     {
       field: "customerCardId",
       headerName: "Клієнт",
       valueGetter: (value: number) => value ? getEntityPersonFullName(findEntity(customerCards, value)) : "",
-      width: 350
+      width: 300
     },
     {
       field: "dateTime",
@@ -93,7 +93,7 @@ export default function ReceiptList(props: ReceiptListProps): React.ReactNode {
     {
       field: "vat",
       headerName: "ПДВ",
-      width: 100
+      width: 120
     },
     {
       field: "totalPrice",

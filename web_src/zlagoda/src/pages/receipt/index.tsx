@@ -19,13 +19,6 @@ export default function ReceiptListPage() {
     });
   }
 
-  function update(id: number) {
-    router.push({
-      pathname: "/receipt/[id]/edit",
-      query: { id }
-    });
-  }
-
   return (
     <BasePage>
       <ReceiptList
