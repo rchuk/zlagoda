@@ -1,14 +1,14 @@
 FROM python:3.11 AS builder
 
-WORKDIR /usr/src/app
+WORKDIR /app
 
 RUN python3 -m venv /venv
 ENV PATH="/venv/bin:$PATH"
+ENV PYTHONPATH="/app/src:$PYTHONPATH"
 
 RUN pip install --upgrade pip
 
-COPY . .
-RUN pip install --no-cache-dir .
+COPY requirements.txt requirements.txt
 
 RUN pip install -r requirements.txt
 

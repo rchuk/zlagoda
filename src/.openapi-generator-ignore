@@ -1,6 +1,0 @@
-Dockerfile
-docker-compose.yaml
-requirements.txt
-setup.cfg
-
-src/openapi_server/main.py
