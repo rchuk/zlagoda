@@ -1,21 +1,26 @@
-import {Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, styled} from "@mui/material";
+import {
+  Divider,
+  Drawer,
+  IconButton,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  styled
+} from "@mui/material";
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import {ReactElement} from "react";
 import {useRouter} from "next/router";
 import {SIDEBAR_WIDTH} from "@/app/components/common/utils/Constants";
 import {
-  CustomerCardIcon, EmployeeIcon,
+  CustomerCardIcon, EmployeeIcon, ExtraQueryIcon,
   ProductArchetypeIcon,
   ProductCategoryIcon,
   ProductIcon,
-  ReceiptIcon
+  ReceiptIcon, UserIcon
 } from "@/app/components/common/Icons";
 
-
-type SidebarProps = {
-  isOpen: boolean,
-  setIsOpen: (value: boolean) => void
-}
 
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -28,44 +33,82 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 type MenuItem = {
   name: string,
   link: string,
-  icon: () => ReactElement
+  icon: () => ReactElement,
+  enableIf?: () => boolean
 };
+
+type MenuCategory = {
+  enableIf?: () => boolean,
+  children: MenuItem[]
+}
+
+type SidebarProps = {
+  isOpen: boolean,
+  setIsOpen: (value: boolean) => void
+}
 
 export default function Sidebar(props: SidebarProps) {
   const router = useRouter();
 
-  const menuItems: MenuItem[] = [
+  const menu: MenuCategory[] = [
     {
-      name: "Картки клієнтів",
-      link: "/customer-card",
-      icon: CustomerCardIcon
+      children: [
+        {
+          name: "Картки клієнтів",
+          link: "/customer-card",
+          icon: CustomerCardIcon
+        },
+        {
+          name: "Чеки",
+          link: "/receipt",
+          icon: ReceiptIcon
+        },
+        {
+          name: "Продукти",
+          link: "/product",
+          icon: ProductIcon
+        },
+        {
+          name: "Типи продуктів",
+          link: "/product-archetype",
+          icon: ProductArchetypeIcon
+        },
+        {
+          name: "Категорії продуктів",
+          link: "/product-category",
+          icon: ProductCategoryIcon
+        },
+        {
+          name: "Працівники",
+          link: "/employee",
+          icon: EmployeeIcon
+        }
+      ]
     },
     {
-      name: "Чеки",
-      link: "/receipt",
-      icon: ReceiptIcon
-    },
-    {
-      name: "Продукти",
-      link: "/product",
-      icon: ProductIcon
-    },
-    {
-      name: "Типи продуктів",
-      link: "/product-archetype",
-      icon: ProductArchetypeIcon
-    },
-    {
-      name: "Категорії продуктів",
-      link: "/product-category",
-      icon: ProductCategoryIcon
-    },
-    {
-      name: "Працівники",
-      link: "/employee",
-      icon: EmployeeIcon
-    },
+      children: [
+        {
+          name: "Користувачі",
+          link: "/user",
+          icon: UserIcon
+        },
+        {
+          name: "Додаткові запити",
+          link: "/extra-query",
+          icon: ExtraQueryIcon
+        }
+      ]
+    }
   ];
+
+  const menuEnabled = menu
+    .filter(category => category.enableIf?.() ?? true)
+    .map(category => {
+      const children = category.children.filter(item => item.enableIf?.() ?? true);
+
+      return {...category, children};
+    });
+  const maxCategorySize = Math.max(...menuEnabled.map(category => category.children.length));
 
   function closeSidebar() {
     props.setIsOpen(false);
@@ -91,16 +134,25 @@ export default function Sidebar(props: SidebarProps) {
         </IconButton>
       </DrawerHeader>
       <List>
-        {menuItems.map((item, index) => (
-          <ListItem key={index} disablePadding>
-            <ListItemButton onClick={() => router.push(item.link)}>
-              <ListItemIcon>
-                {item.icon()}
-              </ListItemIcon>
-              <ListItemText primary={item.name} />
-            </ListItemButton>
-          </ListItem>
-        ))}
+        {
+          menuEnabled.flatMap((category, categoryIndex) => {
+            const entries = category.children.map((item, index) => (
+              <ListItem key={categoryIndex * maxCategorySize + index} disablePadding>
+                <ListItemButton onClick={() => router.push(item.link)}>
+                  <ListItemIcon>
+                    {item.icon()}
+                  </ListItemIcon>
+                  <ListItemText primary={item.name} />
+                </ListItemButton>
+              </ListItem>
+            ));
+
+            if (categoryIndex != menuEnabled.length - 1)
+              entries.push(<Divider />);
+
+            return entries;
+          })
+        }
       </List>
     </Drawer>
   );

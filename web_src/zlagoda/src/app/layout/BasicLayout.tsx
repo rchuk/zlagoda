@@ -8,10 +8,10 @@ import {SIDEBAR_WIDTH} from "@/app/components/common/utils/Constants";
 import HomeIcon from '@mui/icons-material/Home';
 import {
   CustomerCardIcon,
-  EmployeeIcon,
+  EmployeeIcon, ExtraQueryIcon,
   ProductArchetypeIcon, ProductCategoryIcon,
   ProductIcon,
-  ReceiptIcon
+  ReceiptIcon, UserIcon
 } from "@/app/components/common/Icons";
 
 
@@ -68,6 +68,14 @@ export default function BasicLayout(props: PropsWithChildren<BasicLayoutProps>) 
       "product-category": {
         title: "Категорії товарів",
         icon: ProductCategoryIcon
+      },
+      "user": {
+        title: "Користувачі",
+        icon: UserIcon
+      },
+      "extra-query": {
+        title: "Додаткові запити",
+        icon: ExtraQueryIcon
       }
     }
   };
