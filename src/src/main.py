@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 
 from customer_card.router import router as CustomerCardRouter
+from database import pool
 from employee.router import router as EmployeeRouter
 from product.router import router as ProductRouter
 from product_archetype.router import router as ProductArchetypeRouter
@@ -34,3 +35,13 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+@app.on_event("startup")
+async def open_pool():
+    await pool.open()
+
+
+@app.on_event("shutdown")
+async def close_pool():
+    await pool.close()
