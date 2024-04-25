@@ -1,5 +1,5 @@
 import ProductCategoryList from "@/app/components/product-category/ProductCategoryList";
-import {Box, Dialog} from "@mui/material";
+import {Box, Dialog, DialogContent} from "@mui/material";
 import {ReactElement, useState} from "react";
 import ProductCategoryUpsert from "@/app/components/product-category/ProductCategoryUpsert";
 
@@ -39,7 +39,9 @@ export default function ProductCategoryListPage() {
         open={modalContent != null}
         onClose={closeModal}
       >
-        {modalContent ?? <div></div>}
+        <DialogContent sx={{ padding: 4 }}>
+          {modalContent ?? <div></div>}
+        </DialogContent>
       </Dialog>
     </Box>
   );

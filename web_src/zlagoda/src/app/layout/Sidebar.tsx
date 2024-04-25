@@ -13,6 +13,7 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import {useRouter} from "next/router";
 import {SIDEBAR_WIDTH} from "@/app/components/common/utils/Constants";
 import {Navigation, NavigationItem} from "@/app/layout/Navigation";
+import {useEffect, useState} from "react";
 
 
 const DrawerHeader = styled('div')(({ theme }) => ({
@@ -34,6 +35,7 @@ type SidebarProps = {
 }
 
 export default function Sidebar(props: SidebarProps) {
+  const [menuEnabled, setMenuEnabled] = useState<MenuCategory[]>([]);
   const router = useRouter();
 
   const menu: MenuCategory[] = [
@@ -55,6 +57,7 @@ export default function Sidebar(props: SidebarProps) {
     }
   ];
 
+  /*
   const menuEnabled = menu
     .filter(category => category.isEnabled?.() ?? true)
     .map(category => {
@@ -62,7 +65,18 @@ export default function Sidebar(props: SidebarProps) {
 
       return {...category, children};
     });
-  const maxCategorySize = Math.max(...menuEnabled.map(category => category.children.length));
+   */
+  useEffect(() => {
+    const newMenuEnabled = menu
+      .filter(category => category.isEnabled?.() ?? true)
+      .map(category => {
+        const children = category.children.filter(item => item.isEnabled?.() ?? true);
+
+        return {...category, children};
+      });
+
+    setMenuEnabled(newMenuEnabled);
+  }, []);
 
   function closeSidebar() {
     props.setIsOpen(false);
@@ -91,7 +105,7 @@ export default function Sidebar(props: SidebarProps) {
         {
           menuEnabled.flatMap((category, categoryIndex) => {
             const entries = category.children.map((item, index) => (
-              <ListItem key={categoryIndex * maxCategorySize + index} disablePadding>
+              <ListItem key={item.path} disablePadding>
                 <ListItemButton onClick={() => router.push(item.path)}>
                   <ListItemIcon>
                     {item.icon()}
@@ -102,7 +116,7 @@ export default function Sidebar(props: SidebarProps) {
             ));
 
             if (categoryIndex != menuEnabled.length - 1)
-              entries.push(<Divider />);
+              entries.push(<Divider key={categoryIndex}/>);
 
             return entries;
           })

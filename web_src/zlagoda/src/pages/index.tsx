@@ -21,7 +21,7 @@ export default function MainPage() {
           items
             .filter(item => item.isEnabled?.() ?? true)
             .map(item => (
-              <Grid xs={4}>
+              <Grid xs={4} key={item.path}>
                 <IconCard title={item.title} icon={item.icon} link={item.path} />
               </Grid>
             ))
