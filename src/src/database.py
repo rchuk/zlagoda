@@ -6,7 +6,7 @@ pool = AsyncConnectionPool(DB_URL, open=False)
 
 
 def db_conn(f):
-    async def db_conn_():
+    async def db_conn_(*args, **kwargs):
         async with pool.connection() as conn:
-            return await f(conn=conn)
+            return await f(*args, **kwargs, conn=conn)
     return db_conn_
