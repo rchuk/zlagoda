@@ -12,14 +12,18 @@ from customer_card.converters import (
     model_list_to_response_list
 )
 
+from customer_card.validators import validate_model, validate_exists
+
 
 async def add_customer_card(customer_card: CustomerCardUpsertRequest) -> int:
     customer_card = await upsert_request_to_model(customer_card)
+    await validate_model(customer_card)
     id = await repository.create(customer_card)
     return id
 
 
 async def get_customer_card(id: int) -> CustomerCardResponse:
+    await validate_exists(id)
     result = await repository.read_one(id)
     result = await model_to_response(result)
     return result
@@ -33,12 +37,15 @@ async def list_customer_cards(customer_card_criteria: CustomerCardCriteria) -> C
 
 
 async def update_customer_card(id: int, customer_card: CustomerCardUpsertRequest) -> bool:
+    await validate_exists(id)
     customer_card = await upsert_request_to_model(customer_card)
     customer_card.id = id
+    await validate_model(customer_card)
     success = await repository.update(customer_card)
     return success
 
 
 async def delete_customer_card(id: int) -> bool:
+    await validate_exists(id)
     success = await repository.delete(id)
     return success
