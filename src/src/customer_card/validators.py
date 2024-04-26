@@ -41,7 +41,7 @@ async def validate_model(model: CustomerCard):
         raise ValidationError("Відсоток знижки не може бути від'ємним")
 
 
-async def validate_exists(id: int):
+async def validate_exists(id: str):
     model = await repository.read_one(id)
     if model is None:
         raise CustomerCardNotFound()

@@ -17,7 +17,7 @@ class EmployeeBase(BaseModel):
     first_name: Annotated[str, Field(alias="firstName")]
     patronymic: str | None = None
     role: EmployeeRole
-    salary: int
+    salary: float
     birth_date: Annotated[date, Field(alias="birthDate")]
     work_start_date: Annotated[date, Field(alias="workStartDate")]
     phone_number: Annotated[str, Field(alias="phoneNumber")]
@@ -27,10 +27,9 @@ class EmployeeBase(BaseModel):
 
 
 class EmployeeCriteria(BaseCriteria):
-    ids: list[int] | None = None
+    ids: list[str] | None = None
     query: str | None = None
     role: EmployeeRole | None = None
-    last_name: Annotated[str | None, Field(alias="lastName")] = None
 
 
 class EmployeeUpsertRequest(EmployeeBase):
@@ -38,7 +37,7 @@ class EmployeeUpsertRequest(EmployeeBase):
 
 
 class EmployeeResponse(EmployeeBase):
-    id: int
+    id: str
 
 
 class EmployeeListResponse(ListResponse):

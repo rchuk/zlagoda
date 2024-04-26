@@ -22,7 +22,7 @@ async def add_customer_card(customer_card: CustomerCardUpsertRequest) -> int:
     return id
 
 
-async def get_customer_card(id: int) -> CustomerCardResponse:
+async def get_customer_card(id: str) -> CustomerCardResponse:
     await validate_exists(id)
     result = await repository.read_one(id)
     result = await model_to_response(result)
@@ -36,7 +36,7 @@ async def list_customer_cards(customer_card_criteria: CustomerCardCriteria) -> C
     return result
 
 
-async def update_customer_card(id: int, customer_card: CustomerCardUpsertRequest) -> bool:
+async def update_customer_card(id: str, customer_card: CustomerCardUpsertRequest) -> bool:
     await validate_exists(id)
     customer_card = await upsert_request_to_model(customer_card)
     customer_card.id = id
@@ -45,7 +45,7 @@ async def update_customer_card(id: int, customer_card: CustomerCardUpsertRequest
     return success
 
 
-async def delete_customer_card(id: int) -> bool:
+async def delete_customer_card(id: str) -> bool:
     await validate_exists(id)
     success = await repository.delete(id)
     return success

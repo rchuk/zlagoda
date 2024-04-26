@@ -19,20 +19,20 @@ router = APIRouter()
 @router.post("/api/receipt")
 async def create_receipt(
     receipt_upsert_request: Annotated[ReceiptUpsertRequest | None, Body()] = None
-) -> int:
+) -> str:
     pass
 
 
 @router.delete("/api/receipt/{id}")
 async def delete_receipt(
-    id: Annotated[int, Path()]
+    id: Annotated[str, Path()]
 ) -> bool:
     pass
 
 
 @router.get("/api/receipt/{id}", response_model=ReceiptResponse)
 async def get_receipt_by_id(
-    id: Annotated[int, Path()]
+    str: Annotated[str, Path()]
 ) -> ReceiptResponse:
     pass
 
