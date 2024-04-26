@@ -10,8 +10,8 @@ import {ServicesContext} from "@/app/services/ServiceProvider";
 
 type CustomerCardListProps = {
     create?: (callback: () => void) => void,
-    update?: (id: number, callback: () => void) => void
-    view?: (id: number) => void
+    update?: (id: string, callback: () => void) => void
+    view?: (id: string) => void
 };
 
 export default function CustomerCardList(props: CustomerCardListProps): React.ReactNode {
@@ -22,7 +22,7 @@ export default function CustomerCardList(props: CustomerCardListProps): React.Re
     return await customerCardService.getCustomerCardList({ customerCardCriteria: criteria });
   }
 
-  async function handleDelete(id: number) {
+  async function handleDelete(id: string) {
     return await customerCardService.deleteCustomerCard({ id });
   }
 
@@ -30,16 +30,20 @@ export default function CustomerCardList(props: CustomerCardListProps): React.Re
     props.create?.(callback);
   }
 
-  function handleView(id: number) {
+  function handleView(id: string) {
     props.view?.(id);
   }
 
-  function handleUpdate(id: number, callback: () => void) {
+  function handleUpdate(id: string, callback: () => void) {
     props.update?.(id, callback);
   }
 
   const columns: GridColDef<CustomerCard>[] = [
-    { field: "id", headerName: "ID", width: 80 },
+    {
+      field: "id",
+      headerName: "ID",
+      width: 120
+    },
     {
       field: "lastName",
       headerName: "Прізвище",

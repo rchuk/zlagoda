@@ -11,14 +11,14 @@ export default function EmployeeListPage() {
     });
   }
 
-  function view(id: number) {
+  function view(id: string) {
     router.push({
       pathname: "/employee/[id]",
       query: { id }
     });
   }
 
-  function update(id: number) {
+  function update(id: string) {
     router.push({
       pathname: "/employee/[id]/edit",
       query: { id }

@@ -9,7 +9,7 @@ import React, {useContext, useEffect, useState} from "react";
 import {GridColDef} from '@mui/x-data-grid';
 import ListComponent, {getDefaultBaseCriteria} from "@/app/components/common/ListComponent";
 import {AlertContext} from "@/app/services/AlertService";
-import {createIdsCriteria, findEntity} from "@/app/components/common/utils/ObjectUtils";
+import {createStringIdsCriteria, findEntity} from "@/app/components/common/utils/ObjectUtils";
 import {formatDateTime, getEntityPersonFullName} from "@/app/components/common/utils/BusinessUtils";
 import {ServicesContext} from "@/app/services/ServiceProvider";
 import {getRequestError} from "@/app/components/common/utils/RequestUtils";
@@ -17,7 +17,7 @@ import ReceiptFilters from "@/app/components/receipt/ReceiptFilters";
 
 type ReceiptListProps = {
   create?: (callback: () => void) => void,
-  view?: (id: number) => void
+  view?: (id: string) => void
 };
 
 export default function ReceiptList(props: ReceiptListProps): React.ReactNode {
@@ -35,7 +35,7 @@ export default function ReceiptList(props: ReceiptListProps): React.ReactNode {
   useEffect(() => {
     const fetch = async() => {
       const response = await employeeService.getEmployeeList({
-        employeeCriteria: createIdsCriteria(items)
+        employeeCriteria: createStringIdsCriteria(items)
       });
 
       setEmployees(response.items);
@@ -46,7 +46,7 @@ export default function ReceiptList(props: ReceiptListProps): React.ReactNode {
   useEffect(() => {
     const fetch = async() => {
       const response = await customerCardService.getCustomerCardList({
-        customerCardCriteria: createIdsCriteria(items)
+        customerCardCriteria: createStringIdsCriteria(items)
       });
 
       setCustomerCards(response.items);
@@ -59,7 +59,7 @@ export default function ReceiptList(props: ReceiptListProps): React.ReactNode {
     return await receiptService.getReceiptList({ receiptCriteria: criteria });
   }
 
-  async function handleDelete(id: number) {
+  async function handleDelete(id: string) {
     return await receiptService.deleteReceipt({ id });
   }
 
@@ -67,22 +67,26 @@ export default function ReceiptList(props: ReceiptListProps): React.ReactNode {
     props.create?.(callback);
   }
 
-  function handleView(id: number) {
+  function handleView(id: string) {
     props.view?.(id);
   }
 
   const columns: GridColDef<Receipt>[] = [
-    { field: "id", headerName: "ID", width: 80 },
+    {
+      field: "id",
+      headerName: "ID",
+      width: 120
+    },
     {
       field: "cashierId",
       headerName: "Касир",
-      valueGetter: (value: number)=> getEntityPersonFullName(findEntity(employees, value)),
+      valueGetter: (value: string)=> getEntityPersonFullName(findEntity(employees, value)),
       width: 300
     },
     {
       field: "customerCardId",
       headerName: "Клієнт",
-      valueGetter: (value: number) => value ? getEntityPersonFullName(findEntity(customerCards, value)) : "",
+      valueGetter: (value: string) => value ? getEntityPersonFullName(findEntity(customerCards, value)) : "",
       width: 300
     },
     {

@@ -39,7 +39,8 @@ paths:
           content:
             application/json:
               schema:
-                type: integer
+                type: string
+
   /api/employee/list:
     post:
       tags:
@@ -73,7 +74,7 @@ paths:
           required: true
           name: id
           schema:
-            type: integer
+            type: string
       responses:
         200:
           description: Employee by id
@@ -92,7 +93,7 @@ paths:
           required: true
           name: id
           schema:
-            type: integer
+            type: string
       requestBody:
         required: true
         content:
@@ -117,7 +118,7 @@ paths:
           required: true
           name: id
           schema:
-            type: integer
+            type: string
       responses:
         200:
           description: Boolean whether employee was deleted
@@ -125,21 +126,6 @@ paths:
             application/json:
               schema:
                 type: boolean
-
-  /api/employee/me:
-    get:
-      tags:
-        - employee
-      summary: Get employee id of self
-      description: Get employee id of self
-      operationId: getEmployeeMe
-      responses:
-        200:
-          description: Employee id of self
-          content:
-            application/json:
-              schema:
-                type: integer
 
   /api/product-category/:
     post:
@@ -481,7 +467,7 @@ paths:
           content:
             application/json:
               schema:
-                type: integer
+                type: string
 
   /api/receipt/list:
     post:
@@ -516,7 +502,7 @@ paths:
           required: true
           name: id
           schema:
-            type: integer
+            type: string
       responses:
         200:
           description: Receipt by id
@@ -535,7 +521,7 @@ paths:
           required: true
           name: id
           schema:
-            type: integer
+            type: string
       responses:
         200:
           description: Boolean whether receipt was deleted
@@ -563,7 +549,7 @@ paths:
           content:
             application/json:
               schema:
-                type: integer
+                type: string
 
   /api/customer-card/list:
     post:
@@ -598,7 +584,7 @@ paths:
           required: true
           name: id
           schema:
-            type: integer
+            type: string
       responses:
         200:
           description: Customer card by id
@@ -617,7 +603,7 @@ paths:
           required: true
           name: id
           schema:
-            type: integer
+            type: string
       requestBody:
         required: true
         content:
@@ -642,7 +628,7 @@ paths:
           required: true
           name: id
           schema:
-            type: integer
+            type: string
       responses:
         200:
           description: Boolean whether customer card was deleted
@@ -665,7 +651,7 @@ components:
         role:
           $ref: '#/components/schemas/EmployeeRole'
         salary:
-          type: integer
+          type: number
         workStartDate:
           type: string
           format: date
@@ -697,7 +683,7 @@ components:
         - type: object
           properties:
             id:
-              type: integer
+              type: string
           required:
             - id
         - $ref: '#/components/schemas/EmployeeView'
@@ -761,7 +747,7 @@ components:
         archetype:
           type: integer
         price:
-          type: integer
+          type: number
         quantity:
           type: integer
       required:
@@ -801,7 +787,7 @@ components:
         quantity:
           type: integer
         price:
-          type: integer
+          type: number
       required:
         - productArchetype
         - quantity
@@ -811,7 +797,7 @@ components:
       type: object
       properties:
         customerCardId:
-          type: integer
+          type: string
         items:
           type: array
           items:
@@ -823,24 +809,25 @@ components:
       type: object
       properties:
         id:
-          type: integer
+          type: string
         cashierId:
-          type: integer
+          type: string
         customerCardId:
-          type: integer
+          type: string
         dateTime:
           type: string
           format: date-time
         totalPrice:
-          type: integer
+          type: number
         vat:
-          type: integer
+          type: number
         items:
           type: array
           items:
             $ref: '#/components/schemas/ReceiptItem'
       required:
         - id
+        - string
         - cashierId
         - dateTime
         - totalPrice
@@ -877,7 +864,7 @@ components:
         - type: object
           properties:
             id:
-              type: integer
+              type: string
           required:
             - id
         - $ref: '#/components/schemas/CustomerCardView'
@@ -964,15 +951,13 @@ components:
 
     EmployeeCriteria:
       allOf:
-        - $ref: '#/components/schemas/BaseIntIdCriteria'
+        - $ref: '#/components/schemas/BaseStringIdCriteria'
         - type: object
           properties:
             query:
               type: string
             role:
               $ref: '#/components/schemas/EmployeeRole'
-            lastName:
-              type: string
 
     ProductCategoryCriteria:
       allOf:
@@ -1001,16 +986,12 @@ components:
               type: array
               items:
                 type: integer
-            upc:
-              type: string
-            name:
-              type: string
             hasDiscount:
               type: boolean
 
     ReceiptCriteria:
       allOf:
-        - $ref: '#/components/schemas/BaseIntIdCriteria'
+        - $ref: '#/components/schemas/BaseStringIdCriteria'
         - type: object
           properties:
             query:
@@ -1018,7 +999,7 @@ components:
             cashierIds:
               type: array
               items:
-                type: integer
+                type: string
             startDate:
               type: string
               format: date-time
@@ -1028,15 +1009,13 @@ components:
 
     CustomerCardCriteria:
       allOf:
-        - $ref: '#/components/schemas/BaseIntIdCriteria'
+        - $ref: '#/components/schemas/BaseStringIdCriteria'
         - type: object
           properties:
             query:
               type: string
-            lastName:
-              type: string
-            phoneNumber:
-              type: string
+            discountPercent:
+              type: int
 
     BaseStringIdCriteria:
       allOf:

@@ -7,9 +7,9 @@ import {ServicesContext} from "@/app/services/ServiceProvider";
 
 
 type EmployeeViewProps = {
-    id: number,
+    id: string,
     onError?: (reason: any) => void,
-    edit?: (id: number) => void,
+    edit?: (id: string) => void,
     cancel?: () => void
 };
 
@@ -26,7 +26,7 @@ export default function EmployeeView(props: EmployeeViewProps): React.ReactNode 
       [employee]
     );
 
-    async function fetch(id: number) {
+    async function fetch(id: string) {
         setEmployee(await employeeService.getEmployeeById({ id }));
     }
 

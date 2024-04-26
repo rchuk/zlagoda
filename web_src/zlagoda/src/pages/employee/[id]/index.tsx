@@ -1,13 +1,13 @@
 import {useRouter} from "next/router";
 import EmployeeView from "@/app/components/employee/EmployeeView";
 import {useState} from "react";
-import BaseIdPage from "@/app/components/common/pages/BaseIdPage";
+import BaseStringIdPage from "@/app/components/common/pages/BaseStringIdPage";
 
 export default function EmployeeViewPage() {
-  const [id, setId] = useState<number | null>(null);
+  const [id, setId] = useState<string | null>(null);
   const router = useRouter();
 
-  function edit(id: number) {
+  function edit(id: string) {
     router.push({
       pathname: "/employee/[id]/edit",
       query: { id }
@@ -15,8 +15,8 @@ export default function EmployeeViewPage() {
   }
 
   return (
-    <BaseIdPage id={id} setId={setId}>
+    <BaseStringIdPage id={id} setId={setId}>
       <EmployeeView id={id!} onError={router.back} edit={edit} cancel={router.back}/>
-    </BaseIdPage>
+    </BaseStringIdPage>
   );
 }

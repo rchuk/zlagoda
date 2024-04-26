@@ -53,7 +53,7 @@ export default function ReceiptCreate(props: ReceiptCreateProps): React.ReactNod
     fetch().catch(e => getRequestError(e).then(m => showAlert(m, "error")));
   }, []);
 
-  async function create(): Promise<number> {
+  async function create(): Promise<string> {
     return await receiptService.createReceipt({receiptView: view});
   }
 

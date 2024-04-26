@@ -1,15 +1,15 @@
 import {useState} from "react";
-import BaseIdPage from "@/app/components/common/pages/BaseIdPage";
 import {useRouter} from "next/router";
 import ReceiptView from "@/app/components/receipt/ReceiptView";
+import BaseStringIdPage from "@/app/components/common/pages/BaseStringIdPage";
 
 export default function ReceiptViewPage() {
-  const [id, setId] = useState<number | null>(null);
+  const [id, setId] = useState<string | null>(null);
   const router = useRouter();
 
   return (
-    <BaseIdPage id={id} setId={setId}>
+    <BaseStringIdPage id={id} setId={setId}>
       <ReceiptView id={id!} onError={router.back} cancel={router.back} />
-    </BaseIdPage>
+    </BaseStringIdPage>
   );
 }
