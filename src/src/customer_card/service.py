@@ -15,7 +15,7 @@ from customer_card.converters import (
 from customer_card.validators import validate_model, validate_exists
 
 
-async def add_customer_card(customer_card: CustomerCardUpsertRequest) -> int:
+async def add_customer_card(customer_card: CustomerCardUpsertRequest) -> str:
     customer_card = await upsert_request_to_model(customer_card)
     await validate_model(customer_card)
     id = await repository.create(customer_card)

@@ -15,7 +15,7 @@ from employee.converters import (
 from employee.validators import validate_model, validate_exists
 
 
-async def add_employee(employee: EmployeeUpsertRequest) -> int:
+async def add_employee(employee: EmployeeUpsertRequest) -> str:
     employee = await upsert_request_to_model(employee)
     await validate_model(employee)
     id = await repository.create(employee)
