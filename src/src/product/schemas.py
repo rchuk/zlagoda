@@ -14,7 +14,6 @@ class ProductBase(BaseModel):
 
 class ProductCriteria(BaseCriteria):
     ids: list[str] | None = None
-    query: str | None = None
     category_ids: Annotated[list[int] | None, Field(alias="categoryIds")] = None
     name: str | None = None
     has_discount: Annotated[bool | None, Field(alias="hasDiscount")] = None

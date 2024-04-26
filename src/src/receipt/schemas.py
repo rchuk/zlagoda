@@ -25,7 +25,6 @@ class ReceiptBase(BaseModel):
 
 class ReceiptCriteria(BaseCriteria):
     ids: list[str] | None = None
-    query: str | None = None
     cashier_ids: Annotated[list[str] | None, Field(alias="cashierIds")] = None
     start_date: Annotated[datetime | None, Field(alias="startDate")] = None
     end_date: Annotated[datetime | None, Field(alias="endDate")] = None

@@ -28,7 +28,6 @@ class EmployeeBase(BaseModel):
 
 class EmployeeCriteria(BaseCriteria):
     ids: list[str] | None = None
-    query: str | None = None
     role: EmployeeRole | None = None
 
 
