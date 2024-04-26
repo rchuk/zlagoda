@@ -4,6 +4,7 @@ from psycopg.rows import class_row
 from customer_card.models import CustomerCard
 from customer_card.schemas import CustomerCardCriteria
 from database import db_conn
+from utils import like_format
 
 
 @db_conn
@@ -40,7 +41,7 @@ async def read(criteria: CustomerCardCriteria, conn: AsyncConnection) -> list[Cu
         """
     params = criteria.dict()
     if "query" in params:
-        params["query"] = "%" + params["query"] + "%"
+        params["query"] = await like_format(params["query"])
     async with conn.cursor(row_factory=class_row(CustomerCard)) as cur:
         res = await (await cur.execute(query, params)).fetchall()
     return res
@@ -110,7 +111,7 @@ async def count(criteria: CustomerCardCriteria, conn: AsyncConnection) -> int:
         """
     params = criteria.dict()
     if "query" in params:
-        params["query"] = "%" + params["query"] + "%"
+        params["query"] = await like_format(params["query"])
     async with conn.cursor() as cur:
         res = (await (await cur.execute(query, params)).fetchone())[0]
     return res
