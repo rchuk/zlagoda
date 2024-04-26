@@ -6,7 +6,7 @@ from customer_card.schemas import (
     CustomerCardListResponse
 )
 
-from customer_card.dependencies import (
+from customer_card.converters import (
     upsert_request_to_model,
     model_to_response,
     model_list_to_response_list
