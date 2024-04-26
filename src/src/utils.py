@@ -1,5 +1,6 @@
 import random
 import string
+from decimal import Decimal
 
 
 async def like_format(query: str | None):
@@ -7,6 +8,10 @@ async def like_format(query: str | None):
         return "%"
     else:
         return f"%{query}%"
+
+
+def float_to_decimal(value: float, precision: int = 4) -> Decimal:
+    return Decimal(value).quantize(Decimal(10)**-precision)
 
 
 def generate_random_str_id(length: int) -> str:
