@@ -12,6 +12,7 @@ class ProductArchetypeBase(BaseModel):
 
 class ProductArchetypeCriteria(BaseCriteria):
     ids: list[int] | None = None
+    category: int | None = None
 
 
 class ProductArchetypeUpsertRequest(ProductArchetypeBase):

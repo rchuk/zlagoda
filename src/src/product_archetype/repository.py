@@ -47,6 +47,7 @@ async def read(criteria: ProductArchetypeCriteria, conn: AsyncConnection) -> lis
         FROM product_archetype 
         WHERE 
         {"id = ANY(%(ids)s)" if criteria.ids is not None else "TRUE"} AND 
+        {"category = %(category)s" if criteria.category is not None else "TRUE"} AND 
         {("(name LIKE %(query)s OR "
           "manufacturer LIKE %(query)s OR "
           "description LIKE %(query)s") if criteria.query is not None else "TRUE "}
@@ -110,6 +111,7 @@ async def count(criteria: ProductArchetypeCriteria, conn: AsyncConnection) -> in
         FROM product_archetype
         WHERE 
         {"id = ANY(%(ids)s)" if criteria.ids is not None else "TRUE"} AND 
+        {"category = %(category)s" if criteria.category is not None else "TRUE"} AND 
         {("(name LIKE %(query)s OR "
           "manufacturer LIKE %(query)s OR "
           "description LIKE %(query)s") if criteria.query is not None else "TRUE"};

@@ -47,7 +47,7 @@ async def validate_model(model: Employee):
         if len(model.zip_code) < 1:
             raise ValidationError("Поштовий код повинен складатися хоча б з 1 символу")
         if len(model.zip_code) > 9:
-            raise ValidationError("Поштовий код повинен бути коротше 50 символів")
+            raise ValidationError("Поштовий код повинен бути коротше 9 символів")
 
 
 async def validate_exists(id: str):
