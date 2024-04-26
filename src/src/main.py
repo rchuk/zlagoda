@@ -1,14 +1,18 @@
 from fastapi import FastAPI
+from fastapi.exceptions import RequestValidationError
+from fastapi.responses import PlainTextResponse
 
 from customer_card.router import router as CustomerCardRouter
 from database import pool
 from employee.router import router as EmployeeRouter
+from exceptions import PublicError
 from product.router import router as ProductRouter
 from product_archetype.router import router as ProductArchetypeRouter
 from product_category.router import router as ProductCategoryRouter
 from receipt.router import router as ReceiptRouter
 
 from fastapi.middleware.cors import CORSMiddleware
+from starlette.exceptions import HTTPException as StarletteHTTPException
 
 app = FastAPI(
     title="Zlagoda",
@@ -45,3 +49,18 @@ async def open_pool():
 @app.on_event("shutdown")
 async def close_pool():
     await pool.close()
+
+
+@app.exception_handler(StarletteHTTPException)
+async def http_exception_handler(request, exc):
+    return PlainTextResponse(str(exc), status_code=exc.status_code)
+
+
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(request, exc):
+    return PlainTextResponse(str(exc), status_code=exc.status_code)
+
+
+@app.exception_handler(PublicError)
+async def public_exception_handler(request, exc):
+    return PlainTextResponse(exc.details.msg, status_code=exc.details.code)

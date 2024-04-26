@@ -1,7 +1,7 @@
 from customer_card.models import CustomerCard
 from . import repository
-from .exceptions import CustomerCardNotFound
-from ..exceptions import ValidationError
+from customer_card.exceptions import CustomerCardNotFound
+from exceptions import ValidationError
 
 
 async def validate_model(model: CustomerCard):
