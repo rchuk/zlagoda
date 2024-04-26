@@ -13,6 +13,8 @@ from customer_card.schemas import (
     CustomerCardListResponse
 )
 
+from customer_card import service
+
 router = APIRouter()
 
 
@@ -20,28 +22,28 @@ router = APIRouter()
 async def create_customer_card(
     customer_card_upsert_request: Annotated[CustomerCardUpsertRequest | None, Body()] = None
 ) -> int:
-    pass
+    return await service.add_customer_card(customer_card_upsert_request)
 
 
 @router.delete("/api/customer-card/{id}")
 async def delete_customer_card(
     id: Annotated[int, Path()]
 ) -> bool:
-    pass
+    return await service.delete_customer_card(id)
 
 
 @router.get("/api/customer-card/{id}", response_model=CustomerCardResponse)
 async def get_customer_card_by_id(
     id: Annotated[int, Path()]
 ) -> CustomerCardResponse:
-    pass
+    return await service.get_customer_card(id)
 
 
 @router.post("/api/customer-card/list", response_model=CustomerCardListResponse)
 async def get_customer_card_list(
     customer_card_criteria: Annotated[CustomerCardCriteria | None,  Body()] = None
 ) -> CustomerCardListResponse:
-    pass
+    return await service.list_customer_cards(customer_card_criteria)
 
 
 @router.put("/api/customer-card/{id}")
@@ -49,4 +51,4 @@ async def update_customer_card(
     id: Annotated[int, Path()],
     customer_card_upsert_request: Annotated[CustomerCardUpsertRequest | None, Body()] = None
 ) -> bool:
-    pass
+    return await service.update_customer_card(id, customer_card_upsert_request)
