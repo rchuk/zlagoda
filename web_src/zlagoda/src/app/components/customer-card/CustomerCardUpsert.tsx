@@ -1,9 +1,10 @@
 import {CustomerCardView} from "../../../../generated";
-import React, {useContext, useState} from "react";
+import React, {useCallback, useContext, useState} from "react";
 import {TextField} from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 import UpsertComponent from "@/app/components/common/UpsertComponent";
 import {ServicesContext} from "@/app/services/ServiceProvider";
+import {getEntityPersonFullName} from "@/app/components/common/utils/BusinessUtils";
 
 function getDefaultCustomerCardView(): CustomerCardView {
     return {
@@ -28,6 +29,16 @@ type CustomerCardUpsertProps = {
 export default function CustomerCardUpsert(props: CustomerCardUpsertProps): React.ReactNode {
     const { customerCardService } = useContext(ServicesContext);
     const [view, setView] = useState<CustomerCardView>(getDefaultCustomerCardView);
+
+    const getBreadcrumb = useCallback(
+      () => {
+          return {
+              title: getEntityPersonFullName(view)
+          };
+      },
+      [view]
+    );
+
 
     async function fetch(id: number) {
         const {id: _, ...newView} = await customerCardService.getCustomerCardById({ id });
@@ -54,6 +65,7 @@ export default function CustomerCardUpsert(props: CustomerCardUpsertProps): Reac
             onSave={props.onSave}
             createHeader="Створення картки клієнта"
             updateHeader="Редагування картки клієнта"
+            getBreadcrumb={getBreadcrumb}
         >
             <Grid xs={6}>
                 <TextField label="Прізвище"

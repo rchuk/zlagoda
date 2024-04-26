@@ -1,4 +1,4 @@
-import {Box, TextField} from "@mui/material";
+import {Box, Chip, TextField} from "@mui/material";
 import React from "react";
 import {ReceiptItemView, ReceiptView} from "../../../../generated";
 
@@ -10,7 +10,7 @@ type ReceiptItemProps = {
   productName: string,
 };
 
-export default function ReceiptItem(props: ReceiptItemProps) {
+export default function ReceiptItemCreate(props: ReceiptItemProps) {
   function getItem(): ReceiptItemView {
     return props.view.items.find(item => item.product == props.product)!;
   }
@@ -29,7 +29,7 @@ export default function ReceiptItem(props: ReceiptItemProps) {
 
   return (
     <Box display="flex" padding={2} alignItems="center" justifyContent="space-between" columnGap={1}>
-      <b style={{ flex: 1 }}>{props.productName}</b>
+      <Chip variant="outlined" label={props.productName} sx={{ flex: 1 }} />
       <TextField label="Кількість"
                  type="number"
                  required

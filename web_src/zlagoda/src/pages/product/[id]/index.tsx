@@ -8,9 +8,16 @@ export default function ProductViewPage() {
   const [id, setId] = useState<string | null>(null);
   const router = useRouter();
 
+  function edit(id: string) {
+    router.push({
+      pathname: "/product/[id]/edit",
+      query: { id }
+    })
+  }
+
   return (
     <BaseStringIdPage id={id} setId={setId}>
-      <ProductView id={id!} onError={router.back} cancel={router.back}/>
+      <ProductView id={id!} onError={router.back} edit={edit} cancel={router.back}/>
     </BaseStringIdPage>
   );
 }

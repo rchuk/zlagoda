@@ -1,6 +1,6 @@
 import EmployeeList from "@/app/components/employee/EmployeeList";
-import { Box } from "@mui/material";
 import {useRouter} from "next/router";
+import BasePage from "@/app/components/common/pages/BasePage";
 
 export default function EmployeeListPage() {
   const router = useRouter();
@@ -26,12 +26,12 @@ export default function EmployeeListPage() {
   }
 
   return (
-    <Box>
+    <BasePage>
       <EmployeeList
         create={create}
         view={view}
         update={update}
       />
-    </Box>
+    </BasePage>
   );
 }

@@ -1,18 +1,30 @@
 import {CustomerCard} from "../../../../generated";
-import React, {useContext, useState} from "react";
+import React, {useCallback, useContext, useEffect, useState} from "react";
 import ViewComponent from "@/app/components/common/ViewComponent";
 import {ServicesContext} from "@/app/services/ServiceProvider";
+import {BreadcrumbsServiceContext} from "@/app/services/BreadcrumbsService";
+import {getEntityPersonFullName} from "@/app/components/common/utils/BusinessUtils";
 
 type CustomerCardViewProps = {
     id: number,
-    onError?: (reason: any) => void,
+
     edit?: (id: number) => void,
-    cancel?: () => void
+    cancel?: () => void,
+    onError?: (reason: any) => void
 };
 
 export default function CustomerCardView(props: CustomerCardViewProps): React.ReactNode {
     const { customerCardService } = useContext(ServicesContext);
     const [customerCard, setCustomerCard] = useState<CustomerCard | null>(null);
+
+    const getBreadcrumb = useCallback(
+        () => {
+            return {
+                title: getEntityPersonFullName(customerCard)
+            };
+        },
+        [customerCard]
+    );
 
     async function fetch(id: number) {
         setCustomerCard(await customerCardService.getCustomerCardById({ id }));
@@ -20,7 +32,7 @@ export default function CustomerCardView(props: CustomerCardViewProps): React.Re
 
     return (
         <ViewComponent id={props.id} fetch={fetch} onError={props.onError} edit={props.edit} cancel={props.cancel}
-                       header="Перегляд картки клієнта"
+                       header="Перегляд картки клієнта" getBreadcrumb={getBreadcrumb}
         >
             <div>
                 <b>Прізвище: </b><span>{customerCard?.firstName}</span>

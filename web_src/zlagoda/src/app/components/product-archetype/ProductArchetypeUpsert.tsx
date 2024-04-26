@@ -2,7 +2,7 @@ import {
     ProductArchetypeView,
     ProductCategory
 } from "../../../../generated";
-import React, {useContext, useEffect, useMemo, useState} from "react";
+import React, {useCallback, useContext, useEffect, useMemo, useState} from "react";
 import {AlertContext} from "@/app/services/AlertService";
 import Grid from "@mui/material/Unstable_Grid2";
 import {Autocomplete, TextField} from "@mui/material";
@@ -38,6 +38,15 @@ export default function ProductArchetypeUpsert(props: ProductArchetypeUpsertProp
         [productCategories]
     );
 
+    const getBreadcrumb = useCallback(
+      () => {
+          return {
+              title: view?.name ?? ""
+          };
+      },
+      [view]
+    );
+
     useEffect(() => {
         const fetch = async() => {
             const newProductCategories = await productCategoryService.getProductCategoryList();
@@ -71,6 +80,7 @@ export default function ProductArchetypeUpsert(props: ProductArchetypeUpsertProp
             onSave={props.onSave}
             createHeader="Створення типу товару"
             updateHeader="Редагування типу товару"
+            getBreadcrumb={getBreadcrumb}
         >
             <Grid xs={6}>
                 <TextField label="Назва"
