@@ -36,9 +36,9 @@ async def read(criteria: CustomerCardCriteria, conn: AsyncConnection) -> list[Cu
           "phone_number LIKE %(query)s OR "
           "city LIKE %(query)s OR "
           "street LIKE %(query)s OR "
-          "zip_code LIKE %(query)s)") if criteria.query is not None else "TRUE"}
-        {(f"ORDER BY %(sort_field) {'ASC' if criteria.sort_ascending is None or criteria.sort_ascending else 'DESC'}"
-          f"{'LIMIT %(limit)s OFFSET %(offset)s' if criteria.limit is not None and criteria.offset is not None else ''}")
+          "zip_code LIKE %(query)s) ") if criteria.query is not None else "TRUE "}
+        {(f"ORDER BY %(sort_field)s {'ASC ' if criteria.sort_ascending is None or criteria.sort_ascending else 'DESC '}"
+          f"{'LIMIT %(limit)s OFFSET %(offset)s ' if criteria.limit is not None and criteria.offset is not None else ''}")
     if criteria.sort_field is not None else ""};
         """
     params = criteria.dict()
