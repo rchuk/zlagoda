@@ -4,11 +4,11 @@ import {
   EmployeeListResponse
 } from "../../../../generated";
 import React, {useContext, useState} from "react";
-import {Box} from "@mui/material";
 import {GridColDef} from '@mui/x-data-grid';
 import ListComponent, {getDefaultBaseCriteria} from "@/app/components/common/ListComponent";
 import {EmployeeRole_i18} from "@/app/i18/EmployeeRole_i18";
 import {ServicesContext} from "@/app/services/ServiceProvider";
+import EmployeeFilters from "./EmployeeFilters";
 
 type EmployeeListProps = {
   create?: (callback: () => void) => void,
@@ -75,8 +75,6 @@ export default function EmployeeList(props: EmployeeListProps): React.ReactNode 
     }
   ];
 
-  // TODO: Handle filters
-
   return (
     <ListComponent
       columns={columns}
@@ -87,6 +85,8 @@ export default function EmployeeList(props: EmployeeListProps): React.ReactNode 
       delete={handleDelete}
       criteria={criteria}
       setCriteria={setCriteria}
+      filters={() => <EmployeeFilters criteria={criteria} setCriteria={setCriteria} />}
+      setQuery={(query) => setCriteria({...criteria, query})}
     />
   );
 }

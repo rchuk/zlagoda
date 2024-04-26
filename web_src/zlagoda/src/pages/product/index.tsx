@@ -1,6 +1,6 @@
 import {useRouter} from "next/router";
 import ProductList from "@/app/components/product/ProductList";
-import {Box} from "@mui/material";
+import BasePage from "@/app/components/common/pages/BasePage";
 
 export default function ProductListPage() {
   const router = useRouter();
@@ -26,12 +26,12 @@ export default function ProductListPage() {
   }
 
   return (
-    <Box>
+    <BasePage>
       <ProductList
         create={create}
         view={view}
         update={update}
       />
-    </Box>
+    </BasePage>
   );
 }

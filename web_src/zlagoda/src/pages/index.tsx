@@ -1,16 +1,32 @@
-import { Box } from "@mui/material";
-import Link from "next/link";
 import React from "react";
+import IconCard from "@/app/components/common/IconCard";
+import BasePage from "@/app/components/common/pages/BasePage";
+import Grid from "@mui/material/Unstable_Grid2";
+import { Navigation } from "@/app/layout/Navigation";
 
 export default function MainPage() {
+  const items = [
+    Navigation.receipt,
+    Navigation.customerCard,
+    Navigation.product,
+    Navigation.productArchetype,
+    Navigation.productCategory,
+    Navigation.employee
+  ];
+
   return (
-    <Box display="flex" flexDirection="column" style={{ margin: 2 }}>
-      <Link href="/customer-card">Картки клієнтів</Link>
-      <Link href="/employee">Працівники</Link>
-      <Link href="/receipt">Чеки</Link>
-      <Link href="/product">Продукти</Link>
-      <Link href="/product-archetype">Типи продуктів</Link>
-      <Link href="/product-category">Категорії продуктів</Link>
-    </Box>
+    <BasePage>
+      <Grid container spacing={2}>
+        {
+          items
+            .filter(item => item.isEnabled?.() ?? true)
+            .map(item => (
+              <Grid xs={4} key={item.path}>
+                <IconCard title={item.title} icon={item.icon} link={item.path} />
+              </Grid>
+            ))
+        }
+      </Grid>
+    </BasePage>
   );
 }

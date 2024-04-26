@@ -1,6 +1,7 @@
 import {useRouter} from "next/router";
 import ReceiptList from "@/app/components/receipt/ReceiptList";
 import {Box} from "@mui/material";
+import BasePage from "@/app/components/common/pages/BasePage";
 
 export default function ReceiptListPage() {
   const router = useRouter();
@@ -18,19 +19,12 @@ export default function ReceiptListPage() {
     });
   }
 
-  function update(id: number) {
-    router.push({
-      pathname: "/receipt/[id]/edit",
-      query: { id }
-    });
-  }
-
   return (
-    <Box>
+    <BasePage>
       <ReceiptList
         create={create}
         view={view}
       />
-    </Box>
+    </BasePage>
   );
 }

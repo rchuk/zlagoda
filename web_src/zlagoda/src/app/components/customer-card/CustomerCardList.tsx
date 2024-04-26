@@ -4,7 +4,6 @@ import {
   CustomerCardListResponse
 } from "../../../../generated";
 import React, {useContext, useState} from "react";
-import {Box} from "@mui/material";
 import {GridColDef} from '@mui/x-data-grid';
 import ListComponent, {getDefaultBaseCriteria} from "@/app/components/common/ListComponent";
 import {ServicesContext} from "@/app/services/ServiceProvider";
@@ -67,8 +66,6 @@ export default function CustomerCardList(props: CustomerCardListProps): React.Re
       width: 150
     }
   ];
-
-  // TODO: Handle filters
 
   return (
     <ListComponent

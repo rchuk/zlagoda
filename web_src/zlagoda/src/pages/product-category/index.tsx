@@ -1,7 +1,8 @@
 import ProductCategoryList from "@/app/components/product-category/ProductCategoryList";
-import {Box, Dialog} from "@mui/material";
+import {Dialog, DialogContent} from "@mui/material";
 import {ReactElement, useState} from "react";
 import ProductCategoryUpsert from "@/app/components/product-category/ProductCategoryUpsert";
+import BasePage from "@/app/components/common/pages/BasePage";
 
 export default function ProductCategoryListPage() {
   const [modalContent, setModalContent] = useState<ReactElement | null>(null);
@@ -30,7 +31,7 @@ export default function ProductCategoryListPage() {
   }
 
   return (
-    <Box>
+    <BasePage>
       <ProductCategoryList
         create={create}
         update={update}
@@ -39,8 +40,10 @@ export default function ProductCategoryListPage() {
         open={modalContent != null}
         onClose={closeModal}
       >
-        {modalContent ?? <div></div>}
+        <DialogContent sx={{ padding: 4 }}>
+          {modalContent ?? <div></div>}
+        </DialogContent>
       </Dialog>
-    </Box>
+    </BasePage>
   );
 }

@@ -4,7 +4,7 @@ import {
   ProductArchetype,
   Receipt
 } from "../../../../generated";
-import React, {useContext, useEffect, useState} from "react";
+import React, {useCallback, useContext, useEffect, useState} from "react";
 import ViewComponent from "@/app/components/common/ViewComponent";
 import {AlertContext} from "@/app/services/AlertService";
 import {findEntity} from "@/app/components/common/utils/ObjectUtils";
@@ -15,12 +15,14 @@ import {
 import {ServicesContext} from "@/app/services/ServiceProvider";
 import Link from "next/link";
 import {getRequestError} from "@/app/components/common/utils/RequestUtils";
+import {ReceiptItemView} from "@/app/components/receipt/ReceiptItemView";
+import {List} from "@mui/material";
 
 type ReceiptViewProps = {
     id: number,
-    onError?: (reason: any) => void,
     edit?: (id: number) => void,
-    cancel?: () => void
+    cancel?: () => void,
+    onError?: (reason: any) => void
 };
 
 export default function ReceiptView(props: ReceiptViewProps): React.ReactNode {
@@ -35,6 +37,15 @@ export default function ReceiptView(props: ReceiptViewProps): React.ReactNode {
     const [employee, setEmployee] = useState<Employee | null>(null);
     const [customerCard, setCustomerCard] = useState<CustomerCard | null>(null);
     const showAlert = useContext(AlertContext);
+
+    const getBreadcrumb = useCallback(
+      () => {
+          return {
+              title: receipt?.id.toString() ?? ""
+          };
+      },
+      [receipt]
+    );
 
     useEffect(() => {
         const fetch = async() => {
@@ -55,19 +66,27 @@ export default function ReceiptView(props: ReceiptViewProps): React.ReactNode {
             setCustomerCard(null);
     }
 
-    // TODO: Add links to archetype, client card and cashier
     return (
         <ViewComponent id={props.id} fetch={fetch} onError={props.onError} edit={props.edit} cancel={props.cancel}
-                       header="Перегляд чеку"
+                       header="Перегляд чеку" getBreadcrumb={getBreadcrumb}
         >
             <div>
                 <b>Касир: </b>
-                <Link href={`/employee/${employee?.id}`}>
+                <Link href={`/employee/${receipt?.cashierId}`}>
                   {getEntityPersonFullNameWithPatronymic(employee)}
                 </Link>
             </div>
             <div>
-                <b>Картка клієнта: </b><span>{getEntityPersonFullNameWithPatronymic(customerCard)}</span>
+                <b>Картка клієнта: </b>
+                {
+                    customerCard
+                    ? (
+                        <Link href={`/customer-card/${receipt?.customerCardId}`}>
+                            {getEntityPersonFullNameWithPatronymic(customerCard)}
+                        </Link>
+                      )
+                    : <span></span>
+                }
             </div>
             <div>
                 <b>Дата створення: </b><span>{formatDateTime(receipt?.dateTime ?? null)}</span>
@@ -80,13 +99,11 @@ export default function ReceiptView(props: ReceiptViewProps): React.ReactNode {
             </div>
             <div>
                 <b>Товари: </b>
-                <ul>
+                <List>
                     {receipt?.items.map(item =>
-                        <li>
-                            {findEntity(productArchetypes, item.productArchetype)?.name ?? ""} | Ціна: {item.price} | Кількість: {item.quantity}
-                        </li>
+                      <ReceiptItemView item={item} name={findEntity(productArchetypes, item.productArchetype)?.name!} />
                     )}
-                </ul>
+                </List>
             </div>
         </ViewComponent>
     );

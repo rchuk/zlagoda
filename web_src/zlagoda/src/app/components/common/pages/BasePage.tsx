@@ -8,13 +8,9 @@ type BasePageProps = {
 };
 
 export default function BasePage(props: PropsWithChildren<BasePageProps>) {
-  const router = useRouter();
-
-  return !router.isReady
-    ? (<ProgressSpinner />)
-    : (
-      <Box sx={{ display: "flex", justifyContent: "center", padding: 4 }}>
-        {props.children}
-      </Box>
-    );
+  return (
+    <Box sx={{ display: "flex", justifyContent: "center", padding: 4 }}>
+      {props.children}
+    </Box>
+  );
 }

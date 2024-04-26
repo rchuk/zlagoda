@@ -8,9 +8,16 @@ export default function ProductArchetypeViewPage() {
   const [id, setId] = useState<number | null>(null);
   const router = useRouter();
 
+  function edit(id: number) {
+    router.push({
+      pathname: "/product-archetype/[id]/edit",
+      query: { id }
+    })
+  }
+
   return (
     <BaseIdPage id={id} setId={setId}>
-      <ProductArchetypeView id={id!} onError={router.back} cancel={router.back}/>
+      <ProductArchetypeView id={id!} onError={router.back} edit={edit} cancel={router.back}/>
     </BaseIdPage>
   );
 }

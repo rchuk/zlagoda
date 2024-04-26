@@ -13,6 +13,7 @@ import {createIdsCriteria, findEntity} from "@/app/components/common/utils/Objec
 import {formatDateTime, getEntityPersonFullName} from "@/app/components/common/utils/BusinessUtils";
 import {ServicesContext} from "@/app/services/ServiceProvider";
 import {getRequestError} from "@/app/components/common/utils/RequestUtils";
+import ReceiptFilters from "@/app/components/receipt/ReceiptFilters";
 
 type ReceiptListProps = {
   create?: (callback: () => void) => void,
@@ -76,13 +77,13 @@ export default function ReceiptList(props: ReceiptListProps): React.ReactNode {
       field: "cashierId",
       headerName: "Касир",
       valueGetter: (value: number)=> getEntityPersonFullName(findEntity(employees, value)),
-      width: 350
+      width: 300
     },
     {
       field: "customerCardId",
       headerName: "Клієнт",
       valueGetter: (value: number) => value ? getEntityPersonFullName(findEntity(customerCards, value)) : "",
-      width: 350
+      width: 300
     },
     {
       field: "dateTime",
@@ -93,7 +94,7 @@ export default function ReceiptList(props: ReceiptListProps): React.ReactNode {
     {
       field: "vat",
       headerName: "ПДВ",
-      width: 100
+      width: 120
     },
     {
       field: "totalPrice",
@@ -101,8 +102,6 @@ export default function ReceiptList(props: ReceiptListProps): React.ReactNode {
       width: 150
     }
   ];
-
-  // TODO: Handle filters
 
   return (
     <ListComponent
@@ -116,6 +115,7 @@ export default function ReceiptList(props: ReceiptListProps): React.ReactNode {
 
       items={items}
       setItems={setItems}
+      filters={() => <ReceiptFilters criteria={criteria} setCriteria={setCriteria} />}
     />
   );
 }

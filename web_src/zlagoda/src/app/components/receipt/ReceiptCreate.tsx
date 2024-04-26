@@ -7,7 +7,7 @@ import {ServicesContext} from "@/app/services/ServiceProvider";
 import {findEntity} from "@/app/components/common/utils/ObjectUtils";
 import {getRequestError} from "@/app/components/common/utils/RequestUtils";
 import {Autocomplete, Box, Button, TextField} from "@mui/material";
-import ReceiptItem from "@/app/components/receipt/ReceiptItem";
+import ReceiptItemCreate from "@/app/components/receipt/ReceiptItemCreate";
 
 function getDefaultReceiptView(): ReceiptView {
   return {
@@ -96,7 +96,7 @@ export default function ReceiptCreate(props: ReceiptCreateProps): React.ReactNod
         <Box display="flex" flexDirection="column">
           {
             view.items.map(item => (
-              <ReceiptItem
+              <ReceiptItemCreate
                 view={view}
                 setView={setView}
                 product={item.product}

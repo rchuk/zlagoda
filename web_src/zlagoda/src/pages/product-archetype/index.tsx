@@ -1,6 +1,6 @@
 import ProductArchetypeList from "@/app/components/product-archetype/ProductArchetypeList";
 import {useRouter} from "next/router";
-import {Box} from "@mui/material";
+import BasePage from "@/app/components/common/pages/BasePage";
 
 export default function ProductArchetypeListPage() {
   const router = useRouter();
@@ -26,12 +26,12 @@ export default function ProductArchetypeListPage() {
   }
 
   return (
-    <Box>
+    <BasePage>
       <ProductArchetypeList
         create={create}
         view={view}
         update={update}
       />
-    </Box>
+    </BasePage>
   );
 }
