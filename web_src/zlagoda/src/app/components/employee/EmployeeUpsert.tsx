@@ -10,7 +10,7 @@ import {ServicesContext} from "@/app/services/ServiceProvider";
 import {getEntityPersonFullName} from "@/app/components/common/utils/BusinessUtils";
 
 type EmployeeUpsertProps = {
-    initialId: number | null,
+    initialId: string | null,
     onError?: (reason: any) => void,
     cancel?: () => void,
     onSave?: () => void
@@ -45,16 +45,16 @@ export default function EmployeeUpsert(props: EmployeeUpsertProps): React.ReactN
       [view]
     );
 
-    async function fetch(id: number) {
+    async function fetch(id: string) {
         const {id: _, ...newView} = await employeeService.getEmployeeById({ id });
         setView(newView);
     }
 
-    async function update(id: number) {
+    async function update(id: string) {
         await employeeService.updateEmployee({id, employeeView: view});
     }
 
-    async function create(): Promise<number> {
+    async function create(): Promise<string> {
         return await employeeService.createEmployee({employeeView: view});
     }
 

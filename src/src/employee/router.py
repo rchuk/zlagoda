@@ -19,20 +19,20 @@ router = APIRouter()
 @router.post("/api/employee")
 async def create_employee(
     employee_upsert_request: Annotated[EmployeeUpsertRequest | None, Body()] = None,
-) -> int:
+) -> str:
     pass
 
 
 @router.delete("/api/employee/{id}")
 async def delete_employee(
-    id: Annotated[int, Path()],
+    id: Annotated[str, Path()],
 ) -> bool:
     pass
 
 
 @router.get("/api/employee/{id}", response_model=EmployeeResponse)
 async def get_employee_by_id(
-    id: Annotated[int, Path()]
+    id: Annotated[str, Path()]
 ) -> EmployeeResponse:
     pass
 
@@ -46,7 +46,7 @@ async def get_employee_list(
 
 @router.put("/api/employee/{id}")
 async def update_employee(
-    id: Annotated[int, Path()],
+    id: Annotated[str, Path()],
     employee_upsert_request: Annotated[EmployeeUpsertRequest | None, Body()] = None
 ) -> bool:
     pass

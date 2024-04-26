@@ -16,17 +16,17 @@ class ReceiptItemUpsertRequest(ReceiptItemBase):
 
 class ReceiptItemResponse(ReceiptItemBase):
     product_archetype: Annotated[int, Field(alias="productArchetype")]
-    price: int
+    price: float
 
 
 class ReceiptBase(BaseModel):
-    customer_card_id: Annotated[int | None, Field(alias="customerCardId")] = None
+    customer_card_id: Annotated[str | None, Field(alias="customerCardId")] = None
 
 
 class ReceiptCriteria(BaseCriteria):
-    ids: list[int] | None = None
+    ids: list[str] | None = None
     query: str | None = None
-    cashier_ids: Annotated[list[int] | None, Field(alias="cashierIds")] = None
+    cashier_ids: Annotated[list[str] | None, Field(alias="cashierIds")] = None
     start_date: Annotated[datetime | None, Field(alias="startDate")] = None
     end_date: Annotated[datetime | None, Field(alias="endDate")] = None
 
@@ -36,11 +36,11 @@ class ReceiptUpsertRequest(ReceiptBase):
 
 
 class ReceiptResponse(ReceiptBase):
-    id: int
-    cashier_id: Annotated[int, Field(alias="cashierId")]
+    id: str
+    cashier_id: Annotated[str, Field(alias="cashierId")]
     date_time: Annotated[datetime, Field(alias="dateTime")]
-    total_price: Annotated[int, Field(alias="totalPrice")]
-    vat: int
+    total_price: Annotated[float, Field(alias="totalPrice")]
+    vat: float
     items: list[ReceiptItemResponse]
 
 

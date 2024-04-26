@@ -12,8 +12,8 @@ import EmployeeFilters from "./EmployeeFilters";
 
 type EmployeeListProps = {
   create?: (callback: () => void) => void,
-  update?: (id: number, callback: () => void) => void,
-  view?: (id: number) => void
+  update?: (id: string, callback: () => void) => void,
+  view?: (id: string) => void
 };
 
 export default function EmployeeList(props: EmployeeListProps): React.ReactNode {
@@ -24,7 +24,7 @@ export default function EmployeeList(props: EmployeeListProps): React.ReactNode 
     return await employeeService.getEmployeeList({ employeeCriteria: criteria });
   }
 
-  async function handleDelete(id: number) {
+  async function handleDelete(id: string) {
     return await employeeService.deleteEmployee({ id });
   }
 
@@ -32,16 +32,20 @@ export default function EmployeeList(props: EmployeeListProps): React.ReactNode 
     props.create?.(callback);
   }
 
-  function handleView(id: number) {
+  function handleView(id: string) {
     props.view?.(id);
   }
 
-  function handleUpdate(id: number, callback: () => void) {
+  function handleUpdate(id: string, callback: () => void) {
     props.update?.(id, callback);
   }
 
   const columns: GridColDef<Employee>[] = [
-    { field: "id", headerName: "ID", width: 80 },
+    {
+      field: "id",
+      headerName: "ID",
+      width: 120
+    },
     {
       field: "lastName",
       headerName: "Прізвище",

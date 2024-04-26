@@ -19,8 +19,8 @@ import {ReceiptItemView} from "@/app/components/receipt/ReceiptItemView";
 import {List} from "@mui/material";
 
 type ReceiptViewProps = {
-    id: number,
-    edit?: (id: number) => void,
+    id: string,
+    edit?: (id: string) => void,
     cancel?: () => void,
     onError?: (reason: any) => void
 };
@@ -56,7 +56,7 @@ export default function ReceiptView(props: ReceiptViewProps): React.ReactNode {
         fetch().catch(e => getRequestError(e).then(m => showAlert(m, "error")));
     }, []);
 
-    async function fetch(id: number) {
+    async function fetch(id: string) {
         const newReceipt = await receiptService.getReceiptById({ id });
         setReceipt(newReceipt);
         setEmployee(await employeeService.getEmployeeById({ id: newReceipt.cashierId }));

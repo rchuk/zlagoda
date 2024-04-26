@@ -5,13 +5,15 @@ from customer_card.models import CustomerCard
 from customer_card.schemas import CustomerCardCriteria
 from database import db_conn
 from utils import like_format
+from common.utils import generate_random_str_id
 
 
 @db_conn
-async def create(model: CustomerCard, conn: AsyncConnection) -> int:
+async def create(model: CustomerCard, conn: AsyncConnection) -> str:
+    model.id = generate_random_str_id(13)
     query = """
-        INSERT INTO customer_card(last_name, first_name, patronymic, phone_number, city, street, zip_code, discount_percent)
-        VALUES (%(last_name)s, %(first_name)s, %(patronymic)s, %(phone_number)s, %(city)s, %(street)s, %(zip_code)s, %(discount_percent)s)
+        INSERT INTO customer_card(id, last_name, first_name, patronymic, phone_number, city, street, zip_code, discount_percent)
+        VALUES (%(id)s, %(last_name)s, %(first_name)s, %(patronymic)s, %(phone_number)s, %(city)s, %(street)s, %(zip_code)s, %(discount_percent)s)
         RETURNING id;
         """
     params = model.dict()
@@ -48,7 +50,7 @@ async def read(criteria: CustomerCardCriteria, conn: AsyncConnection) -> list[Cu
 
 
 @db_conn
-async def read_one(id: int, conn: AsyncConnection) -> CustomerCard:
+async def read_one(id: str, conn: AsyncConnection) -> CustomerCard:
     query = f"""
         SELECT *
         FROM customer_card 
@@ -82,7 +84,7 @@ async def update(model: CustomerCard, conn: AsyncConnection) -> bool:
 
 
 @db_conn
-async def delete(id: int, conn: AsyncConnection) -> bool:
+async def delete(id: str, conn: AsyncConnection) -> bool:
     query = """
     DELETE FROM customer_card
     WHERE id = %s;

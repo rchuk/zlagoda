@@ -12,14 +12,14 @@ export default function CustomerCardListPage() {
     });
   }
 
-  function view(id: number) {
+  function view(id: string) {
     router.push({
       pathname: "/customer-card/[id]",
       query: { id }
     });
   }
 
-  function update(id: number) {
+  function update(id: string) {
     router.push({
       pathname: "/customer-card/[id]/edit",
       query: { id }

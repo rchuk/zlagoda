@@ -2,7 +2,7 @@ from pydantic import BaseModel
 
 
 class CustomerCard(BaseModel):
-    id: int
+    id: str
     last_name: str
     first_name: str
     patronymic: str | None = None

@@ -20,7 +20,7 @@ function getDefaultCustomerCardView(): CustomerCardView {
 }
 
 type CustomerCardUpsertProps = {
-    initialId: number | null,
+    initialId: string | null,
     cancel?: () => void,
     onError?: () => void,
     onSave?: () => void
@@ -40,16 +40,16 @@ export default function CustomerCardUpsert(props: CustomerCardUpsertProps): Reac
     );
 
 
-    async function fetch(id: number) {
+    async function fetch(id: string) {
         const {id: _, ...newView} = await customerCardService.getCustomerCardById({ id });
         setView(newView);
     }
 
-    async function update(id: number) {
+    async function update(id: string) {
         await customerCardService.updateCustomerCard({id, customerCardView: view});
     }
 
-    async function create(): Promise<number> {
+    async function create(): Promise<string> {
         return await customerCardService.createCustomerCard({customerCardView: view});
     }
 

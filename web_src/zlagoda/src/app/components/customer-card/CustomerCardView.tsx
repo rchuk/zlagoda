@@ -2,13 +2,12 @@ import {CustomerCard} from "../../../../generated";
 import React, {useCallback, useContext, useEffect, useState} from "react";
 import ViewComponent from "@/app/components/common/ViewComponent";
 import {ServicesContext} from "@/app/services/ServiceProvider";
-import {BreadcrumbsServiceContext} from "@/app/services/BreadcrumbsService";
 import {getEntityPersonFullName} from "@/app/components/common/utils/BusinessUtils";
 
 type CustomerCardViewProps = {
-    id: number,
+    id: string,
 
-    edit?: (id: number) => void,
+    edit?: (id: string) => void,
     cancel?: () => void,
     onError?: (reason: any) => void
 };
@@ -26,7 +25,7 @@ export default function CustomerCardView(props: CustomerCardViewProps): React.Re
         [customerCard]
     );
 
-    async function fetch(id: number) {
+    async function fetch(id: string) {
         setCustomerCard(await customerCardService.getCustomerCardById({ id }));
     }
 
