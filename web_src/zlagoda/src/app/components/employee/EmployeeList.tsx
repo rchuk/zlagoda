@@ -90,7 +90,6 @@ export default function EmployeeList(props: EmployeeListProps): React.ReactNode 
       criteria={criteria}
       setCriteria={setCriteria}
       filters={() => <EmployeeFilters criteria={criteria} setCriteria={setCriteria} />}
-      setQuery={(query) => setCriteria({...criteria, query})}
     />
   );
 }

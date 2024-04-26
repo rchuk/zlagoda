@@ -1,15 +1,12 @@
 import {
-    ProductArchetypeView,
-    ProductCategory
+    ProductArchetypeView
 } from "../../../../generated";
-import React, {useCallback, useContext, useEffect, useMemo, useState} from "react";
-import {AlertContext} from "@/app/services/AlertService";
+import React, {useCallback, useContext, useState} from "react";
 import Grid from "@mui/material/Unstable_Grid2";
 import {Autocomplete, TextField} from "@mui/material";
 import UpsertComponent from "@/app/components/common/UpsertComponent";
-import {findEntity} from "@/app/components/common/utils/ObjectUtils";
 import {ServicesContext} from "@/app/services/ServiceProvider";
-import {getRequestError} from "@/app/components/common/utils/RequestUtils";
+import ProductCategoryAutocomplete from "@/app/components/common/autocomplete/ProductCategoryAutocomplete";
 
 function getDefaultProductArchetypeView(): ProductArchetypeView {
     return {
@@ -28,15 +25,8 @@ type ProductArchetypeUpsertProps = {
 };
 
 export default function ProductArchetypeUpsert(props: ProductArchetypeUpsertProps): React.ReactNode {
-    const { productArchetypeService, productCategoryService } = useContext(ServicesContext);
+    const { productArchetypeService } = useContext(ServicesContext);
     const [view, setView] = useState<ProductArchetypeView>(getDefaultProductArchetypeView);
-    const [productCategories, setProductCategories] = useState<Array<ProductCategory> | null>(null);
-    const showAlert = useContext(AlertContext);
-
-    const selectedCategory = useMemo(
-        () => findEntity(productCategories, view.category),
-        [productCategories]
-    );
 
     const getBreadcrumb = useCallback(
       () => {
@@ -46,15 +36,6 @@ export default function ProductArchetypeUpsert(props: ProductArchetypeUpsertProp
       },
       [view]
     );
-
-    useEffect(() => {
-        const fetch = async() => {
-            const newProductCategories = await productCategoryService.getProductCategoryList();
-            setProductCategories(newProductCategories.items);
-        };
-
-        fetch().catch(e => getRequestError(e).then(m => showAlert(m, "error")));
-    }, []);
 
     async function fetch(id: number) {
         setView(await productArchetypeService.getProductArchetypeById({id}));
@@ -91,15 +72,7 @@ export default function ProductArchetypeUpsert(props: ProductArchetypeUpsertProp
                 />
             </Grid>
             <Grid xs={6}>
-                <Autocomplete
-                    disablePortal
-                    options={productCategories ?? []}
-                    getOptionLabel={category => category.name}
-                    fullWidth
-                    renderInput={(params) => <TextField {...params} label="Категорія" />}
-                    value={selectedCategory}
-                    onChange={(_, v) => setView({...view, category: v?.id ?? 0})}
-                />
+                <ProductCategoryAutocomplete setSelectedId={v => setView({...view, category: v ?? 0})} />
             </Grid>
 
             <Grid xs={12}>

@@ -11,6 +11,7 @@ async def upsert_request_to_model(product_archetype: ProductArchetypeUpsertReque
     return ProductArchetype.model_construct(
         category=product_archetype.category,
         name=product_archetype.name,
+        manufacturer=product_archetype.manufacturer,
         description=product_archetype.description
     )
 
@@ -20,6 +21,7 @@ async def model_to_response(product_archetype: ProductArchetype) -> ProductArche
         id=product_archetype.id,
         category=product_archetype.category,
         name=product_archetype.name,
+        manufacturer=product_archetype.manufacturer,
         description=product_archetype.description
     )
 

@@ -954,8 +954,6 @@ components:
         - $ref: '#/components/schemas/BaseStringIdCriteria'
         - type: object
           properties:
-            query:
-              type: string
             role:
               $ref: '#/components/schemas/EmployeeRole'
 
@@ -963,25 +961,16 @@ components:
       allOf:
         - $ref: '#/components/schemas/BaseIntIdCriteria'
         - type: object
-          properties:
-            query:
-              type: string
 
     ProductArchetypeCriteria:
       allOf:
         - $ref: '#/components/schemas/BaseIntIdCriteria'
-        - type: object
-          properties:
-            query:
-              type: string
 
     ProductCriteria:
       allOf:
         - $ref: '#/components/schemas/BaseStringIdCriteria'
         - type: object
           properties:
-            query:
-              type: string
             categoryIds:
               type: array
               items:
@@ -994,8 +983,6 @@ components:
         - $ref: '#/components/schemas/BaseStringIdCriteria'
         - type: object
           properties:
-            query:
-              type: string
             cashierIds:
               type: array
               items:
@@ -1012,8 +999,6 @@ components:
         - $ref: '#/components/schemas/BaseStringIdCriteria'
         - type: object
           properties:
-            query:
-              type: string
             discountPercent:
               type: int
 
@@ -1045,6 +1030,8 @@ components:
               type: integer
             limit:
               type: integer
+            query:
+              type: string
         - $ref: '#/components/schemas/SortCriteria'
 
     SortCriteria:
