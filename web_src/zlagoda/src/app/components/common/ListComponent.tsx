@@ -26,7 +26,9 @@ type ListToolbarProps = {
 function ListToolbar(props: ListToolbarProps) {
   return (
     <GridToolbarContainer sx={{ display: "flex", justifyContent: "space-between", padding: 2 }}>
-      <GridToolbarQuickFilter />
+      <GridToolbarQuickFilter
+        quickFilterParser={(input: string) => [input.trim()]}
+      />
       {props.createItem &&
         <Button variant="outlined" startIcon={<AddIcon />} onClick={props.createItem}>
           Створити
@@ -48,9 +50,12 @@ type ListComponentProps<ItemT extends GridValidRowModel & BaseEntity<IdT>, Crite
 
   criteria: CriteriaT,
   setCriteria: (criteria: CriteriaT) => void,
+  setQuery?: (query: string) => void,
 
   items?: ItemT[] | null,
-  setItems?: (items: ItemT[] | null) => void
+  setItems?: (items: ItemT[] | null) => void,
+
+  filters?: () => ReactElement
 };
 
 export function getDefaultBaseCriteria(): BaseCriteria {
@@ -95,6 +100,10 @@ export default function ListComponent<ItemT extends GridValidRowModel & BaseEnti
     const sortAscending = sortData?.sort != "desc";
 
     props.setCriteria({...props.criteria, sortField, sortAscending});
+  }
+
+  function onFilterModelChange(filter: GridFilterModel) {
+    props.setQuery?.(filter.quickFilterValues?.[0] ?? "");
   }
 
   function handleCreate() {
@@ -175,26 +184,36 @@ export default function ListComponent<ItemT extends GridValidRowModel & BaseEnti
   ];
 
   return (
-    <DataGrid
-      sx={{ margin: 2 }}
-
-      columns={columns}
-      rows={items ?? []}
-      paginationMode="server"
-      rowCount={itemCount ?? 0}
-      onPaginationModelChange={onPaginationModelChange}
-      pageSizeOptions={[10, 25, 50]}
-      sortingMode="server"
-      onSortModelChange={onSortModelChange}
-      disableColumnFilter
-      slots={{
-        toolbar: ListToolbar as GridSlots["toolbar"],
-      }}
-      slotProps={{
-        toolbar: {
-          createItem: props.create && handleCreate
-        },
-      }}
-    />
+    <Box display="flex" flexDirection="column" width="100%" rowGap={2}>
+      {props.filters && props.filters()}
+      <DataGrid
+        columns={columns}
+        rows={items ?? []}
+        paginationMode="server"
+        rowCount={itemCount ?? 0}
+        initialState={{
+          pagination: {
+            paginationModel: {
+              pageSize: getDefaultBaseCriteria().limit
+            }
+          }
+        }}
+        onPaginationModelChange={onPaginationModelChange}
+        pageSizeOptions={[10, 25, 50]}
+        sortingMode="server"
+        onSortModelChange={onSortModelChange}
+        filterMode="server"
+        onFilterModelChange={onFilterModelChange}
+        disableColumnFilter
+        slots={{
+          toolbar: ListToolbar as GridSlots["toolbar"],
+        }}
+        slotProps={{
+          toolbar: {
+            createItem: props.create && handleCreate
+          },
+        }}
+      />
+    </Box>
   );
 }
