@@ -1,3 +1,4 @@
+from decimal import Decimal
 from typing import Annotated
 
 from pydantic import BaseModel, Field
@@ -8,14 +9,13 @@ from schemas import BaseCriteria, ListResponse
 class ProductBase(BaseModel):
     id: str
     archetype: int
-    price: int
+    price: Decimal
     quantity: int
 
 
 class ProductCriteria(BaseCriteria):
     ids: list[str] | None = None
-    category_ids: Annotated[list[int] | None, Field(alias="categoryIds")] = None
-    name: str | None = None
+    archetype: int | None = None
     has_discount: Annotated[bool | None, Field(alias="hasDiscount")] = None
 
 

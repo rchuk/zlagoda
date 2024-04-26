@@ -6,6 +6,7 @@ from fastapi import (
     Path,
 )
 
+from product import service
 from product.schemas import (
     ProductCriteria,
     ProductUpsertRequest,
@@ -19,34 +20,34 @@ router = APIRouter()
 @router.post("/api/product")
 async def create_product(
     product_upsert_request: Annotated[ProductUpsertRequest | None, Body()] = None
-) -> int:
-    pass
+) -> str:
+    return await service.add_product(product_upsert_request)
 
 
 @router.delete("/api/product/{id}")
 async def delete_product(
-    id: Annotated[int, Path()]
+    id: Annotated[str, Path()]
 ) -> bool:
-    pass
+    return await service.delete_product_category(id)
 
 
 @router.get("/api/product/{id}", response_model=ProductResponse)
 async def get_product_by_id(
-    id: Annotated[int, Path()]
+    id: Annotated[str, Path()]
 ) -> ProductResponse:
-    pass
+    return await service.get_product(id)
 
 
 @router.post("/api/product/list", response_model=ProductListResponse)
 async def get_product_list(
     product_criteria: Annotated[ProductCriteria | None, Body()] = None
 ) -> ProductListResponse:
-    pass
+    return await service.list_products(product_criteria)
 
 
 @router.put("/api/product/{id}")
 async def update_product(
-    id: Annotated[int, Path()],
+    id: Annotated[str, Path()],
     product_upsert_request: Annotated[ProductUpsertRequest | None, Body()] = None
 ) -> bool:
-    pass
+    return await service.update_product(id, product_upsert_request)
