@@ -24,25 +24,6 @@ paths:
     post:
       tags:
         - employee
-      summary: Get list of employees
-      description: Get list of employees
-      operationId: getEmployeeList
-      requestBody:
-        required: false
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/EmployeeCriteria'
-      responses:
-        200:
-          description: List of employees
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/EmployeeListResponse'
-    put:
-      tags:
-        - employee
       summary: Create a new employee
       description: Create a new employee
       operationId: createEmployee
@@ -59,6 +40,26 @@ paths:
             application/json:
               schema:
                 type: integer
+  /api/employee/list:
+    post:
+      tags:
+        - employee
+      summary: Get list of employees
+      description: Get list of employees
+      operationId: getEmployeeList
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmployeeCriteria'
+      responses:
+        200:
+          description: List of employees
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmployeeListResponse'
 
   /api/employee/{id}:
     get:
@@ -80,7 +81,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Employee'
-    post:
+    put:
       tags:
         - employee
       summary: Update existing employee
@@ -144,25 +145,6 @@ paths:
     post:
       tags:
         - product-category
-      summary: Get list of product categories
-      description: Get list of product categories
-      operationId: getProductCategoryList
-      requestBody:
-        required: false
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ProductCategoryCriteria'
-      responses:
-        200:
-          description: List of product categories
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ProductCategoryListResponse'
-    put:
-      tags:
-        - product-category
       summary: Create a new product category
       description: Create a new product category
       operationId: createProductCategory
@@ -179,6 +161,27 @@ paths:
             application/json:
               schema:
                 type: integer
+
+  /api/product-category/list:
+    post:
+      tags:
+        - product-category
+      summary: Get list of product categories
+      description: Get list of product categories
+      operationId: getProductCategoryList
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductCategoryCriteria'
+      responses:
+        200:
+          description: List of product categories
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductCategoryListResponse'
 
   /api/product-category/{id}:
     get:
@@ -200,7 +203,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProductCategory'
-    post:
+    put:
       tags:
         - product-category
       summary: Update existing product category
@@ -249,25 +252,6 @@ paths:
     post:
       tags:
         - product-archetype
-      summary: Get list of product archetypes
-      description: Get list of product archetypes
-      operationId: getProductArchetypeList
-      requestBody:
-        required: false
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ProductArchetypeCriteria'
-      responses:
-        200:
-          description: List of product archetypes
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ProductArchetypeListResponse'
-    put:
-      tags:
-        - product-archetype
       summary: Create a new product archetype
       description: Create a new product archetype
       operationId: createProductArchetype
@@ -284,6 +268,27 @@ paths:
             application/json:
               schema:
                 type: integer
+
+  /api/product-archetype/list:
+    post:
+      tags:
+        - product-archetype
+      summary: Get list of product archetypes
+      description: Get list of product archetypes
+      operationId: getProductArchetypeList
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductArchetypeCriteria'
+      responses:
+        200:
+          description: List of product archetypes
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductArchetypeListResponse'
 
   /api/product-archetype/{id}:
     get:
@@ -305,7 +310,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProductArchetype'
-    post:
+    put:
       tags:
         - product-archetype
       summary: Update existing product archetype
@@ -354,25 +359,6 @@ paths:
     post:
       tags:
         - product
-      summary: Get list of products
-      description: Get list of products
-      operationId: getProductList
-      requestBody:
-        required: false
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ProductCriteria'
-      responses:
-        200:
-          description: List of products
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ProductListResponse'
-    put:
-      tags:
-        - product
       summary: Create a new product
       description: Create a new product
       operationId: createProduct
@@ -389,6 +375,27 @@ paths:
             application/json:
               schema:
                 type: string
+
+  /api/product/list:
+    post:
+      tags:
+        - product
+      summary: Get list of products
+      description: Get list of products
+      operationId: getProductList
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductCriteria'
+      responses:
+        200:
+          description: List of products
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductListResponse'
 
   /api/product/{id}:
     get:
@@ -410,7 +417,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Product'
-    post:
+    put:
       tags:
         - product
       summary: Update existing product
@@ -459,25 +466,6 @@ paths:
     post:
       tags:
         - receipt
-      summary: Get list of receipts
-      description: Get list of receipts
-      operationId: getReceiptList
-      requestBody:
-        required: false
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ReceiptCriteria'
-      responses:
-        200:
-          description: List of receipts
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ReceiptListResponse'
-    put:
-      tags:
-        - receipt
       summary: Create a new receipt
       description: Create a new receipt
       operationId: createReceipt
@@ -494,6 +482,27 @@ paths:
             application/json:
               schema:
                 type: integer
+
+  /api/receipt/list:
+    post:
+      tags:
+        - receipt
+      summary: Get list of receipts
+      description: Get list of receipts
+      operationId: getReceiptList
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReceiptCriteria'
+      responses:
+        200:
+          description: List of receipts
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReceiptListResponse'
 
   /api/receipt/{id}:
     get:
@@ -539,25 +548,6 @@ paths:
     post:
       tags:
         - customer-card
-      summary: Get list of customer cards
-      description: Get list of customer cards
-      operationId: getCustomerCardList
-      requestBody:
-        required: false
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CustomerCardCriteria'
-      responses:
-        200:
-          description: List of customer cards
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CustomerCardListResponse'
-    put:
-      tags:
-        - customer-card
       summary: Create a new customer card
       description: Create a new customer card
       operationId: createCustomerCard
@@ -574,6 +564,27 @@ paths:
             application/json:
               schema:
                 type: integer
+
+  /api/customer-card/list:
+    post:
+      tags:
+        - customer-card
+      summary: Get list of customer cards
+      description: Get list of customer cards
+      operationId: getCustomerCardList
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerCardCriteria'
+      responses:
+        200:
+          description: List of customer cards
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerCardListResponse'
 
   /api/customer-card/{id}:
     get:
@@ -595,7 +606,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CustomerCard'
-    post:
+    put:
       tags:
         - customer-card
       summary: Update existing customer card

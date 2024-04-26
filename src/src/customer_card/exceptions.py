@@ -1,4 +1,4 @@
-from ..exceptions import ErrorDetails, PublicError
+from src.exceptions import ErrorDetails, PublicError
 from fastapi import status
 
 
