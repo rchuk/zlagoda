@@ -10,7 +10,7 @@ async def validate_model(model: ProductCategory):
     if len(model.name) > 50:
         raise ValidationError("Назва повинна бути коротше 50 символів")
 
-async def validate_exists(id: str):
+async def validate_exists(id: int):
     model = await repository.read_one(id)
     if model is None:
         raise ProductCategoryNotFoundException()

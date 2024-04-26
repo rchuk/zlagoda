@@ -18,6 +18,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import {ConfirmationDialogContext} from "@/app/services/ConfirmationDialogService";
 import {getRequestError} from "@/app/components/common/utils/RequestUtils";
 import {BaseEntity, EntityId} from "@/app/components/common/utils/ObjectUtils";
+import {SEARCH_DEBOUNCE_MS} from "@/app/components/common/utils/Constants";
 
 type ListToolbarProps = {
   createItem?: () => void
@@ -28,6 +29,7 @@ function ListToolbar(props: ListToolbarProps) {
     <GridToolbarContainer sx={{ display: "flex", justifyContent: "space-between", padding: 2 }}>
       <GridToolbarQuickFilter
         quickFilterParser={(input: string) => [input.trim()]}
+        debounceMs={SEARCH_DEBOUNCE_MS}
       />
       {props.createItem &&
         <Button variant="outlined" startIcon={<AddIcon />} onClick={props.createItem}>
@@ -50,7 +52,6 @@ type ListComponentProps<ItemT extends GridValidRowModel & BaseEntity<IdT>, Crite
 
   criteria: CriteriaT,
   setCriteria: (criteria: CriteriaT) => void,
-  setQuery?: (query: string) => void,
 
   items?: ItemT[] | null,
   setItems?: (items: ItemT[] | null) => void,
@@ -103,7 +104,10 @@ export default function ListComponent<ItemT extends GridValidRowModel & BaseEnti
   }
 
   function onFilterModelChange(filter: GridFilterModel) {
-    props.setQuery?.(filter.quickFilterValues?.[0] ?? "");
+    const input: string = filter.quickFilterValues?.[0] ?? "";
+    const query = input.trim() ?? undefined;
+
+    props.setCriteria({...props.criteria, query});
   }
 
   function handleCreate() {
