@@ -17,6 +17,7 @@ class BaseCriteria(SortCriteria):
     """
     offset: int | None = None
     limit: int | None = None
+    query: str | None = None
     ids: list
 
 

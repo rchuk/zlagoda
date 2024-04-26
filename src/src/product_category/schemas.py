@@ -9,7 +9,6 @@ class ProductCategoryBase(BaseModel):
 
 class ProductCategoryCriteria(BaseCriteria):
     ids: list[int] | None = None
-    query: str | None = None
 
 
 class ProductCategoryUpsertRequest(ProductCategoryBase):
