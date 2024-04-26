@@ -19,8 +19,7 @@ class CustomerCardBase(BaseModel):
 class CustomerCardCriteria(BaseCriteria):
     ids: list[int] | None = None
     query: str | None = None
-    last_name: Annotated[str | None, Field(alias="lastName")] = None
-    phone_number: Annotated[str | None, Field(alias="phoneNumber")] = None
+    discount_percent: Annotated[int | None, Field(alias="discountPercent")] = None
 
 
 class CustomerCardUpsertRequest(CustomerCardBase):
