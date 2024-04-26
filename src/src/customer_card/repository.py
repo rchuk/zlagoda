@@ -4,8 +4,31 @@ from psycopg.rows import class_row
 from customer_card.models import CustomerCard
 from customer_card.schemas import CustomerCardCriteria
 from database import db_conn
+from exceptions import ValidationError
 from utils import like_format, generate_random_str_id
 
+
+def dto_field_to_entity_field(dto_field: str | None) -> str:
+    if dto_field is None:
+        return "id"
+
+    fields = {
+        "id": "id",
+        "lastName": "last_name",
+        "firstName": "first_name",
+        "patronymic": "patronymic",
+        "phoneNumber": "phone_number",
+        "city": "city",
+        "street": "street",
+        "zipCode": "zip_code",
+        "discountPercent": "discount_percent"
+    }
+
+    entity_field = fields.get(dto_field)
+    if entity_field is None:
+        raise ValidationError("Вказане поле для сортування не вірне")
+
+    return entity_field
 
 @db_conn
 async def create(model: CustomerCard, conn: AsyncConnection) -> str:
@@ -23,6 +46,7 @@ async def create(model: CustomerCard, conn: AsyncConnection) -> str:
 
 @db_conn
 async def read(criteria: CustomerCardCriteria, conn: AsyncConnection) -> list[CustomerCard]:
+    sort_field = dto_field_to_entity_field(criteria.sort_field)
     query = f"""
         SELECT *
         FROM customer_card 
@@ -36,9 +60,8 @@ async def read(criteria: CustomerCardCriteria, conn: AsyncConnection) -> list[Cu
           "city LIKE %(query)s OR "
           "street LIKE %(query)s OR "
           "zip_code LIKE %(query)s) ") if criteria.query is not None else "TRUE "}
-        {(f"ORDER BY %(sort_field)s {'ASC ' if criteria.sort_ascending is None or criteria.sort_ascending else 'DESC '}"
-          f"{'LIMIT %(limit)s OFFSET %(offset)s ' if criteria.limit is not None and criteria.offset is not None else ''}")
-    if criteria.sort_field is not None else ""};
+        ORDER BY {sort_field} {'ASC ' if criteria.sort_ascending is None or criteria.sort_ascending else 'DESC '}
+        {'LIMIT %(limit)s OFFSET %(offset)s ' if criteria.limit is not None and criteria.offset is not None else ''};
         """
     params = criteria.dict()
     if "query" in params:
@@ -113,6 +136,8 @@ async def count(criteria: CustomerCardCriteria, conn: AsyncConnection) -> int:
     params = criteria.dict()
     if "query" in params:
         params["query"] = await like_format(params["query"])
+    if "sort_field" in params:
+        params["sort_field"] = dto_field_to_entity_field(params["sort_field"])
     async with conn.cursor() as cur:
         res = (await (await cur.execute(query, params)).fetchone())[0]
     return res
