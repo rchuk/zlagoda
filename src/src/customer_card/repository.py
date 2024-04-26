@@ -4,8 +4,7 @@ from psycopg.rows import class_row
 from customer_card.models import CustomerCard
 from customer_card.schemas import CustomerCardCriteria
 from database import db_conn
-from utils import like_format
-from common.utils import generate_random_str_id
+from utils import like_format, generate_random_str_id
 
 
 @db_conn
