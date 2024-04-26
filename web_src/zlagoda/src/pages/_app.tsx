@@ -22,6 +22,8 @@ import { Roboto } from 'next/font/google'
 import { createTheme } from '@mui/material/styles';
 import {ThemeProvider} from "@mui/system";
 import "./globals.css";
+import {useState} from "react";
+import AuthServiceProvider from "@/app/services/AuthService";
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode
@@ -60,10 +62,8 @@ const theme = createTheme({
   }
 });
 
-export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
-  const getLayout = Component.getLayout ?? ((page) => page)
-
-  const services: Services = {
+function getDefaultServices(): Services {
+  return {
     employeeService: new EmployeeApi(),
     productCategoryService: new ProductCategoryApi(),
     productArchetypeService: new ProductArchetypeApi(),
@@ -71,25 +71,57 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
     receiptService: new ReceiptApi(),
     customerCardService: new CustomerCardApi()
   };
+}
+
+export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
+  const getLayout = Component.getLayout ?? ((page) => page)
+
+  const [services, setServices] = useState<Services>(getDefaultServices);
+  const [authToken, setAuthToken] = useState<string | null>(null);
+
+  // TODO
+  /*
+  useEffect(() => {
+    if (authToken == null)
+      return;
+
+    let config = new Configuration({
+      headers: {
+        "Authorization": "Bearer " + authToken
+      }
+    });
+
+    setServices({
+      employeeService: new EmployeeApi(config),
+      productCategoryService: new ProductCategoryApi(config),
+      productArchetypeService: new ProductArchetypeApi(config),
+      productService: new ProductApi(config),
+      receiptService: new ReceiptApi(config),
+      customerCardService: new CustomerCardApi(config)
+    });
+  }, [authToken]);
+  */
 
   return (
     <main className={roboto.className}>
       <LocalizationProvider
         dateAdapter={AdapterDayjs} adapterLocale="uk"
       >
-        <ServicesProvider services={services}>
-          <AlertProvider>
-            <ConfirmationDialogProvider>
-              <FullscreenServiceProvider>
-                <ThemeProvider theme={theme}>
-                  <BasicLayout>
-                    {getLayout(<Component {...pageProps} />)}
-                  </BasicLayout>
-                </ThemeProvider>
-              </FullscreenServiceProvider>
-            </ConfirmationDialogProvider>
-          </AlertProvider>
-        </ServicesProvider>
+        <AuthServiceProvider token={authToken} setToken={setAuthToken}>
+          <ServicesProvider services={services}>
+            <AlertProvider>
+              <ConfirmationDialogProvider>
+                <FullscreenServiceProvider>
+                  <ThemeProvider theme={theme}>
+                    <BasicLayout>
+                      {getLayout(<Component {...pageProps} />)}
+                    </BasicLayout>
+                  </ThemeProvider>
+                </FullscreenServiceProvider>
+              </ConfirmationDialogProvider>
+            </AlertProvider>
+          </ServicesProvider>
+        </AuthServiceProvider>
       </LocalizationProvider>
     </main>
   );

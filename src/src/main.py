@@ -4,6 +4,7 @@ from fastapi.responses import PlainTextResponse
 
 from customer_card.router import router as CustomerCardRouter
 from database import pool
+from auth import service as auth_service
 from employee.router import router as EmployeeRouter
 from exceptions import PublicError
 from product.router import router as ProductRouter
@@ -42,10 +43,17 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+async def add_admin_user():
+    admin_login = "admin"
+    admin_password = "admin"
+    # if await auth_service.get_user(admin_login) is None:
+    #     await auth_service.authenticate_user(admin_login, admin_password)
+
 
 @app.on_event("startup")
-async def open_pool():
+async def on_startup():
     await pool.open()
+    await add_admin_user()
 
 
 @app.on_event("shutdown")

@@ -7,20 +7,22 @@ import {
 } from "@/app/components/common/Icons";
 import {ReactElement} from "react";
 import HomeIcon from "@mui/icons-material/Home";
+import {UserRole} from "../../../generated";
 
 
 export type NavigationItem = {
   title: string,
   path: string,
   icon: () => ReactElement,
-  isEnabled?: () => boolean
+  isEnabled?: () => boolean,
+  roles?: UserRole[]
 };
 
 export const Navigation: Record<string, NavigationItem> = {
   main: {
     title: "Головна",
     path: "/",
-    icon: () => (<HomeIcon />)
+    icon: () => (<HomeIcon />),
   },
   receipt: {
     title: "Чеки",
@@ -56,7 +58,8 @@ export const Navigation: Record<string, NavigationItem> = {
   users: {
     title: "Користувачі",
     path: "/user",
-    icon: UserIcon
+    icon: UserIcon,
+    roles: [UserRole.Admin]
   },
   extraQuery: {
     title: "Додаткові запити",
