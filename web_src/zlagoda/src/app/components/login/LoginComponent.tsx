@@ -30,7 +30,7 @@ export default function LoginComponent(props: LoginComponentProps) {
       throw new ResponseError(response);
 
     const data = await response.json();
-    const token = data.token;
+    const token = data.access_token;
     console.log("token " + token);
   }
 
@@ -56,6 +56,7 @@ export default function LoginComponent(props: LoginComponentProps) {
       <TextField label="Пароль"
                  required
                  fullWidth
+                 type="password"
                  value={password}
                  onChange={e => setPassword(e.target.value)}
       />

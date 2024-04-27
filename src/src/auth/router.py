@@ -21,7 +21,7 @@ async def login_for_token(
     if not user:
         raise CredentialsError()
     scopes = [await service.get_role(user.role_id)]
-    access_token_expires = timedelta(ACCESS_TOKEN_EXPIRE_TIME)
+    access_token_expires = ACCESS_TOKEN_EXPIRE_TIME
     access_token = await create_access_token(
         data={"sub": user.login, "scopes": scopes},
         expires_delta=access_token_expires,
