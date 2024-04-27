@@ -25,7 +25,7 @@ class TokenData(BaseModel):
 class UserBase(BaseModel):
     login: str
     role_id: Annotated[int, Field(alias="roleId")]
-    employee_id: Annotated[int | None, Field(alias="employeeId")] = None
+    employee_id: Annotated[str | None, Field(alias="employeeId")] = None
 
 
 class UserCriteria(BaseCriteria):

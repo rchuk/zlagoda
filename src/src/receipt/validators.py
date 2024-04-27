@@ -7,7 +7,7 @@ from .exceptions import ReceiptNotFound
 
 
 async def validate_model(receipt_model: Receipt, receipt_item_models:  list[ReceiptItem]):
-    if receipt_model.date_time > datetime.now(timezone.utc).date():
+    if receipt_model.date_time > datetime.now(timezone.utc):
         raise ValidationError("Дата створення чеку не може бути у майбутньому")
     if receipt_model.total_price < 0:
         raise ValidationError("Сума чеку не може бути від'ємною")

@@ -1,6 +1,7 @@
-import {Box, Chip, TextField} from "@mui/material";
+import {Box, Chip, IconButton, TextField} from "@mui/material";
 import React from "react";
 import {ReceiptItemView, ReceiptView} from "../../../../generated";
+import CancelIcon from '@mui/icons-material/Cancel';
 
 
 type ReceiptItemProps = {
@@ -27,8 +28,19 @@ export default function ReceiptItemCreate(props: ReceiptItemProps) {
     props.setView({...props.view, items: newItems});
   }
 
+  function removeItem() {
+    const newItems = props.view.items.filter(item => {
+      return item.product != props.product;
+    });
+
+    props.setView({...props.view, items: newItems});
+  }
+
   return (
     <Box display="flex" padding={2} alignItems="center" justifyContent="space-between" columnGap={1}>
+      <IconButton onClick={removeItem}>
+        <CancelIcon />
+      </IconButton>
       <Chip variant="outlined" label={props.productName} sx={{ flex: 1 }} />
       <TextField label="Кількість"
                  type="number"

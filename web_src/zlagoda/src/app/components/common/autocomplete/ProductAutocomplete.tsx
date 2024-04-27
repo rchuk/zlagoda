@@ -42,7 +42,10 @@ export default function ProductAutocomplete(props: ProductAutocompleteProps) {
       setSelectedId={props.setSelectedId}
       fetch={fetch}
       label={"Товар"}
-      getItemLabel={(item: Product) => findEntity(productArchetypes, item.archetype)?.name ?? ""}
+      getItemLabel={(item: Product) => item.id + " | " + findEntity(productArchetypes, item.archetype)?.name ?? ""}
+
+      items={items}
+      setItems={setItems}
     />
   );
 }

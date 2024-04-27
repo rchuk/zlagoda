@@ -1,12 +1,12 @@
+from decimal import Decimal
+
 from exceptions import ValidationError
 from receipt import repository
 from receipt.schemas import (
     ReceiptCriteria,
     ReceiptUpsertRequest,
     ReceiptResponse,
-    ReceiptListResponse,
-    ReceiptItemUpsertRequest,
-    ReceiptItemResponse
+    ReceiptListResponse
 )
 
 from receipt.converters import (
@@ -23,6 +23,8 @@ from customer_card import service as customer_card_service
 from utils import generate_random_str_id
 from datetime import datetime, timezone
 
+from auth.dependencies import current_user
+
 
 async def add_receipt(receipt: ReceiptUpsertRequest) -> str:
     receipt, receipt_items_list = await upsert_request_to_model(receipt)
@@ -31,7 +33,7 @@ async def add_receipt(receipt: ReceiptUpsertRequest) -> str:
     discount = 1
     if receipt.customer_card_id is not None:
         await customer_card_validate_exists(receipt.customer_card_id)
-        discount -= (await customer_card_service.get_customer_card(receipt.customer_card_id)).discount_percent
+        discount -= (await customer_card_service.get_customer_card(receipt.customer_card_id)).discount_percent / 100
     total_price = 0
     for item in receipt_items_list:
         item.receipt_id = receipt_id
@@ -39,18 +41,18 @@ async def add_receipt(receipt: ReceiptUpsertRequest) -> str:
         product = await product_service.get_product(item.upc)
         if item.quantity > product.quantity:
             raise ValidationError("Кількість продукту не може бути більшою, аніж є взагалі")
-        item.price = product.price * item.quantity * discount
+        item.price = product.price * Decimal(item.quantity) * Decimal(discount)
         if product.has_discount:
-            item.price *= 0.8
+            item.price *= Decimal("0.8")
         total_price += item.price
 
-    receipt.cashier_id = None # TODO: replace this by providing real id from auth service
+    receipt.cashier_id = None  # TODO: replace this by providing real id from auth service
     receipt.date_time = datetime.now(timezone.utc)
     receipt.total_price = total_price
-    receipt.vat = 0.2 * total_price
+    receipt.vat = Decimal("0.2") * total_price
 
     await validate_model(receipt, receipt_items_list)
-    id = await repository.create(receipt)
+    id = await repository.create(receipt, receipt_items_list)
     return id
 
 

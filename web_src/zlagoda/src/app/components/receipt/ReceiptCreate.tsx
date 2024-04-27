@@ -33,16 +33,20 @@ export default function ReceiptCreate(props: ReceiptCreateProps): React.ReactNod
 
   useEffect(() => {
     const fetch = async() => {
+      let ids = view.items.map(item => item.product);
+      if (selectedProductId != null)
+        ids.push(selectedProductId);
+
       const response = await productService.getProductList({
         productCriteria: {
-          ids: view.items.map(item => item.product)
+          ids
         }
       });
       setProducts(response.items);
     };
 
     fetch().catch(e => getRequestError(e).then(m => showAlert(m, "error")));
-  }, [view.items]);
+  }, [view.items, selectedProductId]);
   useEffect(() => {
     const fetch = async() => {
       const response = await productArchetypeService.getProductArchetypeList({
@@ -95,8 +99,9 @@ export default function ReceiptCreate(props: ReceiptCreateProps): React.ReactNod
               <ReceiptItemCreate
                 view={view}
                 setView={setView}
+                key={item.product}
                 product={item.product}
-                productName={findEntity(productArchetypes, findEntity(products, item.product)!.archetype)!.name}
+                productName={item.product + " | " + findEntity(productArchetypes, findEntity(products, item.product)!.archetype)?.name ?? ""}
               />
             ))
           }
