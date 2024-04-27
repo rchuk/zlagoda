@@ -7,15 +7,16 @@ from fastapi.security import OAuth2PasswordRequestForm
 from auth import service
 from auth.config import ACCESS_TOKEN_EXPIRE_TIME
 from auth.exception import CredentialsError
-from auth.schemas import Token
+from auth.schemas import Token, UserResponse
 from auth.utils import create_access_token
+from auth.dependencies import current_user
 
 router = APIRouter()
 
 
 @router.post("/api/token")
 async def login_for_token(
-    form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
+        form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
 ) -> Token:
     user = await service.authenticate_user(form_data.username, form_data.password)
     if not user:
@@ -27,3 +28,10 @@ async def login_for_token(
         expires_delta=access_token_expires,
     )
     return Token(access_token=access_token, token_type="bearer")
+
+
+@router.get("/api/users/me")
+async def get_user_me(
+        current_user: Annotated[UserResponse, Depends(current_user)]
+) -> UserResponse:
+    return current_user
