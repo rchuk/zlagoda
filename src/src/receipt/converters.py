@@ -35,6 +35,7 @@ async def model_to_response(receipt: Receipt, receipt_items: list[ReceiptItem]) 
     return ReceiptResponse.model_construct(
         id=receipt.id,
         cashierId=receipt.cashier_id,
+        customerCardId=receipt.customer_card_id,
         dateTime=receipt.date_time,
         totalPrice=receipt.total_price,
         vat=receipt.vat,
