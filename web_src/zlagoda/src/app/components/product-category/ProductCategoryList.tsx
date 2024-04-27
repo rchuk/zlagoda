@@ -1,12 +1,13 @@
 import {
   ProductCategory,
   ProductCategoryCriteria,
-  ProductCategoryListResponse
+  ProductCategoryListResponse, UserRole
 } from "../../../../generated";
 import React, {useContext, useState} from "react";
 import {GridColDef} from '@mui/x-data-grid';
 import ListComponent, {getDefaultBaseCriteria} from "@/app/components/common/ListComponent";
 import {ServicesContext} from "@/app/services/ServiceProvider";
+import {AuthServiceContext} from "@/app/services/AuthService";
 
 type ProductCategoryListProps = {
   create?: (callback: () => void) => void,
@@ -16,6 +17,7 @@ type ProductCategoryListProps = {
 export default function ProductCategoryList(props: ProductCategoryListProps): React.ReactNode {
   const { productCategoryService } = useContext(ServicesContext);
   const [criteria, setCriteria] = useState<ProductCategoryCriteria>(getDefaultBaseCriteria);
+  const authService = useContext(AuthServiceContext);
 
   async function fetch(): Promise<ProductCategoryListResponse> {
     return await productCategoryService.getProductCategoryList({ productCategoryCriteria: criteria });
@@ -48,9 +50,9 @@ export default function ProductCategoryList(props: ProductCategoryListProps): Re
     <ListComponent
       columns={columns}
       fetch={fetch}
-      create={handleCreate}
-      update={handleUpdate}
-      delete={handleDelete}
+      create={authService.hasRole(UserRole.Manager) ? handleCreate : undefined}
+      update={authService.hasRole(UserRole.Manager) ? handleUpdate : undefined}
+      delete={authService.hasRole(UserRole.Manager) ? handleDelete : undefined}
       criteria={criteria}
       setCriteria={setCriteria}
     />

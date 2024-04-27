@@ -8,6 +8,8 @@ import {findEntity} from "@/app/components/common/utils/ObjectUtils";
 import {getRequestError} from "@/app/components/common/utils/RequestUtils";
 import {Autocomplete, Box, Button, TextField} from "@mui/material";
 import ReceiptItemCreate from "@/app/components/receipt/ReceiptItemCreate";
+import CustomerCardAutocomplete from "@/app/components/common/autocomplete/CustomerCardAutocomplete";
+import ProductAutocomplete from "@/app/components/common/autocomplete/ProductAutocomplete";
 
 function getDefaultReceiptView(): ReceiptView {
   return {
@@ -29,29 +31,30 @@ export default function ReceiptCreate(props: ReceiptCreateProps): React.ReactNod
   const [selectedProductId, setSelectedProductId] = useState<string | null>(null);
   const showAlert = useContext(AlertContext);
 
-  // TODO: Create autocomplete components for products and customer cards (to enable proper search)
-
-  const selectedProduct = useMemo(
-    () => selectedProductId != null ? findEntity(products, selectedProductId) : null,
-    [products]
-  );
-
   useEffect(() => {
     const fetch = async() => {
-      const response = await productService.getProductList();
+      const response = await productService.getProductList({
+        productCriteria: {
+          ids: view.items.map(item => item.product)
+        }
+      });
       setProducts(response.items);
     };
 
     fetch().catch(e => getRequestError(e).then(m => showAlert(m, "error")));
-  }, []);
+  }, [view.items]);
   useEffect(() => {
     const fetch = async() => {
-      const response = await productArchetypeService.getProductArchetypeList();
+      const response = await productArchetypeService.getProductArchetypeList({
+        productArchetypeCriteria: {
+          ids: products?.map(product => product.archetype)
+        }
+      });
       setProductArchetypes(response.items);
     };
 
     fetch().catch(e => getRequestError(e).then(m => showAlert(m, "error")));
-  }, []);
+  }, [products]);
 
   async function create(): Promise<string> {
     return await receiptService.createReceipt({receiptView: view});
@@ -71,7 +74,6 @@ export default function ReceiptCreate(props: ReceiptCreateProps): React.ReactNod
     setSelectedProductId(null);
   }
 
-  // TODO: Get rid of double indirection
   return (
     <CreateComponent
       create={create}
@@ -79,18 +81,12 @@ export default function ReceiptCreate(props: ReceiptCreateProps): React.ReactNod
       onSave={props.onSave}
       header="Створення чеку"
     >
-
+      <Grid xs={12}>
+        <CustomerCardAutocomplete setSelectedId={v => setView({...view, customerCardId: v ?? undefined})}/>
+      </Grid>
       <Grid xs={12}>
         <Box display="flex" justifyContent="flex-end" columnGap={1}>
-          <Autocomplete
-            disablePortal
-            options={products ?? []}
-            getOptionLabel={product => findEntity(productArchetypes, product.archetype)!.name}
-            fullWidth
-            renderInput={(params) => <TextField {...params} label="Товар" />}
-            value={selectedProduct}
-            onChange={(_, v) => setSelectedProductId(v?.id ?? null)}
-          />
+          <ProductAutocomplete setSelectedId={v => setSelectedProductId(v)} />
           <Button variant="outlined" onClick={addItem}>Додати</Button>
         </Box>
         <Box display="flex" flexDirection="column">

@@ -13,7 +13,9 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import {useRouter} from "next/router";
 import {SIDEBAR_WIDTH} from "@/app/components/common/utils/Constants";
 import {Navigation, NavigationItem} from "@/app/layout/Navigation";
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
+import {AuthServiceContext} from "@/app/services/AuthService";
+import {UserRole} from "../../../generated";
 
 
 const DrawerHeader = styled('div')(({ theme }) => ({
@@ -37,6 +39,7 @@ type SidebarProps = {
 export default function Sidebar(props: SidebarProps) {
   const [menuEnabled, setMenuEnabled] = useState<MenuCategory[]>([]);
   const router = useRouter();
+  const authService = useContext(AuthServiceContext);
 
   const menu: MenuCategory[] = [
     {
@@ -51,21 +54,15 @@ export default function Sidebar(props: SidebarProps) {
     },
     {
       children: [
-        Navigation.users,
+        {
+          ...Navigation.users,
+          isEnabled: () => authService.hasRole(UserRole.Admin)
+        },
         Navigation.extraQuery
       ]
     }
   ];
 
-  /*
-  const menuEnabled = menu
-    .filter(category => category.isEnabled?.() ?? true)
-    .map(category => {
-      const children = category.children.filter(item => item.isEnabled?.() ?? true);
-
-      return {...category, children};
-    });
-   */
   useEffect(() => {
     const newMenuEnabled = menu
       .filter(category => category.isEnabled?.() ?? true)
@@ -76,7 +73,7 @@ export default function Sidebar(props: SidebarProps) {
       });
 
     setMenuEnabled(newMenuEnabled);
-  }, []);
+  }, [authService.role]);
 
   function closeSidebar() {
     props.setIsOpen(false);

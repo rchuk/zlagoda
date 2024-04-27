@@ -15,11 +15,10 @@ def dto_field_to_entity_field(dto_field: str | None) -> str:
     fields = {
         "id": "p.upc",
         "discountId": "p.discount_id",
-        "archetype": "p.archetype",
+        "archetype": "pa.name",
         "price": "p.price",
         "quantity": "p.quantity",
-        "hasDiscount": "p.has_discount",
-        "name": "pa.name"
+        "hasDiscount": "p.has_discount"
     }
 
     entity_field = fields.get(dto_field)
@@ -60,7 +59,7 @@ async def read(criteria: ProductCriteria, conn: AsyncConnection) -> list[Product
         {"p.has_discount = %(has_discount)s" if criteria.has_discount is not None else "TRUE"} AND 
         {("(p.upc LIKE %(query)s OR "
           "p.discount_id LIKE %(query)s OR "
-          "pa.name LIKE %(query)s") if criteria.query is not None else "TRUE "}
+          "pa.name LIKE %(query)s) ") if criteria.query is not None else "TRUE "}
         ORDER BY {sort_field} {'ASC ' if criteria.sort_ascending is None or criteria.sort_ascending else 'DESC '}
         {'LIMIT %(limit)s OFFSET %(offset)s ' if criteria.limit is not None and criteria.offset is not None else ''};
         """
@@ -125,7 +124,7 @@ async def count(criteria: ProductCriteria, conn: AsyncConnection) -> int:
         {"p.upc = ANY(%(ids)s)" if criteria.ids is not None else "TRUE"} AND 
         {"p.archetype = %(archetype)s" if criteria.archetype is not None else "TRUE"} AND 
         {"p.has_discount = %(has_discount)s" if criteria.has_discount is not None else "TRUE"} AND 
-        {("(p.upc LIKE %(query)s OR "
+        {("p.upc LIKE %(query)s OR "
           "p.discount_id LIKE %(query)s OR "
           "pa.name LIKE %(query)s") if criteria.query is not None else "TRUE "};
         """

@@ -8,6 +8,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import {AlertProvider} from "@/app/services/AlertService";
 import ServicesProvider, {Services} from "@/app/services/ServiceProvider";
 import {
+  Configuration,
   CustomerCardApi,
   EmployeeApi,
   ProductApi,
@@ -22,6 +23,9 @@ import { Roboto } from 'next/font/google'
 import { createTheme } from '@mui/material/styles';
 import {ThemeProvider} from "@mui/system";
 import "./globals.css";
+import {useEffect, useState} from "react";
+import AuthServiceProvider from "@/app/services/AuthService";
+import {useRouter} from "next/router";
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode
@@ -60,10 +64,8 @@ const theme = createTheme({
   }
 });
 
-export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
-  const getLayout = Component.getLayout ?? ((page) => page)
-
-  const services: Services = {
+function getDefaultServices(): Services {
+  return {
     employeeService: new EmployeeApi(),
     productCategoryService: new ProductCategoryApi(),
     productArchetypeService: new ProductArchetypeApi(),
@@ -71,25 +73,74 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
     receiptService: new ReceiptApi(),
     customerCardService: new CustomerCardApi()
   };
+}
+
+function tryGetAuthToken(): string | null {
+  const token = localStorage.getItem("access-token");
+  if (token != null && token.length !=0)
+    return token;
+
+  return null;
+}
+
+export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
+  const getLayout = Component.getLayout ?? ((page) => page);
+
+  const [services, setServices] = useState<Services>(getDefaultServices);
+  const [authToken, setAuthToken] = useState<string | null>(null);
+  const router = useRouter();
+
+  useEffect(() => {
+    setAuthToken(tryGetAuthToken);
+  }, []);
+
+  useEffect(() => {
+    if (authToken == null)
+      router.push("/login");
+  }, [router.asPath]);
+
+  useEffect(() => {
+    if (authToken == null) {
+      setServices(getDefaultServices);
+      return;
+    }
+
+    let config = new Configuration({
+      headers: {
+        "Authorization": "Bearer " + authToken
+      }
+    });
+
+    setServices({
+      employeeService: new EmployeeApi(config),
+      productCategoryService: new ProductCategoryApi(config),
+      productArchetypeService: new ProductArchetypeApi(config),
+      productService: new ProductApi(config),
+      receiptService: new ReceiptApi(config),
+      customerCardService: new CustomerCardApi(config)
+    });
+  }, [authToken]);
 
   return (
     <main className={roboto.className}>
       <LocalizationProvider
         dateAdapter={AdapterDayjs} adapterLocale="uk"
       >
-        <ServicesProvider services={services}>
-          <AlertProvider>
-            <ConfirmationDialogProvider>
-              <FullscreenServiceProvider>
-                <ThemeProvider theme={theme}>
-                  <BasicLayout>
-                    {getLayout(<Component {...pageProps} />)}
-                  </BasicLayout>
-                </ThemeProvider>
-              </FullscreenServiceProvider>
-            </ConfirmationDialogProvider>
-          </AlertProvider>
-        </ServicesProvider>
+        <AuthServiceProvider token={authToken} setToken={setAuthToken}>
+          <ServicesProvider services={services}>
+            <AlertProvider>
+              <ConfirmationDialogProvider>
+                <FullscreenServiceProvider>
+                  <ThemeProvider theme={theme}>
+                    <BasicLayout>
+                      {getLayout(<Component {...pageProps} />)}
+                    </BasicLayout>
+                  </ThemeProvider>
+                </FullscreenServiceProvider>
+              </ConfirmationDialogProvider>
+            </AlertProvider>
+          </ServicesProvider>
+        </AuthServiceProvider>
       </LocalizationProvider>
     </main>
   );

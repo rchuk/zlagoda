@@ -8,6 +8,6 @@ async def validate_credentials(model: User, login: str, password: str) -> bool:
         raise ValidationError("Користувача не існує")
     if model.login != login:
         raise ValidationError("Логіни повинні співпадати")
-    if verify_hash(password, model.password_hash):
+    if not await verify_hash(password, model.password_hash):
         raise ValidationError("Паролі повинні співпадати")
     return True

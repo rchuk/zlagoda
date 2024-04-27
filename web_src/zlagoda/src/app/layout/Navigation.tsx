@@ -20,7 +20,7 @@ export const Navigation: Record<string, NavigationItem> = {
   main: {
     title: "Головна",
     path: "/",
-    icon: () => (<HomeIcon />)
+    icon: () => (<HomeIcon />),
   },
   receipt: {
     title: "Чеки",
@@ -51,7 +51,6 @@ export const Navigation: Record<string, NavigationItem> = {
     title: "Працівники",
     path: "/employee",
     icon: EmployeeIcon,
-    isEnabled: () => true
   },
   users: {
     title: "Користувачі",

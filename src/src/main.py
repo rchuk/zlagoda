@@ -2,14 +2,17 @@ from fastapi import FastAPI
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import PlainTextResponse
 
+from auth.schemas import UserUpsertRequest
 from customer_card.router import router as CustomerCardRouter
 from database import pool
+from auth import service as auth_service
 from employee.router import router as EmployeeRouter
 from exceptions import PublicError
 from product.router import router as ProductRouter
 from product_archetype.router import router as ProductArchetypeRouter
 from product_category.router import router as ProductCategoryRouter
 from receipt.router import router as ReceiptRouter
+from auth.router import router as AuthRouter
 
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.exceptions import HTTPException as StarletteHTTPException
@@ -26,6 +29,7 @@ app.include_router(ProductRouter)
 app.include_router(ProductArchetypeRouter)
 app.include_router(ProductCategoryRouter)
 app.include_router(ReceiptRouter)
+app.include_router(AuthRouter)
 
 origins = [
     "http://localhost",
@@ -40,10 +44,17 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+async def add_admin_user():
+    admin_login = "admin"
+    admin_password = "admin"
+    if await auth_service.get_user(admin_login) is None:
+        await auth_service.add_user(UserUpsertRequest(login=admin_login, password=admin_password, roleId=1))
+
 
 @app.on_event("startup")
-async def open_pool():
+async def on_startup():
     await pool.open()
+    await add_admin_user()
 
 
 @app.on_event("shutdown")

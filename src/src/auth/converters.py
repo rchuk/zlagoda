@@ -7,11 +7,13 @@ from auth.schemas import (
 from auth.models import User
 from auth.utils import get_hash
 
+from auth.repository import role_map
+
 
 async def upsert_request_to_model(user: UserUpsertRequest) -> User:
     return User.model_construct(
         login=user.login,
-        password_hash=get_hash(user.password),
+        password_hash=await get_hash(user.password),
         role_id=user.role_id,
         employee_id=user.employee_id
     )
@@ -20,7 +22,8 @@ async def upsert_request_to_model(user: UserUpsertRequest) -> User:
 async def model_to_response(user: User) -> UserResponse:
     return UserResponse.model_construct(
         login=user.login,
-        roleId=user.role_id,
+        role_id=user.role_id,
+        role=await role_map(user.role_id),
         employeeId=user.employee_id
     )
 

@@ -3,7 +3,7 @@ import {
   Employee,
   Receipt,
   ReceiptCriteria,
-  ReceiptListResponse
+  ReceiptListResponse, UserRole
 } from "../../../../generated";
 import React, {useContext, useEffect, useState} from "react";
 import {GridColDef} from '@mui/x-data-grid';
@@ -14,6 +14,7 @@ import {formatDateTime, getEntityPersonFullName} from "@/app/components/common/u
 import {ServicesContext} from "@/app/services/ServiceProvider";
 import {getRequestError} from "@/app/components/common/utils/RequestUtils";
 import ReceiptFilters from "@/app/components/receipt/ReceiptFilters";
+import {AuthServiceContext} from "@/app/services/AuthService";
 
 type ReceiptListProps = {
   create?: (callback: () => void) => void,
@@ -31,6 +32,7 @@ export default function ReceiptList(props: ReceiptListProps): React.ReactNode {
   const [employees, setEmployees] = useState<Employee[] | null>(null);
   const [customerCards, setCustomerCards] = useState<CustomerCard[] | null>(null);
   const showAlert = useContext(AlertContext);
+  const authService = useContext(AuthServiceContext);
 
   useEffect(() => {
     const fetch = async() => {
@@ -111,9 +113,9 @@ export default function ReceiptList(props: ReceiptListProps): React.ReactNode {
     <ListComponent
       columns={columns}
       fetch={fetch}
-      create={handleCreate}
+      create={authService.hasRole(UserRole.Cashier) ? handleCreate : undefined}
       view={handleView}
-      delete={handleDelete}
+      delete={authService.hasRole(UserRole.Manager) ? handleDelete : undefined}
       criteria={criteria}
       setCriteria={setCriteria}
 

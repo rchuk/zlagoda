@@ -1,12 +1,14 @@
 import {
   CustomerCard,
   CustomerCardCriteria,
-  CustomerCardListResponse
+  CustomerCardListResponse, UserRole
 } from "../../../../generated";
 import React, {useContext, useState} from "react";
 import {GridColDef} from '@mui/x-data-grid';
 import ListComponent, {getDefaultBaseCriteria} from "@/app/components/common/ListComponent";
 import {ServicesContext} from "@/app/services/ServiceProvider";
+import CustomerCardFilters from "@/app/components/customer-card/CustomerCardFilters";
+import {AuthServiceContext} from "@/app/services/AuthService";
 
 type CustomerCardListProps = {
     create?: (callback: () => void) => void,
@@ -17,6 +19,7 @@ type CustomerCardListProps = {
 export default function CustomerCardList(props: CustomerCardListProps): React.ReactNode {
   const { customerCardService } = useContext(ServicesContext);
   const [criteria, setCriteria] = useState<CustomerCardCriteria>(getDefaultBaseCriteria);
+  const authService = useContext(AuthServiceContext);
 
   async function fetch(): Promise<CustomerCardListResponse> {
     return await customerCardService.getCustomerCardList({ customerCardCriteria: criteria });
@@ -75,12 +78,14 @@ export default function CustomerCardList(props: CustomerCardListProps): React.Re
     <ListComponent
       columns={columns}
       fetch={fetch}
-      create={handleCreate}
+      create={authService.hasRole(UserRole.Manager) ? handleCreate : undefined}
       view={handleView}
       update={handleUpdate}
-      delete={handleDelete}
+      delete={authService.hasRole(UserRole.Manager) ? handleDelete : undefined}
       criteria={criteria}
       setCriteria={setCriteria}
+
+      filters={() => <CustomerCardFilters criteria={criteria} setCriteria={setCriteria} />}
     />
   );
 }

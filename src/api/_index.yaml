@@ -1041,3 +1041,23 @@ components:
           type: string
         sortAscending:
           type: boolean
+
+    UserRole:
+      type: string
+      enum:
+        - CASHIER
+        - MANAGER
+        - ADMIN
+
+    User:
+      type: object
+      properties:
+        login:
+          type: string
+        roleId:
+          type: number
+        employeeId:
+          type: number
+      required:
+        - login
+        - roleId

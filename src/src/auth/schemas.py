@@ -37,7 +37,7 @@ class UserUpsertRequest(UserBase):
 
 
 class UserResponse(UserBase):
-    pass
+    role: Annotated[str, Field(alias="roleId")]
 
 
 class UserListResponse(ListResponse):

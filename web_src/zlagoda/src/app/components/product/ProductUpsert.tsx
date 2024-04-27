@@ -3,10 +3,11 @@ import React, {useCallback, useContext, useEffect, useMemo, useState} from "reac
 import {AlertContext} from "@/app/services/AlertService";
 import UpsertComponent from "@/app/components/common/UpsertComponent";
 import Grid from "@mui/material/Unstable_Grid2";
-import {Autocomplete, TextField} from "@mui/material";
+import {TextField} from "@mui/material";
 import {findEntity} from "@/app/components/common/utils/ObjectUtils";
 import {ServicesContext} from "@/app/services/ServiceProvider";
 import {getRequestError} from "@/app/components/common/utils/RequestUtils";
+import ProductArchetypeAutocomplete from "@/app/components/common/autocomplete/ProductArchetypeAutocomplete";
 
 function getDefaultProductView(): ProductView {
     return {
@@ -27,31 +28,29 @@ type ProductUpsertProps = {
 export default function ProductUpsert(props: ProductUpsertProps): React.ReactNode {
     const { productService, productArchetypeService } = useContext(ServicesContext);
     const [view, setView] = useState<ProductView>(getDefaultProductView);
-    const [productArchetypes, setProductArchetypes] = useState<ProductArchetype[] | null>(null);
+    const [archetype, setArchetype] = useState<ProductArchetype>();
     const showAlert = useContext(AlertContext);
-
-    const selectedArchetype = useMemo(
-        () => findEntity(productArchetypes, view.archetype),
-        [productArchetypes]
-    );
 
     const getBreadcrumb = useCallback(
       () => {
         return {
-            title: findEntity(productArchetypes, view.archetype)?.name ?? ""
+            title: archetype?.name ?? ""
         };
       },
-      [productArchetypes, view]
+      [archetype]
     );
 
     useEffect(() => {
+        if (view.archetype == 0)
+            return;
+
         const fetch = async() => {
-            const response = await productArchetypeService.getProductArchetypeList();
-            setProductArchetypes(response.items);
+            const response = await productArchetypeService.getProductArchetypeById({ id: view.archetype });
+            setArchetype(response);
         };
 
         fetch().catch(e => getRequestError(e).then(m => showAlert(m, "error")));
-    }, []);
+    }, [view.archetype]);
 
     async function fetch(id: string) {
         setView( await productService.getProductById({id}));
@@ -84,19 +83,12 @@ export default function ProductUpsert(props: ProductUpsertProps): React.ReactNod
                            required
                            fullWidth
                            value={view.id}
+                           disabled={props.initialId != null}
                            onChange={e => setView({...view, id: e.target.value})}
                 />
             </Grid>
             <Grid xs={6}>
-                <Autocomplete
-                  disablePortal
-                  options={productArchetypes ?? []}
-                  getOptionLabel={archetype => archetype.name}
-                  fullWidth
-                  renderInput={(params) => <TextField {...params} label="Товар" />}
-                  value={selectedArchetype}
-                  onChange={(_, v) => setView({...view, archetype: v?.id ?? 0})}
-                />
+                <ProductArchetypeAutocomplete initialId={view.archetype} setSelectedId={v => setView({...view, archetype: v ?? 0})} />
             </Grid>
             <Grid xs={6}>
                 <TextField label="Ціна"
