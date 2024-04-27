@@ -4,6 +4,7 @@ import {getRequestError} from "@/app/components/common/utils/RequestUtils";
 import {useRouter} from "next/router";
 import {AlertContext} from "@/app/services/AlertService";
 import {ResponseError} from "../../../../generated";
+import {AuthServiceContext} from "@/app/services/AuthService";
 
 
 type LoginComponentProps = {
@@ -15,6 +16,7 @@ export default function LoginComponent(props: LoginComponentProps) {
   const [password, setPassword] = useState<string>("");
   const showAlert = useContext(AlertContext);
   const router = useRouter();
+  const authService = useContext(AuthServiceContext);
 
   async function handleLogin() {
     const formData = new FormData();
@@ -31,7 +33,8 @@ export default function LoginComponent(props: LoginComponentProps) {
 
     const data = await response.json();
     const token = data.access_token;
-    console.log("token " + token);
+    authService.setToken(token);
+    authService.setRole(data.role);
   }
 
   function submit(e: React.FormEvent<HTMLFormElement>) {

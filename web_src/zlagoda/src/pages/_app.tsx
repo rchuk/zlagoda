@@ -8,6 +8,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import {AlertProvider} from "@/app/services/AlertService";
 import ServicesProvider, {Services} from "@/app/services/ServiceProvider";
 import {
+  Configuration,
   CustomerCardApi,
   EmployeeApi,
   ProductApi,
@@ -22,7 +23,7 @@ import { Roboto } from 'next/font/google'
 import { createTheme } from '@mui/material/styles';
 import {ThemeProvider} from "@mui/system";
 import "./globals.css";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import AuthServiceProvider from "@/app/services/AuthService";
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
@@ -79,8 +80,6 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const [services, setServices] = useState<Services>(getDefaultServices);
   const [authToken, setAuthToken] = useState<string | null>(null);
 
-  // TODO
-  /*
   useEffect(() => {
     if (authToken == null)
       return;
@@ -100,7 +99,6 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
       customerCardService: new CustomerCardApi(config)
     });
   }, [authToken]);
-  */
 
   return (
     <main className={roboto.className}>
