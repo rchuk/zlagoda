@@ -1069,7 +1069,7 @@ components:
       properties:
         login:
           type: string
-        role:
+        roleId:
           $ref: '#/components/schemas/UserRole'
         employeeId:
           type: string
