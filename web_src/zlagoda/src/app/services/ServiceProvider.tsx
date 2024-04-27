@@ -4,7 +4,7 @@ import {
   ProductApi,
   ProductArchetypeApi,
   ProductCategoryApi,
-  ReceiptApi
+  ReceiptApi, UsersApi
 } from "../../../generated";
 import React, {createContext, PropsWithChildren} from "react";
 
@@ -14,7 +14,8 @@ export type Services = {
   productArchetypeService: ProductArchetypeApi,
   productService: ProductApi,
   receiptService: ReceiptApi,
-  customerCardService: CustomerCardApi
+  customerCardService: CustomerCardApi,
+  usersService: UsersApi
 };
 
 export const ServicesContext = createContext<Services>(null!);

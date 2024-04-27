@@ -1,7 +1,8 @@
 import {useRouter} from "next/router";
-import {useState} from "react";
+import {useContext, useState} from "react";
 import CustomerCardView from "@/app/components/customer-card/CustomerCardView";
 import BaseStringIdPage from "@/app/components/common/pages/BaseStringIdPage";
+import {AuthServiceContext} from "@/app/services/AuthService";
 
 export default function CustomerCardViewPage() {
   const [id, setId] = useState<string | null>(null);

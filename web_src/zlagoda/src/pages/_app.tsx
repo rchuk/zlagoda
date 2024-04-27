@@ -14,7 +14,7 @@ import {
   ProductApi,
   ProductArchetypeApi,
   ProductCategoryApi,
-  ReceiptApi
+  ReceiptApi, UsersApi
 } from "../../generated";
 import ConfirmationDialogProvider from "@/app/services/ConfirmationDialogService";
 import BasicLayout from "@/app/layout/BasicLayout";
@@ -71,7 +71,8 @@ function getDefaultServices(): Services {
     productArchetypeService: new ProductArchetypeApi(),
     productService: new ProductApi(),
     receiptService: new ReceiptApi(),
-    customerCardService: new CustomerCardApi()
+    customerCardService: new CustomerCardApi(),
+    usersService: new UsersApi()
   };
 }
 
@@ -117,7 +118,8 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
       productArchetypeService: new ProductArchetypeApi(config),
       productService: new ProductApi(config),
       receiptService: new ReceiptApi(config),
-      customerCardService: new CustomerCardApi(config)
+      customerCardService: new CustomerCardApi(config),
+      usersService: new UsersApi(config)
     });
   }, [authToken]);
 
@@ -126,9 +128,9 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
       <LocalizationProvider
         dateAdapter={AdapterDayjs} adapterLocale="uk"
       >
-        <AuthServiceProvider token={authToken} setToken={setAuthToken}>
+        <AlertProvider>
           <ServicesProvider services={services}>
-            <AlertProvider>
+            <AuthServiceProvider token={authToken} setToken={setAuthToken}>
               <ConfirmationDialogProvider>
                 <FullscreenServiceProvider>
                   <ThemeProvider theme={theme}>
@@ -138,9 +140,9 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
                   </ThemeProvider>
                 </FullscreenServiceProvider>
               </ConfirmationDialogProvider>
-            </AlertProvider>
+            </AuthServiceProvider>
           </ServicesProvider>
-        </AuthServiceProvider>
+        </AlertProvider>
       </LocalizationProvider>
     </main>
   );
