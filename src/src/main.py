@@ -48,6 +48,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 async def add_users():
     admin_login = "admin"
     admin_password = "admin"
@@ -57,20 +58,24 @@ async def add_users():
     manager_password = "manager"
     if await auth_service.get_user(manager_login) is None:
         manager_id = await employee_service.add_employee(EmployeeUpsertRequest(lastName="manager",
-                                                                  firstName="manager",
-                                                                  role=EmployeeRole.MANAGER,
-                                                                  salary=10000.,
-                                                                  birthDate=datetime(year=2000, month=1, day=1).date(),
-                                                                  workStartDate=datetime(year=2020, month=1, day=1).date(),
-                                                                  phoneNumber="+380991331486",
-                                                                  city="A",
-                                                                  street="Abc",
-                                                                  zipCode="ABC123"))
-        await auth_service.add_user(UserUpsertRequest(login=manager_login, password=manager_password, roleId=2, employeeId=manager_id))
+                                                                               firstName="manager",
+                                                                               role=EmployeeRole.MANAGER,
+                                                                               salary=10000.,
+                                                                               birthDate=datetime(year=2000, month=1,
+                                                                                                  day=1).date(),
+                                                                               workStartDate=datetime(year=2020,
+                                                                                                      month=1,
+                                                                                                      day=1).date(),
+                                                                               phoneNumber="+380991331486",
+                                                                               city="A",
+                                                                               street="Abc",
+                                                                               zipCode="ABC123"))
+        await auth_service.add_user(
+            UserUpsertRequest(login=manager_login, password=manager_password, roleId=2, employeeId=manager_id))
     cashier_login = "cashier"
     cashier_password = "cashier"
     if await auth_service.get_user(cashier_login) is None:
-        manager_id = await employee_service.add_employee(EmployeeUpsertRequest(lastName="cashier",
+        cashier_id = await employee_service.add_employee(EmployeeUpsertRequest(lastName="cashier",
                                                                                firstName="cashier",
                                                                                role=EmployeeRole.CASHIER,
                                                                                salary=7000.,
@@ -84,7 +89,8 @@ async def add_users():
                                                                                city="B",
                                                                                street="Bcd",
                                                                                zipCode="BCD567"))
-        await auth_service.add_user(UserUpsertRequest(login=cashier_login, password=cashier_password, roleId=3))
+        await auth_service.add_user(
+            UserUpsertRequest(login=cashier_login, password=cashier_password, roleId=3, employeeId=cashier_id))
 
 
 @app.on_event("startup")
