@@ -26,7 +26,7 @@ from datetime import datetime, timezone
 from auth.dependencies import current_user
 
 
-async def add_receipt(receipt: ReceiptUpsertRequest) -> str:
+async def add_receipt(cashier_id: str, receipt: ReceiptUpsertRequest) -> str:
     receipt, receipt_items_list = await upsert_request_to_model(receipt)
     receipt_id = generate_random_str_id(10)
     receipt.id = receipt_id
@@ -46,7 +46,7 @@ async def add_receipt(receipt: ReceiptUpsertRequest) -> str:
             item.price *= Decimal("0.8")
         total_price += item.price
 
-    receipt.cashier_id = None  # TODO: replace this by providing real id from auth service
+    receipt.cashier_id = cashier_id
     receipt.date_time = datetime.now(timezone.utc)
     receipt.total_price = total_price
     receipt.vat = Decimal("0.2") * total_price
