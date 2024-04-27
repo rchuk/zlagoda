@@ -7,7 +7,12 @@ export type AuthData = {
 
   role: UserRole | null,
   setRole: (value: UserRole | null) => void,
-  hasRole: (role: UserRole) => boolean
+  hasRole: (role: UserRole) => boolean,
+
+  employeeId: string | null,
+  setEmployeeId: (value: string | null) => void,
+
+  logout: () => void
 };
 
 export const AuthServiceContext = createContext<AuthData>(null!);
@@ -19,17 +24,31 @@ type AuthServiceProviderProps = {
 
 export default function AuthServiceProvider(props: PropsWithChildren<AuthServiceProviderProps>) {
   const [role, setRole] = useState<UserRole | null>(null);
+  const [employeeId, setEmployeeId] = useState<string | null>(null);
 
   const hasRole = useCallback((value: UserRole) => {
     return true; // TODO
   }, []);
 
+  function setToken(value: string | null) {
+    localStorage.setItem("access-token", value ?? "");
+    props.setToken(value);
+  }
+
+  function logout() {
+    setToken(null);
+    setRole(null);
+  }
+
   const data: AuthData = {
     token: props.token,
-    setToken: props.setToken,
+    setToken,
     role,
     setRole,
-    hasRole
+    hasRole,
+    logout,
+    employeeId,
+    setEmployeeId
   };
 
   return (

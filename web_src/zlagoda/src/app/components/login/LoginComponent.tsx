@@ -1,5 +1,5 @@
 import {Box, Button, TextField, Typography} from "@mui/material";
-import React, {useContext, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {getRequestError} from "@/app/components/common/utils/RequestUtils";
 import {useRouter} from "next/router";
 import {AlertContext} from "@/app/services/AlertService";
@@ -35,6 +35,7 @@ export default function LoginComponent(props: LoginComponentProps) {
     const token = data.access_token;
     authService.setToken(token);
     authService.setRole(data.role);
+    authService.setEmployeeId(data.employeeId);
   }
 
   function submit(e: React.FormEvent<HTMLFormElement>) {

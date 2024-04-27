@@ -25,6 +25,7 @@ import {ThemeProvider} from "@mui/system";
 import "./globals.css";
 import {useEffect, useState} from "react";
 import AuthServiceProvider from "@/app/services/AuthService";
+import {useRouter} from "next/router";
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode
@@ -74,15 +75,35 @@ function getDefaultServices(): Services {
   };
 }
 
+function tryGetAuthToken(): string | null {
+  const token = localStorage.getItem("access-token");
+  if (token != null && token.length !=0)
+    return token;
+
+  return null;
+}
+
 export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
-  const getLayout = Component.getLayout ?? ((page) => page)
+  const getLayout = Component.getLayout ?? ((page) => page);
 
   const [services, setServices] = useState<Services>(getDefaultServices);
   const [authToken, setAuthToken] = useState<string | null>(null);
+  const router = useRouter();
+
+  useEffect(() => {
+    setAuthToken(tryGetAuthToken);
+  }, []);
 
   useEffect(() => {
     if (authToken == null)
+      router.push("/login");
+  }, [router.asPath]);
+
+  useEffect(() => {
+    if (authToken == null) {
+      setServices(getDefaultServices);
       return;
+    }
 
     let config = new Configuration({
       headers: {
