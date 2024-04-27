@@ -66,7 +66,7 @@ export default function Header(props: HeaderProps) {
     if (authService.employeeId != null) {
       handleAccountClose();
       router.push({
-        pathname: "/employee/{id}",
+        pathname: "/employee/[id]",
         query: {id: authService.employeeId! }
       });
     }
