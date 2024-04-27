@@ -19,13 +19,13 @@ export function ReceiptItemView(props: ReceiptItemsProps) {
 
   function productRedirect() {
     router.push({
-      pathname: "/product-archetype/[id]",
-      query: { id: props.item.productArchetype }
+      pathname: "/product/[id]",
+      query: { id: props.item.product }
     });
   }
 
   return (
-    <ListItem key={props.item.productArchetype}>
+    <ListItem key={props.item.product}>
       <Box display="flex" justifyContent="space-between" width="100%">
         <Chip variant="outlined" label={props.name} sx={{ flex: 1 }} onClick={productRedirect} />
         <Box flex={1} alignContent="center" padding={1}>

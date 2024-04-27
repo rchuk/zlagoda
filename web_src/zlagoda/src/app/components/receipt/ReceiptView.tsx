@@ -1,8 +1,8 @@
 import {
-  CustomerCard,
-  Employee,
-  ProductArchetype,
-  Receipt
+    CustomerCard,
+    Employee, Product,
+    ProductArchetype,
+    Receipt, ReceiptItem
 } from "../../../../generated";
 import React, {useCallback, useContext, useEffect, useState} from "react";
 import ViewComponent from "@/app/components/common/ViewComponent";
@@ -28,11 +28,13 @@ type ReceiptViewProps = {
 export default function ReceiptView(props: ReceiptViewProps): React.ReactNode {
     const {
       receiptService,
+      productService,
       productArchetypeService,
       employeeService,
       customerCardService
     } = useContext(ServicesContext);
     const [receipt, setReceipt] = useState<Receipt | null>(null);
+    const [products, setProducts] = useState<Product[] | null>(null);
     const [productArchetypes, setProductArchetypes] = useState<ProductArchetype[] | null>(null);
     const [employee, setEmployee] = useState<Employee | null>(null);
     const [customerCard, setCustomerCard] = useState<CustomerCard | null>(null);
@@ -49,16 +51,29 @@ export default function ReceiptView(props: ReceiptViewProps): React.ReactNode {
 
     useEffect(() => {
         const fetch = async() => {
+            const response = await productService.getProductList({
+                productCriteria: {
+                    ids: receipt?.items.map(item => item.product) ?? []
+                }
+            });
+            setProducts(response.items);
+        };
+
+        fetch().catch(e => getRequestError(e).then(m => showAlert(m, "error")));
+    }, [receipt?.items]);
+
+    useEffect(() => {
+        const fetch = async() => {
             const response = await productArchetypeService.getProductArchetypeList({
                 productArchetypeCriteria: {
-                    ids: receipt?.items.map(item => item.productArchetype) ?? []
+                    ids: products?.map(product => product.archetype) ?? []
                 }
             });
             setProductArchetypes(response.items);
         };
 
         fetch().catch(e => getRequestError(e).then(m => showAlert(m, "error")));
-    }, []);
+    }, [products]);
 
     async function fetch(id: string) {
         const newReceipt = await receiptService.getReceiptById({ id });
@@ -68,6 +83,15 @@ export default function ReceiptView(props: ReceiptViewProps): React.ReactNode {
             setCustomerCard(await customerCardService.getCustomerCardById({ id: newReceipt.customerCardId }));
         else
             setCustomerCard(null);
+    }
+
+    function getItemName(item: ReceiptItem) {
+        const product = findEntity(products, item.product);
+        if (product == null)
+            return "";
+        const archetype = findEntity(productArchetypes, product.archetype);
+
+        return archetype?.name ?? "";
     }
 
     return (
@@ -105,7 +129,7 @@ export default function ReceiptView(props: ReceiptViewProps): React.ReactNode {
                 <b>Товари: </b>
                 <List>
                     {receipt?.items.map(item =>
-                      <ReceiptItemView item={item} name={findEntity(productArchetypes, item.productArchetype)?.name!} />
+                      <ReceiptItemView item={item} name={getItemName(item)} />
                     )}
                 </List>
             </div>

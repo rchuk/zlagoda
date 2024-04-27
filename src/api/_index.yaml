@@ -797,14 +797,14 @@ components:
     ReceiptItem:
       type: object
       properties:
-        productArchetype:
-          type: integer
+        product:
+          type: string
         quantity:
           type: integer
         price:
           type: number
       required:
-        - productArchetype
+        - product
         - quantity
         - price
 

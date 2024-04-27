@@ -36,13 +36,21 @@ export default function ProductAutocomplete(props: ProductAutocompleteProps) {
     return await productService.getProductList({ productCriteria: criteria });
   }
 
+  function getItemLabel(item: Product) {
+    const entity = findEntity(productArchetypes, item.archetype);
+    if (entity == null)
+      return "";
+
+    return item.id + " | " + entity.name;
+  }
+
   return (
     <ApiAutocompleteComponent
       initialId={props.initialId}
       setSelectedId={props.setSelectedId}
       fetch={fetch}
       label={"Товар"}
-      getItemLabel={(item: Product) => item.id + " | " + findEntity(productArchetypes, item.archetype)?.name ?? ""}
+      getItemLabel={getItemLabel}
 
       items={items}
       setItems={setItems}

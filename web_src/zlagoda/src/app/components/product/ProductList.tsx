@@ -89,8 +89,6 @@ export default function ProductList(props: ProductListProps): React.ReactNode {
     }
   ];
 
-  // TODO: Handle filters
-
   return (
     <ListComponent
       columns={columns}
