@@ -2,8 +2,9 @@ import {Grid,} from "@mui/material";
 import ListFiltersComponent from "@/app/components/common/ListFiltersComponent";
 import {ReceiptCriteria} from "../../../../generated";
 import dayjs from "dayjs";
-import {DatePicker} from "@mui/x-date-pickers";
+import {DateTimePicker} from "@mui/x-date-pickers";
 import React from "react";
+import EmployeeAutocomplete from "@/app/components/common/autocomplete/EmployeeAutocomplete";
 
 type ReceiptFiltersProps = {
   criteria: ReceiptCriteria,
@@ -19,10 +20,17 @@ export default function ReceiptFilters(props: ReceiptFiltersProps) {
     props.setCriteria({...props.criteria, endDate: value?.toDate() ?? undefined })
   }
 
+  function setEmployee(value: string | null) {
+    props.setCriteria({...props.criteria, cashierId: value ?? undefined});
+  }
+
   return (
     <ListFiltersComponent>
       <Grid item xs={3}>
-        <DatePicker label="Початкова дата"
+        <EmployeeAutocomplete setSelectedId={setEmployee} />
+      </Grid>
+      <Grid item xs={3}>
+        <DateTimePicker label="Початкова дата"
                     disableFuture
                     slotProps={{
                       textField: { fullWidth: true },
@@ -35,7 +43,7 @@ export default function ReceiptFilters(props: ReceiptFiltersProps) {
         />
       </Grid>
       <Grid item xs={3}>
-        <DatePicker label="Кінцева дата"
+        <DateTimePicker label="Кінцева дата"
                     disableFuture
                     slotProps={{
                       textField: { fullWidth: true },
