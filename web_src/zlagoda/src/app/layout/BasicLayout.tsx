@@ -1,11 +1,12 @@
 import Header from "@/app/layout/Header";
-import {PropsWithChildren, useState} from "react";
+import {PropsWithChildren, useContext, useState} from "react";
 import {Box, styled} from "@mui/material";
 import Sidebar from "@/app/layout/Sidebar";
 import BreadcrumbsComponent, {BreadcrumbServiceHandle} from "@/app/components/common/BreadcrumbsComponent";
 import BreadcrumbsServiceProvider from "@/app/services/BreadcrumbsService";
 import {SIDEBAR_WIDTH} from "@/app/components/common/utils/Constants";
 import { Navigation } from "./Navigation";
+import {AuthServiceContext} from "@/app/services/AuthService";
 
 
 const Main = styled('main', {
@@ -33,6 +34,7 @@ type BasicLayoutProps = {
 export default function BasicLayout(props: PropsWithChildren<BasicLayoutProps>) {
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
   const [breadcrumbsHandle, setBreadcrumbsHandle] = useState<BreadcrumbServiceHandle | null>(null);
+  const authService = useContext(AuthServiceContext);
 
   const segmentMap = {
     ...Navigation.main,
@@ -53,7 +55,9 @@ export default function BasicLayout(props: PropsWithChildren<BasicLayoutProps>) 
       <Header isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} />
       <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen}/>
       <Main isSidebarOpen={isSidebarOpen}>
-        <BreadcrumbsComponent segmentMap={segmentMap} setHandle={setBreadcrumbsHandle}/>
+        {authService.isLoggedIn() &&
+          <BreadcrumbsComponent segmentMap={segmentMap} setHandle={setBreadcrumbsHandle}/>
+        }
         <BreadcrumbsServiceProvider handle={breadcrumbsHandle!}>
           {props.children}
         </BreadcrumbsServiceProvider>

@@ -1,6 +1,6 @@
-import {Box, Button, IconButton, styled, Toolbar} from "@mui/material";
+import {Box, Button, IconButton, MenuItem, styled, Toolbar} from "@mui/material";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
-import {useContext} from "react";
+import React, {useContext, useState} from "react";
 import {FullscreenServiceContext} from "@/app/services/FullscreenService";
 import MenuIcon from '@mui/icons-material/Menu';
 import FullscreenIcon from '@mui/icons-material/Fullscreen';
@@ -9,6 +9,8 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Image from "next/image";
 import {SIDEBAR_WIDTH} from "@/app/components/common/utils/Constants";
 import {useRouter} from "next/router";
+import {Menu} from "@mui/material";
+import {AuthServiceContext} from "@/app/services/AuthService";
 
 interface AppBarProps extends MuiAppBarProps {
   isSidebarOpen: boolean
@@ -37,6 +39,10 @@ type HeaderProps = {
 }
 
 export default function Header(props: HeaderProps) {
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+  const isAccountOpen = Boolean(anchorEl);
+  const authService = useContext(AuthServiceContext);
+
   const fullscreenHandle = useContext(FullscreenServiceContext);
   const router = useRouter();
 
@@ -48,11 +54,24 @@ export default function Header(props: HeaderProps) {
     router.push("/");
   }
 
+  function handleAccountOpen(event: React.MouseEvent<HTMLElement>) {
+    setAnchorEl(event.currentTarget);
+  }
+
+  function handleAccountClose() {
+    setAnchorEl(null);
+  }
+
+  function handleLogout() {
+    authService.logout();
+    handleAccountClose();
+  }
+
   return (
     <AppBar position="static" isSidebarOpen={props.isSidebarOpen}>
       <Toolbar>
         {
-          !props.isSidebarOpen &&
+          !props.isSidebarOpen && authService.isLoggedIn() &&
           <IconButton onClick={toggleSidebar} size="large">
             <MenuIcon sx={{ color: theme => theme.palette.almostWhite.main }} />
           </IconButton>
@@ -75,9 +94,23 @@ export default function Header(props: HeaderProps) {
               </IconButton>
             )
         }
-        <IconButton>
-          <AccountCircleIcon sx={{ color: theme => theme.palette.almostWhite.main }} />
-        </IconButton>
+        {
+          authService.isLoggedIn() &&
+          <IconButton onClick={handleAccountOpen}>
+            <AccountCircleIcon sx={{ color: theme => theme.palette.almostWhite.main }} />
+          </IconButton>
+        }
+        {
+          authService.isLoggedIn() &&
+          <Menu
+            anchorEl={anchorEl}
+            open={isAccountOpen}
+            onClose={handleAccountClose}
+          >
+            <MenuItem onClick={handleAccountClose}>Profile</MenuItem>
+            <MenuItem onClick={handleLogout}>Logout</MenuItem>
+          </Menu>
+        }
       </Toolbar>
     </AppBar>
   );

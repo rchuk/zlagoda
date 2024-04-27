@@ -1,5 +1,6 @@
 import React, {createContext, PropsWithChildren, useCallback, useState} from "react";
 import {UserRole} from "../../../generated";
+import {useRouter} from "next/router";
 
 export type AuthData = {
   token: string | null,
@@ -12,6 +13,7 @@ export type AuthData = {
   employeeId: string | null,
   setEmployeeId: (value: string | null) => void,
 
+  isLoggedIn: () => boolean,
   logout: () => void
 };
 
@@ -25,9 +27,10 @@ type AuthServiceProviderProps = {
 export default function AuthServiceProvider(props: PropsWithChildren<AuthServiceProviderProps>) {
   const [role, setRole] = useState<UserRole | null>(null);
   const [employeeId, setEmployeeId] = useState<string | null>(null);
+  const router = useRouter();
 
   const hasRole = useCallback((value: UserRole) => {
-    return true; // TODO
+    return role === value;
   }, []);
 
   function setToken(value: string | null) {
@@ -38,7 +41,12 @@ export default function AuthServiceProvider(props: PropsWithChildren<AuthService
   function logout() {
     setToken(null);
     setRole(null);
+    router.push("/login");
   }
+
+  const isLoggedIn = useCallback(() => {
+    return props.token != null && props.token.length != 0;
+  }, [props.token]);
 
   const data: AuthData = {
     token: props.token,
@@ -48,7 +56,8 @@ export default function AuthServiceProvider(props: PropsWithChildren<AuthService
     hasRole,
     logout,
     employeeId,
-    setEmployeeId
+    setEmployeeId,
+    isLoggedIn
   };
 
   return (
