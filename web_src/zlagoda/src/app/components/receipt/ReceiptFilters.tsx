@@ -2,7 +2,7 @@ import {Grid,} from "@mui/material";
 import ListFiltersComponent from "@/app/components/common/ListFiltersComponent";
 import {ReceiptCriteria} from "../../../../generated";
 import dayjs from "dayjs";
-import {DatePicker} from "@mui/x-date-pickers";
+import {DateTimePicker} from "@mui/x-date-pickers";
 import React from "react";
 
 type ReceiptFiltersProps = {
@@ -22,7 +22,7 @@ export default function ReceiptFilters(props: ReceiptFiltersProps) {
   return (
     <ListFiltersComponent>
       <Grid item xs={3}>
-        <DatePicker label="Початкова дата"
+        <DateTimePicker label="Початкова дата"
                     disableFuture
                     slotProps={{
                       textField: { fullWidth: true },
@@ -35,7 +35,7 @@ export default function ReceiptFilters(props: ReceiptFiltersProps) {
         />
       </Grid>
       <Grid item xs={3}>
-        <DatePicker label="Кінцева дата"
+        <DateTimePicker label="Кінцева дата"
                     disableFuture
                     slotProps={{
                       textField: { fullWidth: true },
