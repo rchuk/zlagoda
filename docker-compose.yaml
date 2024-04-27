@@ -18,6 +18,7 @@ services:
   zlagoda_frontend:
     depends_on:
       - openapi_generator
+      - zlagoda_backend
     build:
       context: ./web_src/zlagoda
     ports:
