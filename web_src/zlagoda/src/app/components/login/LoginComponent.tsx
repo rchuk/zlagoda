@@ -34,8 +34,6 @@ export default function LoginComponent(props: LoginComponentProps) {
     const data = await response.json();
     const token = data.access_token;
     authService.setToken(token);
-    authService.setRole(data.role);
-    authService.setEmployeeId(data.employeeId);
   }
 
   function submit(e: React.FormEvent<HTMLFormElement>) {

@@ -637,6 +637,21 @@ paths:
               schema:
                 type: boolean
 
+  /api/users/me:
+    get:
+      tags:
+        - users
+      summary: Get user info about self
+      description: Get user info about self
+      operationId: getUserMe
+      responses:
+        200:
+          description: User info
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+
 components:
   schemas:
     EmployeeView:
@@ -1054,10 +1069,10 @@ components:
       properties:
         login:
           type: string
-        roleId:
-          type: number
+        role:
+          $ref: '#/components/schemas/UserRole'
         employeeId:
-          type: number
+          type: string
       required:
         - login
         - roleId

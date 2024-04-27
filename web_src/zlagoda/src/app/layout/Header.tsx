@@ -62,6 +62,16 @@ export default function Header(props: HeaderProps) {
     setAnchorEl(null);
   }
 
+  function handleOpenProfile() {
+    if (authService.employeeId != null) {
+      handleAccountClose();
+      router.push({
+        pathname: "/employee/{id}",
+        query: {id: authService.employeeId! }
+      });
+    }
+  }
+
   function handleLogout() {
     authService.logout();
     handleAccountClose();
@@ -107,7 +117,7 @@ export default function Header(props: HeaderProps) {
             open={isAccountOpen}
             onClose={handleAccountClose}
           >
-            <MenuItem onClick={handleAccountClose}>Profile</MenuItem>
+            <MenuItem onClick={handleOpenProfile}>Profile</MenuItem>
             <MenuItem onClick={handleLogout}>Logout</MenuItem>
           </Menu>
         }

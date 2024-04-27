@@ -1,6 +1,10 @@
-import React, {createContext, PropsWithChildren, useCallback, useState} from "react";
+import React, {createContext, PropsWithChildren, useCallback, useContext, useEffect, useState} from "react";
 import {UserRole} from "../../../generated";
 import {useRouter} from "next/router";
+import {ServicesContext} from "@/app/services/ServiceProvider";
+import {getRequestError} from "@/app/components/common/utils/RequestUtils";
+import {Alert} from "@mui/material";
+import {AlertContext} from "@/app/services/AlertService";
 
 export type AuthData = {
   token: string | null,
@@ -25,13 +29,29 @@ type AuthServiceProviderProps = {
 };
 
 export default function AuthServiceProvider(props: PropsWithChildren<AuthServiceProviderProps>) {
+  const { usersService } = useContext(ServicesContext);
   const [role, setRole] = useState<UserRole | null>(null);
   const [employeeId, setEmployeeId] = useState<string | null>(null);
+  const showAlert = useContext(AlertContext);
   const router = useRouter();
 
   const hasRole = useCallback((value: UserRole) => {
     return role === value;
   }, []);
+
+  useEffect(() => {
+    if (!isLoggedIn())
+      return;
+
+    const fetch = async() => {
+      const response = await usersService.getUserMe();
+
+      setRole(response.role ?? null);
+      setEmployeeId(response.employeeId ?? null);
+    };
+
+    fetch().catch(e => getRequestError(e).then(m => showAlert(m, "error")));
+  }, [props.token]);
 
   function setToken(value: string | null) {
     localStorage.setItem("access-token", value ?? "");
