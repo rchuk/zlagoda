@@ -37,7 +37,7 @@ export default function AuthServiceProvider(props: PropsWithChildren<AuthService
 
   const hasRole = useCallback((value: UserRole) => {
     return role === value;
-  }, []);
+  }, [role]);
 
   useEffect(() => {
     if (!isLoggedIn())
@@ -46,12 +46,12 @@ export default function AuthServiceProvider(props: PropsWithChildren<AuthService
     const fetch = async() => {
       const response = await usersService.getUserMe();
 
-      setRole(response.role ?? null);
+      setRole(response.roleId ?? null);
       setEmployeeId(response.employeeId ?? null);
     };
 
     fetch().catch(e => getRequestError(e).then(m => showAlert(m, "error")));
-  }, [props.token]);
+  }, [props.token, usersService]);
 
   function setToken(value: string | null) {
     localStorage.setItem("access-token", value ?? "");
