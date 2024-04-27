@@ -36,7 +36,9 @@ async def current_user(
     user = await service.get_user(login)
     if user is None:
         raise AccessError("Помилка при перевірці облікових даних")
+    if len(security_scopes.scopes) == 0:
+        return user
     for scope in token_data.scopes:
-        if scope in security_scopes:
+        if scope in security_scopes.scopes:
             return user
     raise AccessError("Не достатньо прав для виконання цієї операції")

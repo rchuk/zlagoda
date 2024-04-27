@@ -1,7 +1,7 @@
 from datetime import timedelta
 from typing import Annotated
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Security
 from fastapi.security import OAuth2PasswordRequestForm
 
 from auth import service
@@ -32,6 +32,6 @@ async def login_for_token(
 
 @router.get("/api/users/me")
 async def get_user_me(
-        current_user: Annotated[UserResponse, Depends(current_user)]
+        user: Annotated[UserResponse, Security(current_user)]
 ) -> UserResponse:
-    return current_user
+    return user
