@@ -83,6 +83,7 @@ export default function ProductUpsert(props: ProductUpsertProps): React.ReactNod
                            required
                            fullWidth
                            value={view.id}
+                           disabled={props.initialId != null}
                            onChange={e => setView({...view, id: e.target.value})}
                 />
             </Grid>
