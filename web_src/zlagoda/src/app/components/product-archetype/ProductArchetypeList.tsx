@@ -29,7 +29,9 @@ export default function ProductArchetypeList(props: ProductArchetypeListProps): 
   useEffect(() => {
     const fetch = async() => {
       const response = await productCategoryService.getProductCategoryList({
-        productCategoryCriteria: createIdsCriteria(items)
+        productCategoryCriteria: {
+          ids: items?.map(item => item.category) ?? []
+        }
       });
 
       setProductCategories(response.items);

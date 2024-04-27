@@ -49,7 +49,11 @@ export default function ReceiptView(props: ReceiptViewProps): React.ReactNode {
 
     useEffect(() => {
         const fetch = async() => {
-            const response = await productArchetypeService.getProductArchetypeList();
+            const response = await productArchetypeService.getProductArchetypeList({
+                productArchetypeCriteria: {
+                    ids: receipt?.items.map(item => item.productArchetype) ?? []
+                }
+            });
             setProductArchetypes(response.items);
         };
 
