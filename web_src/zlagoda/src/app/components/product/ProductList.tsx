@@ -12,6 +12,7 @@ import ListComponent, {getDefaultBaseCriteria} from "@/app/components/common/Lis
  import {findEntity} from "@/app/components/common/utils/ObjectUtils";
  import {ServicesContext} from "@/app/services/ServiceProvider";
  import {getRequestError} from "@/app/components/common/utils/RequestUtils";
+ import ProductFilters from "@/app/components/product/ProductFilters";
 
 type ProductListProps = {
   create?: (callback: () => void) => void,
@@ -101,6 +102,8 @@ export default function ProductList(props: ProductListProps): React.ReactNode {
 
       items={items}
       setItems={setItems}
+
+      filters={() => <ProductFilters criteria={criteria} setCriteria={setCriteria}/>}
     />
   );
 }

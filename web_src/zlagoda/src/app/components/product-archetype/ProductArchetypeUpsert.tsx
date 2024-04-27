@@ -72,7 +72,7 @@ export default function ProductArchetypeUpsert(props: ProductArchetypeUpsertProp
                 />
             </Grid>
             <Grid xs={6}>
-                <ProductCategoryAutocomplete setSelectedId={v => setView({...view, category: v ?? 0})} />
+                <ProductCategoryAutocomplete initialId={view.category} setSelectedId={v => setView({...view, category: v ?? 0})} />
             </Grid>
 
             <Grid xs={12}>

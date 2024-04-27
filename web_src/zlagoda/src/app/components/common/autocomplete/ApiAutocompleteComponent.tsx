@@ -15,20 +15,32 @@ function getDefaultBaseCriteria(): BaseCriteria {
 }
 
 type ApiAutocompleteComponentProps<ItemT extends BaseEntity<IdT>, IdT extends EntityId> = {
+  initialId?: IdT,
   setSelectedId: (value: IdT | null) => void,
 
   fetch: (criteria: BaseCriteria) => Promise<ListResponse & { items: ItemT[] }>,
   label: string,
-  getItemLabel: (item: ItemT) => string
+  getItemLabel: (item: ItemT) => string,
+
+  items?: ItemT[],
+  setItems?: (value: ItemT[]) => void
 };
 
 export default function ApiAutocompleteComponent<ItemT extends BaseEntity<IdT>, IdT extends EntityId>
   (props: ApiAutocompleteComponentProps<ItemT, IdT>) {
-  const [items, setItems] = useState<ItemT[]>([]);
+  const [internalItems, internalSetItems] = useState<ItemT[]>([]);
   const [inputValue, setInputValue] = useState<string>("");
   const [criteria, setCriteria] = useState<BaseCriteria>(getDefaultBaseCriteria);
   const [selectedItem, setSelectedItem] = useState<ItemT | null>(null);
   const showAlert = useContext(AlertContext);
+
+  const items = props.items ?? internalItems;
+  const setItems = props.setItems ?? internalSetItems;
+
+  useEffect(() => {
+    if (props.initialId)
+      setSelectedItem(findEntity(items, props.initialId));
+  }, [props.initialId, items]);
 
   useEffect(() => {
     const fetch = async() => {
@@ -51,8 +63,12 @@ export default function ApiAutocompleteComponent<ItemT extends BaseEntity<IdT>, 
       fullWidth
       options={items}
       getOptionLabel={props.getItemLabel}
+      getOptionKey={item => item.id}
       value={selectedItem}
-      onChange={(e, v) => setSelectedItem(v)}
+      onChange={(e, v) => {
+        setSelectedItem(v);
+        props.setSelectedId(v?.id ?? null);
+      }}
       isOptionEqualToValue={(option, value) => option.id === value.id}
       inputValue={inputValue}
       onInputChange={(e, v) => {

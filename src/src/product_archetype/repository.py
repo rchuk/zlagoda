@@ -50,7 +50,7 @@ async def read(criteria: ProductArchetypeCriteria, conn: AsyncConnection) -> lis
         {"category = %(category)s" if criteria.category is not None else "TRUE"} AND 
         {("(name LIKE %(query)s OR "
           "manufacturer LIKE %(query)s OR "
-          "description LIKE %(query)s") if criteria.query is not None else "TRUE "}
+          "description LIKE %(query)s) ") if criteria.query is not None else "TRUE "}
         ORDER BY {sort_field} {'ASC ' if criteria.sort_ascending is None or criteria.sort_ascending else 'DESC '}
         {'LIMIT %(limit)s OFFSET %(offset)s ' if criteria.limit is not None and criteria.offset is not None else ''};
         """
@@ -114,7 +114,7 @@ async def count(criteria: ProductArchetypeCriteria, conn: AsyncConnection) -> in
         {"category = %(category)s" if criteria.category is not None else "TRUE"} AND 
         {("(name LIKE %(query)s OR "
           "manufacturer LIKE %(query)s OR "
-          "description LIKE %(query)s") if criteria.query is not None else "TRUE"};
+          "description LIKE %(query)s)") if criteria.query is not None else "TRUE"};
         """
     params = criteria.dict()
     if "query" in params:

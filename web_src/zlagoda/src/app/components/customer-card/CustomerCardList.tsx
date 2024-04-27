@@ -7,6 +7,7 @@ import React, {useContext, useState} from "react";
 import {GridColDef} from '@mui/x-data-grid';
 import ListComponent, {getDefaultBaseCriteria} from "@/app/components/common/ListComponent";
 import {ServicesContext} from "@/app/services/ServiceProvider";
+import CustomerCardFilters from "@/app/components/customer-card/CustomerCardFilters";
 
 type CustomerCardListProps = {
     create?: (callback: () => void) => void,
@@ -81,6 +82,8 @@ export default function CustomerCardList(props: CustomerCardListProps): React.Re
       delete={handleDelete}
       criteria={criteria}
       setCriteria={setCriteria}
+
+      filters={() => <CustomerCardFilters criteria={criteria} setCriteria={setCriteria} />}
     />
   );
 }

@@ -4,26 +4,24 @@ import {TextField} from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 
 
-/*
 type CustomerCardFiltersProps = {
   criteria: CustomerCardCriteria,
   setCriteria: (value: CustomerCardCriteria) => void
 };
 
-function CustomerCardFilters(props: CustomerCardFiltersProps) {
+export default function CustomerCardFilters(props: CustomerCardFiltersProps) {
   function setDiscountPercent(value: string) {
     props.setCriteria({
       ...props.criteria,
-      discountPercent: value == "" ? null : Number(value)
+      discountPercent: value == "" ? undefined : Number(value)
     })
   }
 
   return (
     <ListFiltersComponent>
-      <Grid item xs={3}>
+      <Grid xs={3}>
         <TextField label="Відсоток знижки"
                    type="number"
-                   required
                    inputProps={{min: 0, max: 100}}
                    fullWidth
                    value={props.criteria.discountPercent ?? ""}
@@ -33,4 +31,3 @@ function CustomerCardFilters(props: CustomerCardFiltersProps) {
     </ListFiltersComponent>
   );
 }
-*/

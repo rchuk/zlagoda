@@ -4,11 +4,12 @@ import {useContext} from "react";
 import {ServicesContext} from "@/app/services/ServiceProvider";
 
 
-type ProductArchetypeAutocompleteProps = {
+type ProductCategoryAutocompleteProps = {
+  initialId?: number,
   setSelectedId: (value: number | null) => void
 };
 
-export default function ProductCategoryAutocomplete(props: ProductArchetypeAutocompleteProps) {
+export default function ProductCategoryAutocomplete(props: ProductCategoryAutocompleteProps) {
   const { productCategoryService } = useContext(ServicesContext);
 
   async function fetch(criteria: BaseCriteria) {
@@ -17,6 +18,7 @@ export default function ProductCategoryAutocomplete(props: ProductArchetypeAutoc
 
   return (
     <ApiAutocompleteComponent
+      initialId={props.initialId}
       setSelectedId={props.setSelectedId}
       fetch={fetch}
       label={"Категорія товару"}
