@@ -37,9 +37,6 @@ async def create_item(item: ReceiptItem, conn: AsyncConnection):
     params = item.dict()
     async with conn.cursor() as cur:
         await cur.execute(query, params)
-    product = await product_repository.read_one(item.upc)
-    product.quantity -= item.quantity
-    await product_repository.update(item)
 
 
 @db_conn
@@ -50,6 +47,7 @@ async def create(receipt: Receipt, items: list[ReceiptItem], conn: AsyncConnecti
         RETURNING id;
         """
     params = receipt.dict()
+    print(params)
     async with conn.cursor() as cur:
         res = (await (await cur.execute(query, params)).fetchone())[0]
     for item in items:

@@ -19,6 +19,7 @@ from receipt.validators import validate_model, validate_exists
 from product.validators import validate_exists as product_validate_exists
 from customer_card.validators import validate_exists as customer_card_validate_exists
 from product import service as product_service
+from product import repository as product_repository
 from customer_card import service as customer_card_service
 from utils import generate_random_str_id
 from datetime import datetime, timezone
@@ -53,6 +54,10 @@ async def add_receipt(cashier_id: str, receipt: ReceiptUpsertRequest) -> str:
 
     await validate_model(receipt, receipt_items_list)
     id = await repository.create(receipt, receipt_items_list)
+    for item in receipt_items_list:
+        product = await product_repository.read_one(item.upc)
+        product.quantity -= item.quantity
+        await product_repository.update(product)
     return id
 
 
