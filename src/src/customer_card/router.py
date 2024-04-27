@@ -3,9 +3,11 @@ from typing import Annotated
 from fastapi import (
     APIRouter,
     Body,
-    Path,
+    Path, Security,
 )
 
+from auth.dependencies import current_user
+from auth.schemas import UserResponse, UserRole
 from customer_card.schemas import (
     CustomerCardCriteria,
     CustomerCardUpsertRequest,
@@ -20,6 +22,7 @@ router = APIRouter()
 
 @router.post("/api/customer-card")
 async def create_customer_card(
+    user: Annotated[UserResponse, Security(current_user)],
     customer_card_upsert_request: Annotated[CustomerCardUpsertRequest | None, Body()] = None
 ) -> str:
     return await service.add_customer_card(customer_card_upsert_request)
@@ -27,6 +30,7 @@ async def create_customer_card(
 
 @router.delete("/api/customer-card/{id}")
 async def delete_customer_card(
+    user: Annotated[UserResponse, Security(current_user, scopes=[UserRole.MANAGER, UserRole.ADMIN])],
     id: Annotated[str, Path()]
 ) -> bool:
     return await service.delete_customer_card(id)
@@ -34,6 +38,7 @@ async def delete_customer_card(
 
 @router.get("/api/customer-card/{id}", response_model=CustomerCardResponse)
 async def get_customer_card_by_id(
+    user: Annotated[UserResponse, Security(current_user)],
     id: Annotated[str, Path()]
 ) -> CustomerCardResponse:
     return await service.get_customer_card(id)
@@ -41,6 +46,7 @@ async def get_customer_card_by_id(
 
 @router.post("/api/customer-card/list", response_model=CustomerCardListResponse)
 async def get_customer_card_list(
+    user: Annotated[UserResponse, Security(current_user)],
     customer_card_criteria: Annotated[CustomerCardCriteria | None,  Body()] = None
 ) -> CustomerCardListResponse:
     return await service.list_customer_cards(customer_card_criteria)
@@ -48,6 +54,7 @@ async def get_customer_card_list(
 
 @router.put("/api/customer-card/{id}")
 async def update_customer_card(
+    user: Annotated[UserResponse, Security(current_user)],
     id: Annotated[str, Path()],
     customer_card_upsert_request: Annotated[CustomerCardUpsertRequest | None, Body()] = None
 ) -> bool:
