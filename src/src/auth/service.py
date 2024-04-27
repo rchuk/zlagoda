@@ -1,6 +1,10 @@
 from auth import repository, converters, validators
-from auth.schemas import UserResponse
+from auth.schemas import UserResponse, UserUpsertRequest
 
+
+async def add_user(user: UserUpsertRequest) -> str:
+    user = await converters.upsert_request_to_model(user)
+    return await repository.create(user)
 
 async def get_user(login: str) -> UserResponse | None:
     user = await repository.read_one(login)

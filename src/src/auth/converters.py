@@ -11,7 +11,7 @@ from auth.utils import get_hash
 async def upsert_request_to_model(user: UserUpsertRequest) -> User:
     return User.model_construct(
         login=user.login,
-        password_hash=get_hash(user.password),
+        password_hash=await get_hash(user.password),
         role_id=user.role_id,
         employee_id=user.employee_id
     )

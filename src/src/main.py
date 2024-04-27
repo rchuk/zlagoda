@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import PlainTextResponse
 
+from auth.schemas import UserUpsertRequest
 from customer_card.router import router as CustomerCardRouter
 from database import pool
 from auth import service as auth_service
@@ -46,8 +47,8 @@ app.add_middleware(
 async def add_admin_user():
     admin_login = "admin"
     admin_password = "admin"
-    # if await auth_service.get_user(admin_login) is None:
-    #     await auth_service.authenticate_user(admin_login, admin_password)
+    if await auth_service.get_user(admin_login) is None:
+        await auth_service.add_user(UserUpsertRequest(login=admin_login, password=admin_password, roleId=1))
 
 
 @app.on_event("startup")
