@@ -1,7 +1,7 @@
 import {
   Employee,
   EmployeeCriteria,
-  EmployeeListResponse
+  EmployeeListResponse, UserRole
 } from "../../../../generated";
 import React, {useContext, useState} from "react";
 import {GridColDef} from '@mui/x-data-grid';
@@ -9,6 +9,7 @@ import ListComponent, {getDefaultBaseCriteria} from "@/app/components/common/Lis
 import {EmployeeRole_i18} from "@/app/i18/EmployeeRole_i18";
 import {ServicesContext} from "@/app/services/ServiceProvider";
 import EmployeeFilters from "./EmployeeFilters";
+import {AuthServiceContext} from "@/app/services/AuthService";
 
 type EmployeeListProps = {
   create?: (callback: () => void) => void,
@@ -19,6 +20,7 @@ type EmployeeListProps = {
 export default function EmployeeList(props: EmployeeListProps): React.ReactNode {
   const { employeeService } = useContext(ServicesContext);
   const [criteria, setCriteria] = useState<EmployeeCriteria>(getDefaultBaseCriteria);
+  const authService = useContext(AuthServiceContext);
 
   async function fetch(): Promise<EmployeeListResponse> {
     return await employeeService.getEmployeeList({ employeeCriteria: criteria });
@@ -83,10 +85,10 @@ export default function EmployeeList(props: EmployeeListProps): React.ReactNode 
     <ListComponent
       columns={columns}
       fetch={fetch}
-      create={handleCreate}
+      create={authService.hasRole(UserRole.Manager) ? handleCreate : undefined}
       view={handleView}
-      update={handleUpdate}
-      delete={handleDelete}
+      update={authService.hasRole(UserRole.Manager) ? handleUpdate : undefined}
+      delete={authService.hasRole(UserRole.Manager) ? handleDelete : undefined}
       criteria={criteria}
       setCriteria={setCriteria}
       filters={() => <EmployeeFilters criteria={criteria} setCriteria={setCriteria} />}

@@ -7,15 +7,13 @@ import {
 } from "@/app/components/common/Icons";
 import {ReactElement} from "react";
 import HomeIcon from "@mui/icons-material/Home";
-import {UserRole} from "../../../generated";
 
 
 export type NavigationItem = {
   title: string,
   path: string,
   icon: () => ReactElement,
-  isEnabled?: () => boolean,
-  roles?: UserRole[]
+  isEnabled?: () => boolean
 };
 
 export const Navigation: Record<string, NavigationItem> = {
@@ -53,13 +51,11 @@ export const Navigation: Record<string, NavigationItem> = {
     title: "Працівники",
     path: "/employee",
     icon: EmployeeIcon,
-    isEnabled: () => true
   },
   users: {
     title: "Користувачі",
     path: "/user",
-    icon: UserIcon,
-    roles: [UserRole.Admin]
+    icon: UserIcon
   },
   extraQuery: {
     title: "Додаткові запити",

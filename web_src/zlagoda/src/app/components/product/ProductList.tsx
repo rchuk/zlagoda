@@ -2,8 +2,8 @@
   Product,
   ProductArchetype,
   ProductCriteria,
-  ProductListResponse
-} from "../../../../generated";
+  ProductListResponse, UserRole
+ } from "../../../../generated";
 import React, {useContext, useEffect, useState} from "react";
 import {Checkbox} from "@mui/material";
 import {GridColDef} from '@mui/x-data-grid';
@@ -13,6 +13,7 @@ import ListComponent, {getDefaultBaseCriteria} from "@/app/components/common/Lis
  import {ServicesContext} from "@/app/services/ServiceProvider";
  import {getRequestError} from "@/app/components/common/utils/RequestUtils";
  import ProductFilters from "@/app/components/product/ProductFilters";
+ import {AuthServiceContext} from "@/app/services/AuthService";
 
 type ProductListProps = {
   create?: (callback: () => void) => void,
@@ -26,6 +27,7 @@ export default function ProductList(props: ProductListProps): React.ReactNode {
   const [criteria, setCriteria] = useState<ProductCriteria>(getDefaultBaseCriteria);
   const [productArchetypes, setProductArchetypes] = useState<ProductArchetype[] | null>(null);
   const showAlert = useContext(AlertContext);
+  const authService = useContext(AuthServiceContext);
 
   useEffect(() => {
     const fetch = async() => {
@@ -93,10 +95,10 @@ export default function ProductList(props: ProductListProps): React.ReactNode {
     <ListComponent
       columns={columns}
       fetch={fetch}
-      create={handleCreate}
+      create={authService.hasRole(UserRole.Manager) ? handleCreate : undefined}
       view={handleView}
-      update={handleUpdate}
-      delete={handleDelete}
+      update={authService.hasRole(UserRole.Manager) ? handleUpdate : undefined}
+      delete={authService.hasRole(UserRole.Manager) ? handleDelete : undefined}
       criteria={criteria}
       setCriteria={setCriteria}
 

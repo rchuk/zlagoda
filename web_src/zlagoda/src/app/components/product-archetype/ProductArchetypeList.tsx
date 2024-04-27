@@ -1,7 +1,7 @@
 import {
   ProductArchetype,
   ProductArchetypeCriteria,
-  ProductArchetypeListResponse, ProductCategory
+  ProductArchetypeListResponse, ProductCategory, UserRole
 } from "../../../../generated";
 import React, {useContext, useEffect, useState} from "react";
 import {GridColDef} from '@mui/x-data-grid';
@@ -10,6 +10,7 @@ import {AlertContext} from "@/app/services/AlertService";
 import {createIdsCriteria, findEntity} from "@/app/components/common/utils/ObjectUtils";
 import {ServicesContext} from "@/app/services/ServiceProvider";
 import {getRequestError} from "@/app/components/common/utils/RequestUtils";
+import {AuthServiceContext} from "@/app/services/AuthService";
 
 type ProductArchetypeListProps = {
   create?: (callback: () => void) => void,
@@ -23,6 +24,7 @@ export default function ProductArchetypeList(props: ProductArchetypeListProps): 
   const [criteria, setCriteria] = useState<ProductArchetypeCriteria>(getDefaultBaseCriteria);
   const [productCategories, setProductCategories] = useState<ProductCategory[] | null>(null);
   const showAlert = useContext(AlertContext);
+  const authService = useContext(AuthServiceContext);
 
   useEffect(() => {
     const fetch = async() => {
@@ -82,10 +84,10 @@ export default function ProductArchetypeList(props: ProductArchetypeListProps): 
     <ListComponent
       columns={columns}
       fetch={fetch}
-      create={handleCreate}
+      create={authService.hasRole(UserRole.Manager) ? handleCreate : undefined}
       view={handleView}
-      update={handleUpdate}
-      delete={handleDelete}
+      update={authService.hasRole(UserRole.Manager) ? handleUpdate : undefined}
+      delete={authService.hasRole(UserRole.Manager) ? handleDelete : undefined}
       criteria={criteria}
       setCriteria={setCriteria}
 
