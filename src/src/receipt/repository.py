@@ -75,10 +75,10 @@ async def read(criteria: ReceiptCriteria, conn: AsyncConnection) -> (list[Receip
         FROM receipt 
         WHERE 
         {"id = ANY(%(ids)s)" if criteria.ids is not None else "TRUE"} AND 
+        {"cashier_id = %(cashier_id)s" if criteria.cashier_id is not None else "TRUE"} AND 
         {"date_time >= %(start_date)s" if criteria.start_date is not None else "TRUE"} AND 
         {"date_time <= %(end_date)s" if criteria.end_date is not None else "TRUE"} AND 
-        {("(cashier_id LIKE %(query)s OR "
-          "customer_card_id LIKE %(query)s)") if criteria.query is not None else "TRUE "}
+        {"customer_card_id LIKE %(query)s)" if criteria.query is not None else "TRUE "}
         ORDER BY {sort_field} {'ASC ' if criteria.sort_ascending is None or criteria.sort_ascending else 'DESC '}
         {'LIMIT %(limit)s OFFSET %(offset)s ' if criteria.limit is not None and criteria.offset is not None else ''};
         """
@@ -126,10 +126,10 @@ async def count(criteria: ReceiptCriteria, conn: AsyncConnection) -> int:
         FROM receipt 
         WHERE 
         {"id = ANY(%(ids)s)" if criteria.ids is not None else "TRUE"} AND 
+        {"cashier_id = %(cashier_id)s" if criteria.cashier_id is not None else "TRUE"} AND 
         {"date_time >= %(start_date)s" if criteria.start_date is not None else "TRUE"} AND 
         {"date_time <= %(end_date)s" if criteria.end_date is not None else "TRUE"} AND 
-        {("(cashier_id LIKE %(query)s OR "
-          "customer_card_id LIKE %(query)s)") if criteria.query is not None else "TRUE "};
+        {"customer_card_id LIKE %(query)s" if criteria.query is not None else "TRUE "};
         """
     params = criteria.dict()
     if "query" in params:

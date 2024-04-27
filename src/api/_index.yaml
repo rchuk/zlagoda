@@ -998,10 +998,8 @@ components:
         - $ref: '#/components/schemas/BaseStringIdCriteria'
         - type: object
           properties:
-            cashierIds:
-              type: array
-              items:
-                type: string
+            cashierId:
+              type: string
             startDate:
               type: string
               format: date-time
