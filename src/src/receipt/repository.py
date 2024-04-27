@@ -29,7 +29,6 @@ def dto_field_to_entity_field(dto_field: str | None) -> str:
     return entity_field
 
 
-@db_conn
 async def create_item(item: ReceiptItem, conn: AsyncConnection):
     query = """
             INSERT INTO receipt_item(upc, receipt_id, quantity, price)
@@ -54,11 +53,10 @@ async def create(receipt: Receipt, items: list[ReceiptItem], conn: AsyncConnecti
     async with conn.cursor() as cur:
         res = (await (await cur.execute(query, params)).fetchone())[0]
     for item in items:
-        await create_item(item)
+        await create_item(item, conn)
     return res
 
 
-@db_conn
 async def read_items(receipt_id: str, conn: AsyncConnection) -> list[ReceiptItem]:
     query = f"""
             SELECT *
@@ -93,7 +91,7 @@ async def read(criteria: ReceiptCriteria, conn: AsyncConnection) -> (list[Receip
         receipts = await (await cur.execute(query, params)).fetchall()
     items = []
     for receipt in receipts:
-        items.append(await read_items(receipt.id))
+        items.append(await read_items(receipt.id, conn))
     return receipts, items
 
 
@@ -107,7 +105,7 @@ async def read_one(id: str, conn: AsyncConnection) -> (Receipt, list[ReceiptItem
     params = (id,)
     async with conn.cursor(row_factory=class_row(Receipt)) as cur:
         receipt = await (await cur.execute(query, params)).fetchone()
-    items = read_items(receipt.id)
+    items = await read_items(receipt.id, conn)
     return receipt, items
 
 
