@@ -37,7 +37,9 @@ export default function ReceiptList(props: ReceiptListProps): React.ReactNode {
   useEffect(() => {
     const fetch = async() => {
       const response = await employeeService.getEmployeeList({
-        employeeCriteria: createStringIdsCriteria(items)
+        employeeCriteria: {
+          ids: items?.map(item => item.cashierId) ?? []
+        }
       });
 
       setEmployees(response.items);
@@ -48,7 +50,11 @@ export default function ReceiptList(props: ReceiptListProps): React.ReactNode {
   useEffect(() => {
     const fetch = async() => {
       const response = await customerCardService.getCustomerCardList({
-        customerCardCriteria: createStringIdsCriteria(items)
+        customerCardCriteria: {
+          ids: items
+            ?.map(item => item.customerCardId)
+            .filter(id => id !== undefined) as string[] ?? []
+        }
       });
 
       setCustomerCards(response.items);
