@@ -1,4 +1,5 @@
 from datetime import datetime
+from decimal import Decimal
 from typing import Annotated
 
 from pydantic import BaseModel, Field
@@ -8,15 +9,15 @@ from schemas import BaseCriteria, ListResponse
 
 class ReceiptItemBase(BaseModel):
     quantity: int
-
-
-class ReceiptItemUpsertRequest(ReceiptItemBase):
     product: str
 
 
+class ReceiptItemUpsertRequest(ReceiptItemBase):
+    pass
+
+
 class ReceiptItemResponse(ReceiptItemBase):
-    product_archetype: Annotated[int, Field(alias="productArchetype")]
-    price: float
+    price: Decimal
 
 
 class ReceiptBase(BaseModel):
@@ -25,7 +26,6 @@ class ReceiptBase(BaseModel):
 
 class ReceiptCriteria(BaseCriteria):
     ids: list[str] | None = None
-    cashier_ids: Annotated[list[str] | None, Field(alias="cashierIds")] = None
     start_date: Annotated[datetime | None, Field(alias="startDate")] = None
     end_date: Annotated[datetime | None, Field(alias="endDate")] = None
 
@@ -38,8 +38,8 @@ class ReceiptResponse(ReceiptBase):
     id: str
     cashier_id: Annotated[str, Field(alias="cashierId")]
     date_time: Annotated[datetime, Field(alias="dateTime")]
-    total_price: Annotated[float, Field(alias="totalPrice")]
-    vat: float
+    total_price: Annotated[Decimal, Field(alias="totalPrice")]
+    vat: Decimal
     items: list[ReceiptItemResponse]
 
 
