@@ -43,7 +43,11 @@ export default function LoginComponent(props: LoginComponentProps) {
 
     handleLogin()
       .then(_ => router.push("/"))
-      .catch(e => getRequestError(e).then(m => showAlert(m, "error")));
+      .catch(e => {
+        authService.logout();
+
+        getRequestError(e).then(m => showAlert(m, "error"))
+      });
   }
 
   return (
